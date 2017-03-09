@@ -1,0 +1,49 @@
+┌────────────────────────────┐
+│ Follow the white rabbit... │
+└────────────────────────────┘
+
+TL;DR: scroll down to the end of the article
+
+Zero Cool has already compromised this system.  So follow his traces, hack
+his lame backdoors  and teach him a lesson.  The admin of this system  has
+  ┌────────────────────────┐   discovered  a  program that  seems to  be a
+  │  _____                 │   backdoor from Zero Cool. He uses it to  get
+  │ | _ _ |                │   access to level1.  You can find the program
+  │ || | || Level1         │   in `ls -la /levels/level00/`. If you look at
+  │ ||_|_||   Backdoor     │   the  permissions  in  Figure  2,  you  will
+  │ | _ _ o  by            │   notice that the  program belongs to level1.
+  │ || | ||     ~Zero Cool │   But  the  group level00 (you)  has  also the
+  │ ||_|_||                │   permissions to execute it and read it. Also
+  │ |_____|                │   the  setuid (s) bit  is set  for the  user.
+  │                        │   This means that if you execute it as level00
+  │ Enter Secret Password: │   it will actually run with the privileges of
+  └────────────────────────┘   level01. So  Zero Cool created  a  backdoor
+  Figure 1.: Zero Cool's       program, that he can execute as level00, but
+             backdoor          use it to get the privileges of level01.
+
+Can  you  use  his  backdoor  to   ┌────────────────────────────────────┐
+gain access  to level01? You can   │-r-sr-x--- 1 level01 level00        │
+execute the backdoor with:         │ └┬┘└┬┘└┬┘    │      └─▶ group      │
+   `/level/level00/level00`        │  │  │  │     └─▶ user              │
+Can you  find the password  that   │  │  │  └─▶ no rights for others    │
+unlocks the  backdoor?  When you   │  │  └─▶  group can read and execute│
+succeed, use  the  program  `id`   │  └─▶ user can read and execute     │
+to check  if  you now  have  the   │       + setuid bit                 │
+permissions of level01.            └────────────────────────────────────┘
+Don't   forget   to   grab   the    Figure 2.: level00 file permissions
+password  of level01,  so you can
+use ssh to log into the next level: `cat /home/level01/level01/.pass`
+`ssh level01@greyhat.no`
+
+NOTICE: supidly bruteforcing passwords is never the solution. If you don't
+know how to proceed, come to IRC and ask for help. No spoilers in the main
+channel though.
+
+Useful tools for this level might be:
+ ● `file` - determine file type
+ ● `gdb` - gnu debugger (debug binaries)
+ ● `strings` - print the strings of printable characters in files
+
+
+TL;DR: A hacker kiddy named Zero Cool has a backdoor on this system.  Find
+       the hidden backdoor password of `/levels/level00/level00`.

@@ -16,6 +16,7 @@ install_tcz gdb       # hacking tool
 install_tcz ruby      # hacking tool
 install_tcz nano || : # easier editor than vi...
 install_tcz kmaps     # for international use
+install_tcz vim       # for not destroying your day
 ./scripts/install-openssh.sh  # just for convenience
 
 # copy original source codes to work
