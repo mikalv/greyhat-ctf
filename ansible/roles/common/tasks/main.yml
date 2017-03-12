@@ -1,0 +1,8 @@
+---
+
+- name: Basic server setup
+  include: 'archlinux.yml'
+  tags:
+    - common
+    - archlinux
+

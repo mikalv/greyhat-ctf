@@ -1,0 +1,13 @@
+---
+
+- name: Install packages
+  pacman: name={{ item }}
+  with_items:
+    - gdb
+    - radare2
+    - nodejs
+    - npm
+    - phantomjs
+    - gcc
+    - make
+

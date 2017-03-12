@@ -1,0 +1,36 @@
+---
+
+- name: Make sure aur install cache exists
+  file: path={{ aur_package_cache }} state=directory
+  register: new_install
+
+- name: Make sure we have deps installed
+  pacman: name={{ item }}
+  with_items:
+    - base-devel      # base-devel was always reinstalled
+    - git             # so the when is a little hack :)
+  when: new_install|changed
+
+- name: Clone aur repo
+  git:
+    repo: "https://aur.archlinux.org/{{ aur_package_name }}.git"
+    dest: "{{ aur_package_cache }}/{{ aur_package_name }}"
+  register: new_package
+
+- name: Fix permission on the build cache dir
+  file:
+    path: "{{ aur_package_cache }}/{{ aur_package_name }}"
+    owner: "{{ aur_build_user }}"
+  when: new_package|changed
+
+- name: Package installed (1/2)
+  debug:
+    msg: >
+      Package {{ aur_package_name }} is ready to be build in
+      {{ aur_package_cache }}/{{ aur_package_name }}. You need
+      to do that yourself with your local user.
+  when: new_package|changed
+
+- name: Package installed (2/2)
+  pause: prompt="Press enter to continue"
+  when: new_package|changed

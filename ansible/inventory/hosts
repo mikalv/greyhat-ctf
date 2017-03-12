@@ -1,0 +1,12 @@
+[localhost]
+localhost
+
+[all:vars]
+install_java_version = 0
+
+[ctfservers]
+192.168.88.64 common_hostname=ctf01
+
+[ctfservers:vars]
+
+

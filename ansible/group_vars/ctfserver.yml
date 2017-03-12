@@ -1,0 +1,4 @@
+---
+
+# SSH port to use on Cowrie or Kippo hosts
+ansible_port: 47829

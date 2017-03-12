@@ -1,0 +1,11 @@
+---
+
+- hosts: ctfservers
+  # A deferred setup will run after ssh port change
+  gather_facts: false
+  vars_files:
+    - "../group_vars/ctfserver.yml"
+  roles:
+  - role: common
+  - role: aur
+  - role: ctf

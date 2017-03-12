@@ -1,0 +1,15 @@
+---
+
+
+- name: Basic locale setup
+  include: 'locale.yml'
+  tags:
+    - common
+    - archlinux
+
+- name: Basic server setup
+  include: 'common.yml'
+  tags:
+    - common
+    - archlinux
+

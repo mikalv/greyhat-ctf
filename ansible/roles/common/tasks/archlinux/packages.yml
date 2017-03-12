@@ -1,0 +1,9 @@
+---
+
+- name: Install packages
+  pacman: name={{ item }}
+  with_items:
+    - vim
+    - tmux
+    - extra/bash-completion
+    - git

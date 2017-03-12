@@ -1,0 +1,14 @@
+---
+
+# Commons
+
+common_timezone: 'Europe/Oslo'
+common_locale: 'en_US.UTF-8'
+common_hostname: 'sigtermserver-unconfigured'
+
+# Domain
+pri_domain_name: 'greyhat.no'
+
+
+# global vim configuration values
+vim_config: [ "syntax enable" ]

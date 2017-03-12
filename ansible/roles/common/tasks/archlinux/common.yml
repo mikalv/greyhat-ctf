@@ -1,0 +1,50 @@
+---
+
+- name: Set hostname
+  hostname: name={{common_hostname}}
+  tags:
+    - archlinux
+    - basic_arch
+
+- name: Set timezone variables
+  copy: content={{common_timezone}} dest=/etc/timezone owner=root group=root mode=0644 backup=no
+  tags:
+    - archlinux
+    - basic_arch
+
+- name: Set the correct timezone (/etc/localtime)
+  file:
+    src: /usr/share/zoneinfo/{{common_timezone}}
+    dest: /etc/localtime
+    state: link
+  tags:
+    - archlinux
+    - basic_arch
+
+- name: Allow sudo without password
+  lineinfile: dest=/etc/sudoers state=present regexp='^%sudo\s+ALL\=' line='%sudo ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
+  tags:
+    - archlinux
+    - basic_arch
+
+- name: Copy the tmux.conf file
+  copy: src=tmux.conf dest=/etc/tmux.conf owner=root mode=0644
+  tags:
+    - archlinux
+    - basic_arch
+
+- name: Setup makepkg.conf
+  template:
+    src: archlinux/makepkg.conf.j2
+    dest: /etc/makepkg.conf
+  tags:
+    - archlinux
+    - basic_arch
+
+- name: Setup modprobe.conf
+  template:
+    src: archlinux/modprobe.conf.j2
+    dest: /etc/modprobe.d/modprobe.conf
+  tags:
+    - archlinux
+    - basic_arch

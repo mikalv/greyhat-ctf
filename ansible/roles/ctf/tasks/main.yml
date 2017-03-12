@@ -1,0 +1,9 @@
+---
+
+
+- name: Basic CTF packages
+  include: 'packages.yml'
+  tags:
+    - ctfserver
+    - archlinux
+
