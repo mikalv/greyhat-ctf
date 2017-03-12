@@ -6,4 +6,5 @@
     - vim
     - tmux
     - extra/bash-completion
+    - extra/zsh-completion
     - git

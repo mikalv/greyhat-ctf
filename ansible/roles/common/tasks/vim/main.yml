@@ -1,0 +1,7 @@
+---
+
+- name: Basic Vim setup
+  include: 'config.yml'
+  tags:
+    - vim
+    - common

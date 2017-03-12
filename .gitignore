@@ -1,2 +1,12 @@
 work
 tmp
+
+# Temp
+*.retry
+*.swp
+
+# OS Stuff
+.DS_Store
+Thumbs.db
+
+

@@ -1,0 +1,8 @@
+---
+
+- name: Vim
+  include: 'vim/main.yml'
+  tags:
+    - common
+    - archlinux
+    - vim

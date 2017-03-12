@@ -48,3 +48,11 @@
   tags:
     - archlinux
     - basic_arch
+
+- name: Start services (now, and on boot)
+  service: state=started name={{ item }} enabled=yes
+  with_items:
+    - sshd
+  tags:
+    - archlinux
+    - basic_arch

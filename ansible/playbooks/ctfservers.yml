@@ -1,11 +1,15 @@
 ---
 
 - hosts: ctfservers
-  # A deferred setup will run after ssh port change
-  gather_facts: false
+  gather_facts: true
   vars_files:
+    - "../group_vars/all.yml"
     - "../group_vars/ctfserver.yml"
   roles:
-  - role: common
-  - role: aur
-  - role: ctf
+    - { role: common }
+    - { role: aur, aur_package_name: vim-colorschemes }
+    - { role: aur, aur_package_name: vim-colorsupport }
+    - { role: aur, aur_package_name: vim-hexman }
+    - { role: aur, aur_package_name: vim-markdown }
+    - { role: aur, aur_package_name: jwasm }
+    - { role: ctf }

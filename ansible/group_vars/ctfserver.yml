@@ -1,4 +1,7 @@
 ---
 
-# SSH port to use on Cowrie or Kippo hosts
-ansible_port: 47829
+# SSH port
+ansible_port: 22
+
+# Username
+ansible_user: vagrant

@@ -6,11 +6,3 @@
     - common
     - archlinux
 
-- name: Start services (now, and on boot)
-  service: state=started name={{ item }} enabled=yes
-  with_items:
-    - sshd
-    - NetworkManager
-  tags:
-    - common
-    - archlinux
