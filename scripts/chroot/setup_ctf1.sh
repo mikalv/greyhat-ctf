@@ -4,7 +4,7 @@
 # Purpose:
 #
 
-#cd $(dirname "$0"); . ./common.sh; cd ..
+cd $(dirname "$0"); . ./common.sh; cd ..
 
 
 
