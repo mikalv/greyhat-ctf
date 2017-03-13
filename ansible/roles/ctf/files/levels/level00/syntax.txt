@@ -25,4 +25,4 @@ Example 5: repeat something a 100 times
     for i in $(seq 1 100); do echo hello $i; done
 
 Good luck, and have fun!
-The ctf-o-matic team
+

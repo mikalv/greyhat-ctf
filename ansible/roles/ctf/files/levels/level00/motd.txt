@@ -23,7 +23,7 @@
 │ Linux Commands Examples...         │ │ Show the content of a file:       │
 │                                    │ │    `cat ~/iwashere`               │
 │ list directory contents:           │ │                                   │
-│  `ls` `ls -la` `ls /home/level00`  │ │ Show the manual of a command:     │
+│  `ls` `ls -lsa` `ls /home/level00` │ │ Show the manual of a command:     │
 │                                    │ │    `man                           │
 │ show current directory:            │ │                                   │
 │   `pwd`                            │ │ How to edit files on the console: │
@@ -36,5 +36,9 @@
 │                                    │ │ Don't forget to read the README...│
 │ execute a file:                    │ │ and have fun!                     │
 │   `id` `/usr/bin/id` `./level00`   │ │                                   │
-└────────────────────────────────────┴─┴───────────────────────────────────┘
+├──────────────────────────────────────────────────────────────────────────┴┐
+│ > if this is your first time, read the README: cat /home/level00/README < │
+├───────────────────────────────────────────────────────────────────────────┤
+| >    To start level00 run the command `story` to see the level story    < |
+└───────────────────────────────────────────────────────────────────────────┘
 

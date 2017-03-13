@@ -29,6 +29,20 @@
     - ctflevels
 
 
+- name: "Copy the tools.txt for Level 00"
+  copy: src=levels/level00/tools.txt dest=/home/level00/tools.txt owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+
+- name: "Copy the syntax.txt for Level 00"
+  copy: src=levels/level00/syntax.txt dest=/home/level00/syntax.txt owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
 
 - name: "Copy the README for Level 00"
   copy: src=levels/level00/readme.txt dest=/home/level00/README owner=root mode=0644
