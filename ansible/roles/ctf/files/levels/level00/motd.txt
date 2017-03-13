@@ -7,7 +7,7 @@
 │ Quick Overview:                                                          │
 │                                                                          │
 │    - your goal is to get access to the next level                        │
-│    - flags/passwords are in ~/.pass                                      │
+│    - flags/passwords are in ~/.passwd                                    │
 │    - Admin: meeh@greyhat.no                                              │
 ├──────────────────────────────────────────────────────────────────────────┤
 │ Rules:                                                                   │
@@ -29,16 +29,12 @@
 │   `pwd`                            │ │ How to edit files on the console: │
 │                                    │ │                                   │
 │ change directory:                  │ │  execute the program `vimtutor`.  │
-│  `cd` `cd /matrix/level00` `cd -`  │ │  It will teach you how to use the │
+│  `cd` `cd /levels/level00` `cd -`  │ │  It will teach you how to use the │
 │                                    │ │  `vim` editor. Use arrow keys to  │
 │ create a directory:                │ │  browse the document and read it. │
 │   `mkdir /tmp/myfiles`             │ │                                   │
 │                                    │ │ Don't forget to read the README...│
 │ execute a file:                    │ │ and have fun!                     │
 │   `id` `/usr/bin/id` `./level00`   │ │                                   │
-├────────────────────────────────────┴─┴───────────────────────────────────┴┐
-│         Questions, problems, or just want to hang out and chat?           │
-│            IRC Server: irc.greyhat.no     Channel: #greyhat               │
-│           https://kiwiirc.com/client/irc.greyhat.no/greyhat               │
-└───────────────────────────────────────────────────────────────────────────┘
+└────────────────────────────────────┴─┴───────────────────────────────────┘
 
