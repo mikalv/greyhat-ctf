@@ -1,9 +1,29 @@
 ---
 
-
 - name: Basic CTF packages
   include: 'packages.yml'
   tags:
+    - ctf
+    - ctfserver
+    - archlinux
+
+- name: "Ensuring {{default_ctfuser_group}} group is available"
+  become: yes
+  become_user: root
+  group:
+    name: "{{default_ctfuser_group}}"
+    state: present
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
+
+- name: Including level setups
+  become: yes
+  become_user: root
+  include: 'levels/main.yml'
+  tags:
+    - ctf
     - ctfserver
     - archlinux
 

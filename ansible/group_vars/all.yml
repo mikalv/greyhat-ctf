@@ -1,3 +1,10 @@
 ---
 
+# SSH port
+ansible_port: 22
+
+# Username
+ansible_user: vagrant
+
+# Python
 ansible_python_interpreter: "/usr/bin/env python2"

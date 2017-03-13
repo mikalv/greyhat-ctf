@@ -1,0 +1,39 @@
+---
+
+
+- name: "Adding group for {{ item.name }}"
+  become: yes
+  become_user: root
+  group:
+    name: "{{ item.user }}"
+    state: present
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
+
+- name: "Adding user for {{ item.name }}"
+  become: yes
+  become_user: root
+  user:
+    comment: "{{ item.name }}"
+    name: "{{ item.user }}"
+    password: "{{ item.password }}"
+    state: present
+    createhome: yes
+    shell: /usr/bin/zsh
+    update_password: always
+    groups: "{{item.groups}},{{default_ctfuser_group}}"
+    append: yes
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
+
+
+- name: "Copy the motd.txt for {{ item.name }}"
+  template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner=root mode=0644
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
