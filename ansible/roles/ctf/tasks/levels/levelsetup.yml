@@ -8,9 +8,10 @@
     name: "{{ item.user }}"
     state: present
   tags:
-    - ctf
+    - ctf1
     - ctfserver
-    - archlinux
+    - ctflevels
+    - "{{ item.user }}"
 
 - name: "Adding user for {{ item.name }}"
   become: yes
@@ -26,14 +27,26 @@
     groups: "{{item.groups}},{{default_ctfuser_group}}"
     append: yes
   tags:
-    - ctf
+    - ctf1
     - ctfserver
-    - archlinux
+    - ctflevels
+    - "{{ item.user }}"
 
 
 - name: "Copy the motd.txt for {{ item.name }}"
   template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner=root mode=0644
   tags:
-    - ctf
+    - ctf1
     - ctfserver
-    - archlinux
+    - ctflevels
+    - "{{ item.user }}"
+
+- name: "Copy the recap.txt for {{ item.name }}"
+  ignore_errors: True
+  copy: src=levels/{{item.user}}/recap.txt dest=/home/{{item.user}}/recap.txt owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+    - "{{ item.user }}"
+

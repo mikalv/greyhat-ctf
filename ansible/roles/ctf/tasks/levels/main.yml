@@ -8,17 +8,24 @@
 # user: level04 password: lbJa9HZFkPyO7pNJGDNJ
 #
 
-- name: CTF Levels
-  include: 'userandgroup.yml'
+- name: "Setting up CTF Level for {{ item.name }}"
+  include: 'levelsetup.yml'
   tags:
     - ctf1
     - ctfserver
     - ctflevels
   with_items:
-    - { name: "Level 00", user: "level00", groups: "level00", password: "$6$RWc.Gc5LvtTTZ9vw$fQ2xxIaOUtuP6WkZd.CRfyRKeCALyBBYskIZR/eHjUdjnJvdhz.aONcYQdanfVJqBXX4wYE5huUm1M.wgUURg/" }
-    - { name: "Level 01", user: "level01", groups: "level00,level01", password: "$6$IIs.nwMlPioB38ge$V.L8M0hKSWu0a7FWpk3hUP7g0uN.gUYha8z2NyW3x.NKy4kIKNOo8VMN.dKo86au0xtruBJ6N.oCeYeuJTnpQ0" }
-    - { name: "Level 02", user: "level02", groups: "level00,level01,level02", password: "$6$gnVQD5jXEvssG2IS$cocg/23RnDhgGpKMLODS.0LpqnSlPFFqFxBnCXasVU0uJZKywst5Dh5J13mK7/WDvLohZx7praHcda.ool0Fp/" }
-    - { name: "Level 03", user: "level03", groups: "level00,level01,level02,level03", password: "$6$li5iFTDKRH1YEh6G$kBFtlEFHLQ2uSHapqhXAtzyWd.WgysogdwNJtATjp/K9Ld6.Qz4CmV6bEH.GhteZLU8vy1P5d10UPFk4zohFm0" }
-    - { name: "Level 04", user: "level04", groups: "level00,level01,level02,level03,level04", password: "$6$PQrSxJGRpVLEvp59$9LWLgpsh4FffiT3XFLct.Zw2hp3SZsZAi8DbucQQbYKQWqlDVF1nPn5ptiL0fOA2f/HXueDewo2Jzud11GDyi0" }
+    - { name: "Level 00", user: "level00", pwclean: "89lka3ur9sd2", groups: "level00", password: "$6$RWc.Gc5LvtTTZ9vw$fQ2xxIaOUtuP6WkZd.CRfyRKeCALyBBYskIZR/eHjUdjnJvdhz.aONcYQdanfVJqBXX4wYE5huUm1M.wgUURg/" }
+    - { name: "Level 01", user: "level01", pwclean: "fYIAv1NfRvEwJMcVPyJX", groups: "level00,level01", password: "$6$IIs.nwMlPioB38ge$V.L8M0hKSWu0a7FWpk3hUP7g0uN.gUYha8z2NyW3x.NKy4kIKNOo8VMN.dKo86au0xtruBJ6N.oCeYeuJTnpQ0" }
+    - { name: "Level 02", user: "level02", pwclean: "8Ja2HNPzRNbsJcUuc6uV", groups: "level00,level01,level02", password: "$6$gnVQD5jXEvssG2IS$cocg/23RnDhgGpKMLODS.0LpqnSlPFFqFxBnCXasVU0uJZKywst5Dh5J13mK7/WDvLohZx7praHcda.ool0Fp/" }
+    - { name: "Level 03", user: "level03", pwclean: "64nBQaf0lAwthCXgHVci", groups: "level00,level01,level02,level03", password: "$6$li5iFTDKRH1YEh6G$kBFtlEFHLQ2uSHapqhXAtzyWd.WgysogdwNJtATjp/K9Ld6.Qz4CmV6bEH.GhteZLU8vy1P5d10UPFk4zohFm0" }
+    - { name: "Level 04", user: "level04", pwclean: "lbJa9HZFkPyO7pNJGDNJ", groups: "level00,level01,level02,level03,level04", password: "$6$PQrSxJGRpVLEvp59$9LWLgpsh4FffiT3XFLct.Zw2hp3SZsZAi8DbucQQbYKQWqlDVF1nPn5ptiL0fOA2f/HXueDewo2Jzud11GDyi0" }
 
 
+
+- name: "Copy the README for Level 00"
+  copy: src=levels/level00/readme.txt dest=/home/level00/README owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels

@@ -42,6 +42,7 @@ channel though.
 Useful tools for this level might be:
  ● `file` - determine file type
  ● `gdb` - gnu debugger (debug binaries)
+ ● `radare2` - awesome disassembler
  ● `strings` - print the strings of printable characters in files
 
 

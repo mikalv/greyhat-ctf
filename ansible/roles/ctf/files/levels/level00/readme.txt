@@ -2,11 +2,11 @@
 │ README             │
 └────────────────────┘
 ┌───────────────────────────────────────────────────────────────────────────┐
-│ Admin - samuirai                                                          │
+│ Admin - meeh                                                              │
 ├──────────────────────────────────────────────────────────────────────────┬┘
 │   IRC:     irc.hackint.org #gracker                                      │
-│   Twitter: @samuirai                                                     │
-│   Email:   gracker@smrrd.de                                              │
+│   Twitter: @mikalv                                                       │
+│   Email:   meeh@greyhat.no                                               │
 └──────────────────────────────────────────────────────────────────────────┘
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ Rules and System Info                                                     │
@@ -17,7 +17,7 @@
 │   4. Do not spoil challenges (no writeups!), but helping newbs good.     │
 │   5. Be excellent.                                                       │
 ├──────────────────────────────────────────────────────────────────────────┤
-│   - levels can be found under /matrix                                    │
+│   - levels can be found under /levels                                    │
 │   - You can only write to /tmp.                                          │
 │   - Unused files and folders in /tmp are deleted after a few hours.      │
 │   - If you want to have a specific tool installed, contact me.           │
@@ -28,17 +28,17 @@
 ├──────────────────────────────────────────────────────────────────────────┬┘
 │ This is a hacking game. The goal is to hack from level to level.         │
 │                                                                          │
-│ You are currently level0. The password of your current level can be      │
-│ found in ~/.pass                                                         │
+│ You are currently level00. The password of your current level can be     │
+│ found in ~/.passwd                                                       │
 │    + run `id` to display your current user id                            │
-│    + display your current password `cat /home/level0/.pass`              │
+│    + display your current password `cat /home/level00/.passwd`           │
 │                                                                          │
-│ So your goal is to find the password for the next level (level1). With   │
+│ So your goal is to find the password for the next level (level01). With  │
 │ the password you can then connect to the next level                      │
-│    + `ssh level1@gracker.org` to login with the found password           │
+│    + `ssh level01@greyhat.no` to login with the found password           │
 │                                                                          │
-│ The level relevant files can be found under /matrix                      │
-│    + display the files for level0 `ls /matrix/level0/`                   │
+│ The level relevant files can be found under /levels                      │
+│    + display the files for level0 `ls /levels/level00/`                  │
 │                                                                          │
 │ A good point to start is to read the "story" in your home folder. It     │
 │ will give some motivation for the current level, it will tell you what   │
@@ -50,8 +50,8 @@
 │ you will discover new tools or techniques how to solve a challenge. If   │
 │ you have a particular nice solution that you would like to share,        │
 │ contact me, and I might add it.                                          │
-│    + display the demo recap `cat ~/recap`                                │
-│    + the recap for level0 is in `cat /home/level1/recap`                 │
+│    + display the demo recap `cat ~/recap.txt`                            │
+│    + the recap for level0 is in `cat /home/level01/recap.txt`            │
 │       (you need to get access to level1 before you can read it)          │
 │                                                                          │
 │ To show people that you made it to a particular level, you can add your  │
@@ -68,12 +68,12 @@
 │ Start                                                                     │
 ├──────────────────────────────────────────────────────────────────────────┬┘
 │ 1. read the story for your current level                                 │
-│     `less ~/story`                                                       │
-│ 2. find the files in `ls /matrix/level0`                                 │
+│     `less ~/story.txt`                                                   │
+│ 2. find the files in `ls /levels/level00`                                │
 │ 3. create a working directory in /tmp to develop scripts and tools       │
 │ 4. solve the challenge and get the password                              │
-│ 5. login as level1                                                       │
+│ 5. login as level01                                                      │
 │ 6. read the recap for this level                                         │
-│     `cat ~/recap`                                                        │
-│ 7. read the story for level1 and solve the next challenge                │
+│     `cat ~/recap.txt`                                                    │
+│ 7. read the story for level01 and solve the next challenge               │
 └──────────────────────────────────────────────────────────────────────────┘
