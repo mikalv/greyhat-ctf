@@ -4,15 +4,20 @@
 
 TL;DR: scroll down to the end of the article
 
-From an earlier hack you know that a local admin, level01 uses a browser to control his shell, the password is sent via a cookie, the flask code reading the cookie is: user_details = request.cookies.get('passwd')
+From an earlier hack you know that a local admin, level01 uses a browser to control his shell, the password is sent via a cookie, the flask ( http://flask.pocoo.org/ ) code reading the cookie is: 
+passwd = request.cookies.get('passwd')
 
-You already injected an infected iframe into his webshell, which points to 
+You already injected an infected iframe into his webshell, which points to a www folder in tmp.
 
+Your workspace is /tmp/$SESSION_ID/index.html
+
+Useful links for this level might be:
+ ● XSS Cheatsheet - http://n0p.net/penguicon/php_app_sec/mirror/xss.html
 
 Useful tools for this level might be:
  ● `file` - determine file type
  ● `vim` - editor for hackers
  ● `nano` - simpler editor for terminal beginners
  ● `strings` - print the strings of printable characters in files
- ● `nc` - NetCat - The nc (or netcat) utility is used for just about anything under the sun involving TCP, UDP, or UNIX-domain sockets.
+ ● `nc` - The nc utility is used for just about anything under the sun involving TCP, UDP, or UNIX-domain sockets.
  ● `man` - Read the fucking manual - Example: `man nc`

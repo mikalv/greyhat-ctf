@@ -43,7 +43,7 @@
 │ A good point to start is to read the "story" in your home folder. It     │
 │ will give some motivation for the current level, it will tell you what   │
 │ files are necessary and maybe give additional info.                      │
-│    + display current story `cat ~/story`                                 │
+│    + display current story run the command `story`                       │
 │                                                                          │
 │ Sometimes there is a story recap available, which contains additional    │
 │ information about the challenge that you just solved. Usually this means │
@@ -51,7 +51,7 @@
 │ you have a particular nice solution that you would like to share,        │
 │ contact me, and I might add it.                                          │
 │    + display the demo recap `cat ~/recap.txt`                            │
-│    + the recap for level0 is in `cat /home/level01/recap.txt`            │
+│    + the recap for level00 is in `cat /home/level01/recap.txt`           │
 │       (you need to get access to level1 before you can read it)          │
 │                                                                          │
 │ To show people that you made it to a particular level, you can add your  │
@@ -68,7 +68,7 @@
 │ Start                                                                     │
 ├──────────────────────────────────────────────────────────────────────────┬┘
 │ 1. read the story for your current level                                 │
-│     `less ~/story.txt`                                                   │
+│     type the command `story`                                             │
 │ 2. find the files in `ls /levels/level00`                                │
 │ 3. create a working directory in /tmp to develop scripts and tools       │
 │ 4. solve the challenge and get the password                              │

@@ -11,7 +11,6 @@
     - ctf1
     - ctfserver
     - ctflevels
-    - "{{ item.user }}"
 
 - name: "Adding user for {{ item.name }}"
   become: yes
@@ -30,7 +29,6 @@
     - ctf1
     - ctfserver
     - ctflevels
-    - "{{ item.user }}"
 
 
 - name: "Copy the motd.txt for {{ item.name }}"
@@ -39,7 +37,28 @@
     - ctf1
     - ctfserver
     - ctflevels
-    - "{{ item.user }}"
+
+- name: "Setup the .passwd file for {{ item.name }}"
+  copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Copy the .profile for {{ item.name }}"
+  template: src=dotprofile.j2 dest=/home/{{item.user}}/.profile owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Copy the .template_story.txt for {{ item.name }}"
+  ignore_errors: True
+  template: src=levels/{{item.user}}/story.txt.j2 dest=/home/{{item.user}}/.template_story.txt owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
 
 - name: "Copy the recap.txt for {{ item.name }}"
   ignore_errors: True
@@ -48,5 +67,19 @@
     - ctf1
     - ctfserver
     - ctflevels
-    - "{{ item.user }}"
 
+
+- name: "Copy the .zshrc for {{ item.name }}"
+  template: src=dotzshrc.j2 dest=/home/{{item.user}}/.zshrc owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+
+- name: "Copy the .bashrc for {{ item.name }}"
+  template: src=dotbashrc.j2 dest=/home/{{item.user}}/.bashrc owner=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
