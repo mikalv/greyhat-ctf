@@ -7,17 +7,22 @@ TL;DR: scroll down to the end of the article
 From an earlier hack you know that a local admin, level01 uses a browser to control his shell, the password is sent via a cookie, the flask ( http://flask.pocoo.org/ ) code reading the cookie is: 
 passwd = request.cookies.get('passwd')
 
-You already injected an infected iframe into his webshell, which points to a www folder in tmp.
+You already injected an infected iframe into the webshell, now you need to extract the password.
 
-Your workspace is /tmp/$SESSION_ID/index.html
+Your workspace is /tmp/$SESSION_ID/index.html which is the target for the infected iframe in level01's webshell. Now, you're going to somehow forward the password stored in the 'passwd' cookie to your own webserver. Check out `nc` which would be perfect in this case.
 
 Useful links for this level might be:
  ● XSS Cheatsheet - http://n0p.net/penguicon/php_app_sec/mirror/xss.html
+ ● Mozilla Docs: document.cookie - https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+ ● XSS For beginners - http://www.thesmarthacks.com/2015/03/a-beginners-guide-to-xss-attack.html
+
 
 Useful tools for this level might be:
  ● `file` - determine file type
  ● `vim` - editor for hackers
  ● `nano` - simpler editor for terminal beginners
- ● `strings` - print the strings of printable characters in files
  ● `nc` - The nc utility is used for just about anything under the sun involving TCP, UDP, or UNIX-domain sockets.
  ● `man` - Read the fucking manual - Example: `man nc`
+
+
+TL;DR: level01's browser refreshes each 2 seconds, which will load the file /tmp/$SESSION_ID/index.html - use this to extract the password stored in the 'passwd' cookie to your own webserver. Tip: 'man nc'
