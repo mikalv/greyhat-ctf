@@ -11,6 +11,8 @@ You already injected an infected iframe into the webshell, now you need to extra
 
 Your workspace is /tmp/$SESSION_ID/index.html which is the target for the infected iframe in level01's webshell. Now, you're going to somehow forward the password stored in the 'passwd' cookie to your own webserver. Check out `nc` which would be perfect in this case.
 
+Remember it isn't important that you'll use an existing url from your evil webserver, the only thing you'll really need is the log. So again check `nc`
+
 Useful links for this level might be:
  ● XSS Cheatsheet - http://n0p.net/penguicon/php_app_sec/mirror/xss.html
  ● Mozilla Docs: document.cookie - https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
@@ -25,4 +27,4 @@ Useful tools for this level might be:
  ● `man` - Read the fucking manual - Example: `man nc`
 
 
-TL;DR: level01's browser refreshes each 2 seconds, which will load the file /tmp/$SESSION_ID/index.html - use this to extract the password stored in the 'passwd' cookie to your own webserver. Tip: 'man nc'
+TL;DR: level01's browser refreshes each 2 seconds, which will load the file /tmp/$SESSION_ID/index.html - use this to extract the password stored in the 'passwd' cookie to your own webserver. Tip: `man nc`
