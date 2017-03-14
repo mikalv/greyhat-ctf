@@ -2,7 +2,7 @@ This level cannot be easily solved with `strings`, because the password is
 not in plaintext. This time you have to use `gdb` or a disassembler like radare2.
 
 
-level01@greyhat:/level01/level01$ gdb level01
+level01@greyhat:/level02/level02$ gdb level02
 GNU gdb (Debian 7.7.1+dfsg-5) 7.7.1
 (gdb) set disassembly-flavor intel
 (gdb) disassemble main
@@ -41,7 +41,7 @@ Breakpoint 1, 0x00000000004008e2 in main ()                      ; it will break
 
 ####################################################################################################################
 
-Source code level1.c
+Source code level02.c
 
 #include <stdio.h>
 #include <unistd.h>
@@ -78,6 +78,8 @@ int main (int argc, char *argv[]) {
     for(i=0; i<strlen(secret_password); i++) {
         secret_password[i] = secret_password[i] ^ XORkey;
     }
+
+    printf();
 
     if(strcmp(password_input,secret_password)==0) {
         printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.pass to login with `ssh level02@greyhat.no`\n");

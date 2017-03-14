@@ -5,13 +5,13 @@ how to use gdb:
 ######################################################################################################
 
 level0@greyhat:/level00/level00$ gdb level00
-GNU gdb (Debian 7.7.1+dfsg-5) 7.7.1
-Copyright (C) 2014 Free Software Foundation, Inc.
+GNU gdb (GDB) 7.12.1
+Copyright (C) 2017 Free Software Foundation, Inc.
 License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 This is free software: you are free to change and redistribute it.
 There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
 and "show warranty" for details.
-This GDB was configured as "x86_64-linux-gnu".
+This GDB was configured as "x86_64-pc-linux-gnu".
 Type "show configuration" for configuration details.
 For bug reporting instructions, please see:
 <http://www.gnu.org/software/gdb/bugs/>.
@@ -49,7 +49,7 @@ End of assembler dump.
 
 ######################################################################################################
 
-Here is also the sourcecode of level0. So you can better understand how it worked.
+Here is also the sourcecode of level01.c. So you can better understand how it worked.
 
 
 #include <stdio.h>
@@ -79,7 +79,7 @@ int main (int argc, char *argv[]) {
     if ((pos=strchr(password_input, '\n')) != NULL) *pos = '\0';
 
     if(strcmp(password_input,secret_password)==0) {
-        printf("Correct! Here is the level01 shell.\nRead the level01 password in /home/level01/.pass to login with `ssh level01@greyhat.no`\n");
+        printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.passwd to login with `ssh level01@greyhat.no`\n");
         system("/bin/sh");
     } else{
         printf("wrong!");

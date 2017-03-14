@@ -7,6 +7,13 @@
     - ctfserver
     - ctflevels 
 
+- name: Create levels directory
+  file: path=/levels state=directory mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
 #
 # user: level00 password: 89lka3ur9sd2
 # user: level01 password: fYIAv1NfRvEwJMcVPyJX
@@ -28,9 +35,21 @@
     - ctfserver
     - ctflevels
 
+- name: "Setting up CTF Level tasks"
+  include: 'setuptasks.yml'
+  with_items:
+    - { name: "Level 00", user: "level00", suidowner: "level01" }
+    - { name: "Level 01", user: "level01", suidowner: "level02" }
+    - { name: "Level 02", user: "level02", suidowner: "level03" }
+    - { name: "Level 03", user: "level03", suidowner: "level04" }
+    - { name: "Level 04", user: "level04", suidowner: "level05" }
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
 
 - name: "Copy the tools.txt for Level 00"
-  copy: src=levels/level00/tools.txt dest=/home/level00/tools.txt owner=root mode=0644
+  copy: src=levels/level00/tools.txt dest=/home/level00/tools.txt owner=root mode=0555
   tags:
     - ctf1
     - ctfserver

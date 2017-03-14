@@ -32,21 +32,21 @@
 
 
 - name: "Copy the motd.txt for {{ item.name }}"
-  template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner=root mode=0644
+  template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner=root group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
     - ctflevels
 
 - name: "Setup the .passwd file for {{ item.name }}"
-  copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner=root mode=0644
+  copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner=root group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
     - ctflevels
 
 - name: "Copy the .profile for {{ item.name }}"
-  template: src=dotprofile.j2 dest=/home/{{item.user}}/.profile owner=root mode=0644
+  template: src=dotprofile.j2 dest=/home/{{item.user}}/.profile owner=root group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
@@ -54,7 +54,7 @@
 
 - name: "Copy the .template_story.txt for {{ item.name }}"
   ignore_errors: True
-  template: src=levels/{{item.user}}/story.txt.j2 dest=/home/{{item.user}}/.template_story.txt owner=root mode=0644
+  template: src=levels/{{item.user}}/story.txt.j2 dest=/home/{{item.user}}/.template_story.txt owner=root group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
@@ -62,7 +62,7 @@
 
 - name: "Copy the recap.txt for {{ item.name }}"
   ignore_errors: True
-  copy: src=levels/{{item.user}}/recap.txt dest=/home/{{item.user}}/recap.txt owner=root mode=0644
+  copy: src=levels/{{item.user}}/recap.txt dest=/home/{{item.user}}/recap.txt owner=root group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
@@ -70,7 +70,7 @@
 
 
 - name: "Copy the .zshrc for {{ item.name }}"
-  template: src=dotzshrc.j2 dest=/home/{{item.user}}/.zshrc owner=root mode=0644
+  template: src=dotzshrc.j2 dest=/home/{{item.user}}/.zshrc owner=root group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
@@ -78,7 +78,22 @@
 
 
 - name: "Copy the .bashrc for {{ item.name }}"
-  template: src=dotbashrc.j2 dest=/home/{{item.user}}/.bashrc owner=root mode=0644
+  template: src=dotbashrc.j2 dest=/home/{{item.user}}/.bashrc owner=root group={{item.user}} mode=0440
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Create task directory for {{ item.name }}"
+  file: path=/levels/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0440
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+
+- name: "Lock down the home directory for {{ item.name }}"
+  file: path=/home/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver

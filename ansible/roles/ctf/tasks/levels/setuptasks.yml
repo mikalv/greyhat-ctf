@@ -1,0 +1,57 @@
+---
+
+- name: "Copy the level C code for {{ item.name }}"
+  ignore_errors: True
+  copy: src=levels/{{item.user}}/binary/{{item.user}}.c dest=/tmp/{{item.user}}.c owner=root mode=0644
+  register: need_compile
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Copy the level C code for {{ item.name }}"
+  ignore_errors: True
+  when: need_compile|succeeded
+  command: gcc -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
+# Might be useful to append to command at a later point
+#creates=/levels/{{item.user}}/{{item.user}}
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+
+- name: "Check for alternative code for {{ item.name }}"
+  ignore_errors: True
+  when: need_compile|failed or need_compile|skipped
+  copy: src=levels/{{item.user}}/service dest=/tmp/service-{{item.user}} owner=root mode=0644 directory_mode=yes
+  register: need_shell_setup
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Running setup script for {{ item.name }}"
+  ignore_errors: True
+  when: need_shell_setup|succeeded
+  command: /usr/bin/bash /tmp/service-{{item.user}}/setup.sh
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Remove the level C code for {{ item.name }} from tmp"
+  when: need_compile|succeeded
+  command: rm -f /tmp/{{item.user}}.c
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Ensures the compiled code for {{ item.name }} is in place with right access"
+  when: need_compile|succeeded
+  file: path=/levels/{{item.user}}/{{item.user}} mode=4640 owner={{item.suidowner}} group={{item.user}} state=file
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels

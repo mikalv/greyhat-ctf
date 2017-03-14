@@ -1,0 +1,27 @@
+┌─────────────┐
+│ Level Up +1 │
+└─────────────┘
+
+it looks like Zero Cool modified his backoor again.  Probably because it
+was  too easy  for other  hackers to  use  his backdoors.  Comparing the
+assembly code from his previous backdoor version to now reveals, that it
+is not much different. But this simple change could make it a little bit
+harder.  Can you still  find  the correct password  to use  the backdoor
+and get access to level3?
+
+   backdoor: /levels/level03/level03
+
+Don't forget to have a look at the story recap of level1. You can read it
+with: `less /home/level2/recap` (scroll with arrow keys and quit with "q")
+You should  have a look  at how `gdb` works  and practice with this level.
+Important `gdb` commands for you to research are:
+ ● `disassemble main` - look at the assembly code of the main function
+ ● `break *0x12345678` - set a breakpoint at address 0x12345678
+ ● `x 0x12345678` - examine/print the content of address 0x12345678
+ ● `x/xw 0x12345678` - print the content of address 0x12345678 as hex word
+ ● `x/s 0x12345678` - print the content of address 0x12345678 as a string
+ ● `run` - run/restart the program you are debugging
+ ● `continue` - continue execution after you stopped at a breakpoint
+ ● `quit` - exit gdb
+
+Also google can help a lot to learn how to use `gdb`. Good luck!
