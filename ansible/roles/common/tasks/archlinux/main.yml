@@ -13,3 +13,22 @@
     - common
     - archlinux
 
+- name: Install base packages
+  include: 'packages.yml'
+  tags:
+    - common
+    - archlinux
+
+- name: Install arch-bootstrap
+  copy: src=archlinux/arch-bootstrap.sh dest=/usr/local/bin/arch-bootstrap.sh owner=root mode=0755
+  tags:
+    - common
+    - archlinux
+    - archbootstrap
+
+- name: Install get-packman-dependencies.sh
+  copy: src=archlinux/get-pacman-dependencies.sh dest=/usr/local/bin/get-pacman-dependencies.sh owner=root mode=0755
+  tags:
+    - common
+    - archlinux
+    - archbootstrap

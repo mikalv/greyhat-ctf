@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# add logger options when needed
+log="logger -t ctfssh-wrapper"
+
+# find IP address
+ip=`echo $SSH_CONNECTION | cut -d " " -f 1`
+
+$log $USER login from $ip
+espeak "session-start: $USER just logged in from $ip" > /dev/null 2>&1
+
+$log command: ${SSH_ORIGINAL_COMMAND:-/usr/bin/zsh}
+${SSH_ORIGINAL_COMMAND:-/usr/bin/zsh}
+
+$log $USER logout
+espeak "session-stop: $USER just logged out" > /dev/null 2>&1

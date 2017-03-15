@@ -12,4 +12,6 @@
     - { role: aur, aur_package_name: vim-hexman, tags: ['aur'] }
     - { role: aur, aur_package_name: vim-markdown, tags: ['aur'] }
     - { role: aur, aur_package_name: jwasm, tags: ['aur'] }
+    - { role: aur, aur_package_name: aufs, tags: ['aur'] }
+    - { role: aur, aur_package_name: linux-aufs_friendly, tags: ['aur'] }
     - { role: ctf, tags: ['ctf'] }

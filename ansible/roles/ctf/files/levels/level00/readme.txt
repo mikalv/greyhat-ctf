@@ -18,7 +18,8 @@
 │   5. Be excellent.                                                       │
 ├──────────────────────────────────────────────────────────────────────────┤
 │   - levels can be found under /levels                                    │
-│   - You can only write to /tmp.                                          │
+│   - Your changes leaves with the ssh session, don't write to a file      │
+|     expect it to be there in the next session. Except for /tmp           |
 │   - Unused files and folders in /tmp are deleted after a few hours.      │
 │   - If you want to have a specific tool installed, contact me.           │
 │   - If you find bugs, please contact me.                                 │
@@ -58,8 +59,9 @@
 │ nickname, messages and secrets to the "iwashere" file. You can only read │
 │ and append something to the file.                                        │
 │    + show the world that you found this game:                            │
-│      `echo "I made this. ~samuirai" >> ~/iwashere`                       │
-│    + look at who was in level0 `less ~/iwashere` or `cat ~/iwashere`     │
+│      `echo "I made this. ~samuirai" >> ~/iwashere.txt`                   │
+│    + look at who was in level00 `less ~/iwashere.txt` or                 |
+|      `cat ~/iwashere.txt`                                                │
 │                                                                          │
 │ Most important point. Have fun. The worst thing that can happen is, that │
 │ you accidentally learn something.                                        │

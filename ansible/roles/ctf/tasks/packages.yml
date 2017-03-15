@@ -3,11 +3,41 @@
 - name: Install packages
   pacman: name={{ item }}
   with_items:
-    - gdb
-    - radare2
+# Javascript tools
     - nodejs
     - npm
     - phantomjs
-    - gcc
+# Development, Debugging and Build Tools
+    - strace
+    - diffutils
+    - gdb
+    - radare2
+    - binutils
+    - patch
+    - autoconf
+    - automake
+    - git
     - make
+    - gcc-multilib
+    - lib32-fakeroot
+    - lib32-libltdl
+# File compress
+    - zip
+    - unzip
+    - unrar
+    - bzip2
+    - gzip
+    - tar
+    - p7zip
+# Python2 packages
+    - python2
+    - ipython2
+    - python2-virtualenv
+    - python2-pip
+    - python2-jedi
+# Python3
+    - python
+    - python-virtualenv
+    - ipython
+    - python-pip
 
