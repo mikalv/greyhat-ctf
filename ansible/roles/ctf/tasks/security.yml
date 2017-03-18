@@ -1,5 +1,27 @@
 ---
 
+- name: Create CTF temporary directory
+  file: path=/tmp/ctftmp state=directory mode=0777
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: Install custom sudoers
+  template: src=sudoers.j2 dest=/etc/sudoers owner=root group=root mode=0644
+  tags:
+    - ctf1
+    - ctfserver
+    - ctfsecurity
+
+
+- name: Install newctfsession.sh
+  template: src=newctfsession.sh.j2 dest=/usr/local/bin/newctfsession.sh owner=root group=root mode=0755
+  tags:
+    - ctf1
+    - ctfserver
+    - ctfsecurity
+
 - name: Install ctfssh-wrapper.sh
   template: src=ctfssh-wrapper.sh.j2 dest=/usr/local/bin/ctfssh-wrapper.sh owner=root group=root mode=0755
   tags:

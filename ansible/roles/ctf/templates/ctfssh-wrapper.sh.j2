@@ -6,11 +6,19 @@ log="logger -t ctfssh-wrapper"
 # find IP address
 ip=`echo $SSH_CONNECTION | cut -d " " -f 1`
 
+# Make unique hash for current session
+export SESSION_ID=`echo "$SSH_CONNECTION" | sha256sum | awk '{ print $1 }' | head -c 7`
+mkdir -p /tmp/$SESSION_ID
+export SESSION_FS=/tmp/$SESSION_ID
+export SSH_CMD_ALTERNATIVE="sudo /usr/local/bin/newctfsession.sh"
+
 $log $USER login from $ip
 espeak "session-start: $USER just logged in from $ip" > /dev/null 2>&1
 
-$log command: ${SSH_ORIGINAL_COMMAND:-/usr/bin/zsh}
-${SSH_ORIGINAL_COMMAND:-/usr/bin/zsh}
+export SESSION_USER=$USER
+
+$log command: ${SSH_ORIGINAL_COMMAND:-}
+${SSH_ORIGINAL_COMMAND:-sudo /usr/local/bin/newctfsession.sh}
 
 $log $USER logout
 espeak "session-stop: $USER just logged out" > /dev/null 2>&1

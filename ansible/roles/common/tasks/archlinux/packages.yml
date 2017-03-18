@@ -13,7 +13,7 @@
 - name: Add multilib (cont) to pacman
   lineinfile:
     dest: /etc/pacman.conf
-    state: "present"
+    state: present
     line: "Include = /etc/pacman.d/mirrorlist"
     insertafter: "^\\[multilib\\]"
     regexp: "Include = /etc/pacman.d/mirrorlist"
@@ -25,12 +25,10 @@
     - vim
     - tmux
     - extra/bash-completion
-    - curl
     - htop
     - whois
     - openssh
     - nmap
-    - wget
     - dnsutils
     - mlocate
     - bridge-utils

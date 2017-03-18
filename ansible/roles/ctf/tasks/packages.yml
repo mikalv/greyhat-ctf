@@ -1,7 +1,13 @@
 ---
 
+- name: Make sure pacman cache and the system is up to date
+  ignore_errors: True
+  pacman:
+    update_cache: yes
+    upgrade: yes
+
 - name: Install packages
-  pacman: name={{ item }}
+  pacman: name={{ item }} update_cache=yes state=latest force=true
   with_items:
 # Javascript tools
     - nodejs
@@ -11,16 +17,15 @@
     - strace
     - diffutils
     - gdb
-    - radare2
     - binutils
     - patch
     - autoconf
     - automake
     - git
     - make
-    - gcc-multilib
-    - lib32-fakeroot
-    - lib32-libltdl
+    - multilib-devel
+    - abs
+    - radare2
 # File compress
     - zip
     - unzip

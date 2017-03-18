@@ -12,7 +12,7 @@
 - name: "Copy the level C code for {{ item.name }}"
   ignore_errors: True
   when: need_compile|succeeded
-  command: gcc -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
+  command: gcc -g -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
 # Might be useful to append to command at a later point
 #creates=/levels/{{item.user}}/{{item.user}}
   tags:
@@ -50,7 +50,7 @@
 
 - name: "Ensures the compiled code for {{ item.name }} is in place with right access"
   when: need_compile|succeeded
-  file: path=/levels/{{item.user}}/{{item.user}} mode=4640 owner={{item.suidowner}} group={{item.user}} state=file
+  file: path=/levels/{{item.user}}/{{item.user}} mode=4755 owner={{item.suidowner}} group={{item.user}} state=file
   tags:
     - ctf1
     - ctfserver
