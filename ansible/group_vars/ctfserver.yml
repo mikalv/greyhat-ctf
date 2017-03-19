@@ -2,3 +2,6 @@
 
 # CTF Stuff
 default_ctfuser_group: ctfusers
+
+ctfchroot: ctf1chroot1
+ctfchroot_arch: i686

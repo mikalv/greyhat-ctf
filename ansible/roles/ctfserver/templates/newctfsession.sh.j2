@@ -1,2 +1,5 @@
 #!/usr/bin/bash
-mount -t aufs -o br=$SESSION_FS=rw:/home/$SESSION_USER/iwashere.txt=rw: -o udba=reval none
+mount -t aufs -o br=/{{ctfchroot}}=ro:$SESSION_FS=rw:/home=rw -o udba=reval none $SESSION_WRITE_FS
+
+
+termrec {{ctfbigbrother_log_dir}}

@@ -1,11 +1,21 @@
 ---
 
+- name: Setup locale.gen
+  copy:
+    content: |
+      # locales
+      en_US.UTF-8 UTF-8
+      en_US ISO-8859-1
+      nb_NO.UTF-8 UTF-8
+      nb_NO ISO-8859-1
+    dest: /etc/locales.gen
+    mode: 0644
+  notify: locale-regen
 
 - name: Setup locale.conf
   template:
     src: archlinux/locale.conf.j2
     dest: /etc/locale.conf
-  notify: locale-regen
 
 - name: Setup vconsole.conf
   template:

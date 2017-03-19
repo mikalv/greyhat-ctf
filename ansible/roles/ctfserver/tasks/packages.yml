@@ -24,8 +24,10 @@
     - git
     - make
     - multilib-devel
-    - abs
     - radare2
+# Arch spesific
+    - arch-install-scripts
+    - abs
 # File compress
     - zip
     - unzip

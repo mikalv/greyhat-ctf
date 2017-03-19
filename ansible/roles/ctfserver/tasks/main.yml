@@ -7,12 +7,20 @@
     - ctfserver
     - archlinux
 
-
 - name: Basic CTF packages
   include: 'packages.yml'
   tags:
     - ctf
     - ctfserver
+    - archlinux
+
+
+- name: "Setup CTF Big Brother system"
+  include: 'bigbrother.yml'
+  tags:
+    - ctf
+    - ctfserver
+    - ctfbigbrother
     - archlinux
 
 - name: "Ensuring {{default_ctfuser_group}} group is available"
@@ -35,3 +43,13 @@
     - ctfserver
     - archlinux
 
+
+- name: Including chroot setups
+  become: yes
+  become_user: root
+  include: 'chroot.yml'
+  tags:
+    - ctf
+    - ctfserver
+    - ctfchroot
+    - archlinux

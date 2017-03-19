@@ -1,3 +1,10 @@
 ---
 
 default_ctfuser_group: ctfusers
+
+common_locale: 'en_US.UTF-8'
+
+ctfbigbrother_log_dir: '/var/ctfbigbrother/termlog'
+
+ctfchroot: ctf1chroot1
+ctfchroot_arch: i686

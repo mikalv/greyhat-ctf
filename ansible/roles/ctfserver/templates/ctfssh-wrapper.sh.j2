@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/bash
 
 # add logger options when needed
 log="logger -t ctfssh-wrapper"
@@ -7,9 +7,14 @@ log="logger -t ctfssh-wrapper"
 ip=`echo $SSH_CONNECTION | cut -d " " -f 1`
 
 # Make unique hash for current session
-export SESSION_ID=`echo "$SSH_CONNECTION" | sha256sum | awk '{ print $1 }' | head -c 7`
-mkdir -p /tmp/$SESSION_ID
+export SESSION_ID=`{ echo "$SSH_CONNECTION" | sha256sum | awk '{ print $1 }' & date; } | head -c 7`
 export SESSION_FS=/tmp/$SESSION_ID
+mkdir -p $SESSION_FS
+
+export SESSION_WRITE_ID=`echo "$SESSION_ID+$(date)" | sha256sum | awk '{ print $1 }' | head -c 7`
+export SESSION_WRITE_FS=/tmp/$SESSION_WRITE_ID
+mkdir -p $SESSION_WRITE_FS
+
 export SSH_CMD_ALTERNATIVE="sudo /usr/local/bin/newctfsession.sh"
 
 $log $USER login from $ip
@@ -17,8 +22,9 @@ espeak "session-start: $USER just logged in from $ip" > /dev/null 2>&1
 
 export SESSION_USER=$USER
 
-$log command: ${SSH_ORIGINAL_COMMAND:-}
-${SSH_ORIGINAL_COMMAND:-sudo /usr/local/bin/newctfsession.sh}
+$log command: ${SSH_ORIGINAL_COMMAND:-$SSH_CMD_ALTERNATIVE}
+$log forcedcommand: $SSH_CMD_ALTERNATIVE
+$SSH_CMD_ALTERNATIVE
 
 $log $USER logout
 espeak "session-stop: $USER just logged out" > /dev/null 2>&1

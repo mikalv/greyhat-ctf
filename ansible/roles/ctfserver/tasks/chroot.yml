@@ -1,0 +1,115 @@
+---
+
+- name: "Ensuring directory for {{ ctfchroot }} exists"
+  file:
+    state: directory
+    owner: root
+    group: root
+    path: "/{{ ctfchroot }}"
+    mode: 0755
+  register: ctfchroot_dir_create
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Check if chroot for {{ ctfchroot }} is already bootstrapped."
+  ignore_errors: True
+  stat:
+    path: "/{{ ctfchroot }}/bin"
+  register: ctfchroot_dir_already_bootstrapped
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Bootstrap chroot for {{ ctfchroot }}"
+  command: "/usr/local/bin/arch-bootstrap.sh -a {{ ctfchroot_arch }} /{{ ctfchroot }}"
+  when:
+    - ctfchroot_dir_already_bootstrapped.stat.exists is defined
+    - ctfchroot_dir_already_bootstrapped.stat.exists == false
+  register: ctfchroot_just_bootstrapped
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Set the correct mirrorlist file for pacman in {{ ctfchroot }}"
+  template:
+    src: chroot/mirrorlist.j2
+    dest: "/{{ ctfchroot }}/etc/pacman.d/mirrorlist"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Setup locale.gen for {{ ctfchroot }}"
+  copy:
+    content: |
+      # Locales
+      en_US.UTF-8 UTF-8
+      en_US ISO-8859-1
+      no_NO.UTF-8 UTF-8
+      no_NO ISO-8859-1
+    dest: "/{{ ctfchroot }}/etc/locale.gen"
+    mode: 0644
+  register: localegen_config_updated
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Setup locale.conf for {{ ctfchroot }}"
+  template:
+    src: chroot/locale.conf.j2
+    dest: /etc/locale.conf
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Setup vconsole.conf for {{ ctfchroot }}"
+  template:
+    src: chroot/vconsole.conf.j2
+    dest: /etc/vconsole.conf
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Setup bootstrap script for installation of base tools for {{ ctfchroot }}"
+  copy:
+    content: |
+      #!/usr/bin/bash
+      set -e -x
+      #locale-gen
+      pacman -Sy
+      pacman --noconfirm --force -S python2 ipython2 tmux python ipython \
+      nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh \
+      bash nmap
+      echo "Install done :)"
+    dest: "/{{ ctfchroot }}/bin/bootstrap-chroot.sh"
+    mode: "0755"
+  register: ctfchroot_bootstrap_script_installed
+  when:
+    - ctfchroot_just_bootstrapped is defined
+    - ctfchroot_just_bootstrapped|succeeded
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Running inner bootstrap script for {{ ctfchroot }}"
+  when:
+    - ctfchroot_bootstrap_script_installed is defined
+    - ctfchroot_bootstrap_script_installed|succeeded
+  command: "/usr/bin/arch-chroot /{{ ctfchroot }} /bin/bootstrap-chroot.sh"
+  register: ctfchroot_bootstrap_script_done
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Deleting bootstrap script for {{ ctfchroot }}"
+  when: ctfchroot_bootstrap_script_done is defined
+  file:
+    state: absent
+    path: "/{{ ctfchroot }}/bin/bootstrap-chroot.sh"
+  register: ctfchroot_bootstrap_done
+  tags:
+    - ctfchroot
+    - ctfserver
