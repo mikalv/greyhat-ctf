@@ -90,7 +90,5 @@ Subsystem	sftp	/usr/lib/ssh/sftp-server
 
 Match Group {{default_ctfuser_group}}
 	PermitTTY yes
-	PrintLastLog no
-	PermitLocalCommand no
 	PermitTunnel yes
 	ForceCommand /usr/local/bin/ctfssh-wrapper.sh
