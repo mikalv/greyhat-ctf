@@ -23,11 +23,11 @@
     - ctfbigbrother
     - archlinux
 
-- name: "Ensuring {{default_ctfuser_group}} group is available"
+- name: "Ensuring {{ default_ctfuser_group }} group is available"
   become: yes
   become_user: root
   group:
-    name: "{{default_ctfuser_group}}"
+    name: "{{ default_ctfuser_group }}"
     state: present
   tags:
     - ctf
@@ -43,7 +43,6 @@
     - ctfserver
     - archlinux
 
-
 - name: Including chroot setups
   become: yes
   become_user: root
@@ -52,4 +51,14 @@
     - ctf
     - ctfserver
     - ctfchroot
+    - archlinux
+
+- name: Setting up security for the CTF game
+  become: yes
+  become_user: root
+  include: 'security.yml'
+  tags:
+    - ctf
+    - ctfserver
+    - ctfsecurity
     - archlinux
