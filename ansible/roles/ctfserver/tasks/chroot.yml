@@ -74,27 +74,29 @@
     - ctfserver
 
 - name: "Setup bootstrap script for installation of base tools for {{ ctfchroot }}"
+  # TODO: role:ctfserver:chroot - Cleanup hotfix with a better solution. Was done because of lack of time.
+  ignore_errors: True
   copy:
     content: |
       #!/usr/bin/bash
       set -e -x
       #locale-gen
       pacman -Sy
-      pacman --noconfirm --force -S python2 ipython2 tmux python ipython \
-      nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh \
-      bash nmap
+      pacman --noconfirm --force -S {{ ctfchroot_tools }}
       echo "Install done :)"
     dest: "/{{ ctfchroot }}/bin/bootstrap-chroot.sh"
     mode: "0755"
   register: ctfchroot_bootstrap_script_installed
   when:
-    - ctfchroot_just_bootstrapped is defined
-    - ctfchroot_just_bootstrapped|succeeded
+    - ctfchroot_dir_already_bootstrapped.stat.exists is defined
+    - ctfchroot_dir_already_bootstrapped.stat.exists == false
   tags:
     - ctfchroot
     - ctfserver
 
 - name: "Running inner bootstrap script for {{ ctfchroot }}"
+  # TODO: role:ctfserver:chroot - Cleanup hotfix with a better solution. Was done because of lack of time.
+  ignore_errors: True
   when:
     - ctfchroot_bootstrap_script_installed is defined
     - ctfchroot_bootstrap_script_installed|succeeded

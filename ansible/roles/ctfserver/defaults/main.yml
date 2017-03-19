@@ -8,3 +8,4 @@ ctfbigbrother_log_dir: '/var/ctfbigbrother/termlog'
 
 ctfchroot: ctf1chroot1
 ctfchroot_arch: i686
+ctfchroot_tools: 'python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
