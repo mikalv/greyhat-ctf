@@ -9,9 +9,12 @@
 #SYSLOG_IDENTIFIER=ctfgame
 #end
 #}
+
+# Enable the logger
+# TODO: Add support for journald via the official logger syntax. However much more complexity
 logger="/usr/bin/logger -p auth.warning -t ctfssh-wrapper" > /dev/null 2>&1
 
-# find IP address
+# Find IP address
 ip=`/usr/bin/echo $SSH_CONNECTION | /usr/bin/cut -d " " -f 1`
 
 # Make unique hash for current session
@@ -19,20 +22,26 @@ export SESSION_ID=`/usr/bin/echo "$SSH_CONNECTION" | /usr/bin/sha256sum | /usr/b
 export SESSION_FS=/var/ctfgame1/sessions/$SESSION_ID-`/usr/bin/date +%s`
 /usr/bin/mkdir -p $SESSION_FS > /dev/null 2>&1 || exit 1
 
+# Writable temporary directory
 export SESSION_WRITE_ID=`/usr/bin/echo $SESSION_ID | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
-export SESSION_WRITE_FS=/var/ctfgame1/sessions/$SESSION_WRITE_ID
+export SESSION_WRITE_FS=/var/ctfgame1/tmp/sessions/$SESSION_WRITE_ID
 /usr/bin/mkdir -p $SESSION_WRITE_FS > /dev/null 2>&1 || exit 1
 
+# The forced command via sshd
 export SSH_CMD_FORCED_CTF="/usr/local/bin/newctfsession.sh"
 
+# Log session start
 $logger "session-start: $USER just logged in from $ip with session id $SESSION_ID and using $SESSION_FS#$SESSION_WRITE_FS" > /dev/null 2>&1
 
 export SESSION_USER=$USER
 export SSH_CMD_ATTEMPT=${SSH_ORIGINAL_COMMAND:-$SSH_CMD_FORCED_CTF}
 
+# Log
 $logger "attempted command: ${SSH_CMD_ATTEMPT}" > /dev/null 2>&1
-$logger "forced command: $SSH_CMD_FORCED_CTF" > /dev/null 2>&1
+$logger "forced command: ${SSH_CMD_FORCED_CTF}" > /dev/null 2>&1
+# Run the forced command (chroot session)
 $SSH_CMD_FORCED_CTF
 
+# Log session stop
 $logger "session-stop: $USER just logged out from $ip with session id $SESSION_ID and used $SESSION_FS#$SESSION_WRITE_FS" > /dev/null 2>&1
 
