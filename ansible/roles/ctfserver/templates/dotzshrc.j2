@@ -9,7 +9,8 @@ source $HOME/.profile
 export ZSH={{ ctfchroot_shell_ohmyzsh_path }}
 
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="random" # Earlier used: "agnoster" "robbyrussell" "geometry" "spaceship"
+# Earlier used: "agnoster" "robbyrussell" "geometry" "spaceship"
+ZSH_THEME="random"
 
 # Uncomment the following line to use case-sensitive completion.
 CASE_SENSITIVE="true"
@@ -31,7 +32,8 @@ plugins=(colored-man-pages colorize command-not-found fancy-ctrl-z gnu-utils jso
 # User configuration
 
 export MANPATH="/usr/local/man:$MANPATH"
-export LANG=en_US.UTF-8
+export LC_ALL={{ common_locale }}
+export LANG={{ common_lang }}
 
 export ZSH_TMUX_AUTOSTART=true
 export ZSH_TMUX_UNICODE=true
