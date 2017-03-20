@@ -153,3 +153,53 @@
   tags:
     - ctfchroot
     - ctfserver
+
+- name: "Removing unwanted ({{ item }}) binary for {{ ctfchroot }}"
+  file:
+    state: absent
+    path: "/{{ ctfchroot }}{{ item }}"
+  with_items:
+    - "/usr/bin/sudo"
+    - "/usr/bin/su"
+    - "/usr/bin/fdisk"
+    - "/usr/bin/dmesg"
+    - "/usr/bin/mount"
+    - "/usr/bin/umount"
+    - "/usr/bin/swapon"
+    - "/usr/bin/swapoff"
+    - "/usr/bin/passwd"
+    - "/usr/bin/ksu"
+    - "/usr/bin/gpasswd"
+    - "/usr/bin/makepkg"
+    - "/usr/bin/makepkg-template"
+    - "/usr/bin/mkfs"
+    - "/usr/bin/mkfs.cramfs"
+    - "/usr/bin/last"
+    - "/usr/bin/lastb"
+    - "/usr/bin/lastlog"
+    - "/usr/bin/wipefs"
+    - "/usr/bin/chpasswd"
+    - "/usr/bin/chgpasswd"
+    - "/usr/bin/checkupdates"
+    - "/usr/bin/kmod"
+    - "/usr/bin/mkswap"
+    - "/usr/bin/mknod"
+    - "/usr/bin/kpasswd"
+    - "/usr/bin/kadmin"
+    - "/usr/bin/lslogins"
+    - "/usr/bin/lscpu"
+    - "/usr/bin/lsipc"
+    - "/usr/bin/lsmod"
+    - "/usr/bin/lslocks"
+    - "/usr/bin/losetup"
+    - "/usr/bin/faillog"
+    - "/usr/bin/useradd"
+    - "/usr/bin/usermod"
+    - "/usr/bin/userdel"
+    - "/usr/bin/groupadd"
+    - "/usr/bin/groupmod"
+    - "/usr/bin/groupdel"
+    - "/usr/bin/eject"
+  tags:
+    - ctfchroot
+    - ctfserver
