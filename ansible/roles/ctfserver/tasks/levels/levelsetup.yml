@@ -23,7 +23,7 @@
     createhome: yes
     shell: /usr/bin/zsh
     update_password: always
-    groups: "{{item.groups}},{{default_ctfuser_group}}"
+    groups: "{{ item.groups }},{{ default_ctfuser_group }}"
     append: yes
   tags:
     - ctf1
@@ -52,9 +52,9 @@
     - ctfserver
     - ctflevels
 
-- name: "Copy the .template_story.txt for {{ item.name }}"
+- name: "Copy the template for story.txt for {{ item.name }}"
   ignore_errors: True
-  template: src=levels/{{item.user}}/story.txt.j2 dest=/home/{{item.user}}/.template_story.txt owner={{item.user}} group={{item.user}} mode=0440
+  template: src=levels/{{item.user}}/story.txt.j2 dest=/home/{{item.user}}/story.txt owner={{item.user}} group={{item.user}} mode=0440
   tags:
     - ctf1
     - ctfserver
