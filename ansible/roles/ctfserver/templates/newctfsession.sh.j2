@@ -1,5 +1,17 @@
 #!/usr/bin/bash
-mount -t aufs -o br=/{{ctfchroot}}=ro:$SESSION_FS=rw:/home=rw -o udba=reval none $SESSION_WRITE_FS
+/usr/bin/sudo /usr/bin/mount -t aufs -o br=$SESSION_WRITE_FS=rw:/{{ctfchroot}}=ro -o udba=reval none $SESSION_FS > /dev/null 2>&1
+/usr/bin/sudo /usr/bin/mount -o bind /home $SESSION_FS/home > /dev/null 2>&1
 
+export CTFUSER_HOME=/home/$USER
 
-termrec {{ctfbigbrother_log_dir}}
+# Debug
+#/usr/bin/echo "[+] Entering $SESSION_FS via chroot"
+
+# MOTD
+/usr/bin/cat /home/$USER/motd.txt
+/usr/bin/termrec -f ttyrec -e "/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/zsh -l" {{ctfbigbrother_log_dir}}/`/usr/bin/basename $SESSION_WRITE_FS`.ttyrec
+
+/usr/bin/echo "Bye hacker, BigBrother is always watching :)"
+
+# Disabled while debugging.
+/usr/bin/sudo /usr/bin/umount $SESSION_FS/home && /usr/bin/sudo /usr/bin/umount $SESSION_FS > /dev/null 2>&1

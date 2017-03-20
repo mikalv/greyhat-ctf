@@ -1,30 +1,38 @@
 #!/usr/bin/bash
+#ulimit -n 65536
 
-# add logger options when needed
-log="logger -t ctfssh-wrapper"
+#function logger() {
+#  local uuid=`journalctl --new-id | awk 'FNR==2 { print $0 } '`
+#  echo -e "MESSAGE_ID=`journalctl --new-id | awk 'FNR==2 { print $0 } '`\n" | /usr/bin/logger -p auth.warning -t ctfssh-wrapper --journald <<end
+#$uuid
+#MESSAGE=$arg0
+#SYSLOG_IDENTIFIER=ctfgame
+#end
+#}
+logger="/usr/bin/logger -p auth.warning -t ctfssh-wrapper" > /dev/null 2>&1
 
 # find IP address
-ip=`echo $SSH_CONNECTION | cut -d " " -f 1`
+ip=`/usr/bin/echo $SSH_CONNECTION | /usr/bin/cut -d " " -f 1`
 
 # Make unique hash for current session
-export SESSION_ID=`{ echo "$SSH_CONNECTION" | sha256sum | awk '{ print $1 }' & date; } | head -c 7`
-export SESSION_FS=/tmp/$SESSION_ID
-mkdir -p $SESSION_FS
+export SESSION_ID=`/usr/bin/echo "$SSH_CONNECTION" | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
+export SESSION_FS=/var/ctfgame1/sessions/$SESSION_ID-`/usr/bin/date +%s`
+/usr/bin/mkdir -p $SESSION_FS > /dev/null 2>&1 || exit 1
 
-export SESSION_WRITE_ID=`echo "$SESSION_ID+$(date)" | sha256sum | awk '{ print $1 }' | head -c 7`
-export SESSION_WRITE_FS=/tmp/$SESSION_WRITE_ID
-mkdir -p $SESSION_WRITE_FS
+export SESSION_WRITE_ID=`/usr/bin/echo $SESSION_ID | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
+export SESSION_WRITE_FS=/var/ctfgame1/sessions/$SESSION_WRITE_ID
+/usr/bin/mkdir -p $SESSION_WRITE_FS > /dev/null 2>&1 || exit 1
 
-export SSH_CMD_ALTERNATIVE="sudo /usr/local/bin/newctfsession.sh"
+export SSH_CMD_FORCED_CTF="/usr/local/bin/newctfsession.sh"
 
-$log $USER login from $ip
-espeak "session-start: $USER just logged in from $ip" > /dev/null 2>&1
+$logger "session-start: $USER just logged in from $ip with session id $SESSION_ID and using $SESSION_FS#$SESSION_WRITE_FS" > /dev/null 2>&1
 
 export SESSION_USER=$USER
+export SSH_CMD_ATTEMPT=${SSH_ORIGINAL_COMMAND:-$SSH_CMD_FORCED_CTF}
 
-$log command: ${SSH_ORIGINAL_COMMAND:-$SSH_CMD_ALTERNATIVE}
-$log forcedcommand: $SSH_CMD_ALTERNATIVE
-$SSH_CMD_ALTERNATIVE
+$logger "attempted command: ${SSH_CMD_ATTEMPT}" > /dev/null 2>&1
+$logger "forced command: $SSH_CMD_FORCED_CTF" > /dev/null 2>&1
+$SSH_CMD_FORCED_CTF
 
-$log $USER logout
-espeak "session-stop: $USER just logged out" > /dev/null 2>&1
+$logger "session-stop: $USER just logged out from $ip with session id $SESSION_ID and used $SESSION_FS#$SESSION_WRITE_FS" > /dev/null 2>&1
+
