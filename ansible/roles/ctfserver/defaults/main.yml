@@ -3,12 +3,18 @@
 default_ctfuser_group: ctfusers
 
 common_locale: 'en_US.UTF-8'
+common_lang: 'en'
 
 ctfbigbrother_log_dir: '/var/ctfgame1/bigbrother/termlog'
 
 ctfchroot: ctf1chroot1
 ctfchroot_arch: i686
-ctfchroot_tools: 'libcap git which man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
+ctfchroot_tools: 'libcap ruby netcat man git which man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
 ctfchroot_repo_url: 'http://mirror.archlinux.no/'
 
 ctfchroot_shell_ohmyzsh_path: '/usr/share/ohmyzsh'
+
+ctfchroot_control_items:
+  - "/var/ctfgame1/tmp/sessions"
+  - "/var/ctfgame1/sessions"
+  - "/var/ctfgame1/service"

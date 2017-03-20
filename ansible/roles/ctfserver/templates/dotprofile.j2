@@ -1,14 +1,6 @@
 export PATH=/bin:/usr/bin:/usr/local/bin
-export SESSION_ID=`echo "$SSH_CONNECTION" | sha256sum | awk '{ print $1 }' | head -c 7`
 
-if [[ ! -d "/tmp/$SESSION_ID" ]]; then
-	mkdir -p "/tmp/$SESSION_ID"
-	touch "/tmp/$SESSION_ID/index.html"
-fi
-
-alias story="print_with_env $HOME/.template_story.txt"
 alias igiveup=""
-
 
 cat $HOME/motd.txt
 
