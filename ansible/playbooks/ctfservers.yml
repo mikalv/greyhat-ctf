@@ -8,14 +8,20 @@
     - "../group_vars/ctfserver.yml"
   roles:
     - { role: common, tags: ['common'] }
+# Pam packages
+    - { role: aur, aur_package_name: pam_u2f, tags: ['aur'] }
+    - { role: aur, aur_package_name: pam_chroot, tags: ['aur'] }
+# Security related
+    - { role: aur, aur_package_name: ipbt, tags: ['aur'] }
+    - { role: aur, aur_package_name: termrec, tags: ['aur'] }
+    - { role: aur, aur_package_name: ttyrec, tags: ['aur'] }
+# Misc
     - { role: aur, aur_package_name: vim-colorschemes, tags: ['aur'] }
     - { role: aur, aur_package_name: vim-colorsupport, tags: ['aur'] }
     - { role: aur, aur_package_name: vim-hexman, tags: ['aur'] }
     - { role: aur, aur_package_name: vim-markdown, tags: ['aur'] }
     - { role: aur, aur_package_name: jwasm, tags: ['aur'] }
-    - { role: aur, aur_package_name: ipbt, tags: ['aur'] }
-    - { role: aur, aur_package_name: termrec, tags: ['aur'] }
-    - { role: aur, aur_package_name: ttyrec, tags: ['aur'] }
     - { role: aur, aur_package_name: aufs, tags: ['aur'] }
-    - { role: aur, aur_package_name: linux-aufs_friendly, tags: ['aur'] }
+# Using own custom kernel at the moment
+#    - { role: aur, aur_package_name: linux-aufs_friendly, tags: ['aur'] }
     - { role: ctfserver, tags: ['ctfserver'] }

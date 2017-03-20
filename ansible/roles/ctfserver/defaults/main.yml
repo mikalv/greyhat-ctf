@@ -4,8 +4,9 @@ default_ctfuser_group: ctfusers
 
 common_locale: 'en_US.UTF-8'
 
-ctfbigbrother_log_dir: '/var/ctfbigbrother/termlog'
+ctfbigbrother_log_dir: '/var/ctfgame1/bigbrother/termlog'
 
 ctfchroot: ctf1chroot1
 ctfchroot_arch: i686
-ctfchroot_tools: 'python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
+ctfchroot_tools: 'libcap man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
+ctfchroot_repo_url: 'http://mirror.archlinux.no/'
