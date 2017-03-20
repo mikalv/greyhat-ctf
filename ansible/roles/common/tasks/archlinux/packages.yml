@@ -32,4 +32,6 @@
     - dnsutils
     - mlocate
     - bridge-utils
+    - fail2ban
+    - zsh
 
