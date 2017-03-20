@@ -5,10 +5,17 @@
   pacman:
     update_cache: yes
     upgrade: yes
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
 
 - name: Install packages
   pacman: name={{ item }} update_cache=yes state=latest force=true
   with_items:
+# Security
+    - yubico-pam
+    - pam_mount
 # Javascript tools
     - nodejs
     - npm
@@ -47,4 +54,11 @@
     - python-virtualenv
     - ipython
     - python-pip
+# Other, but REQUIRED
+    - screen
+  tags:
+    - ctf
+    - ctfserver
+    - ctfpackages
+    - archlinux
 

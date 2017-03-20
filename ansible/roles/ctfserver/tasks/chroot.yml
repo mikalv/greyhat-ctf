@@ -1,5 +1,15 @@
 ---
 
+- name: "Ensure the /var/ctfgame1/sessions directory exists"
+  file:
+    path: /var/ctfgame1/sessions
+    state: directory
+    recurse: yes
+    mode: 0777
+  tags:
+    - ctfchroot
+    - ctfserver
+
 - name: "Ensuring directory for {{ ctfchroot }} exists"
   file:
     state: directory
@@ -21,12 +31,25 @@
     - ctfchroot
     - ctfserver
 
-- name: "Bootstrap chroot for {{ ctfchroot }}"
-  command: "/usr/local/bin/arch-bootstrap.sh -a {{ ctfchroot_arch }} /{{ ctfchroot }}"
+- name: "Bootstrap chroot for {{ ctfchroot }} arch {{ ctfchroot_arch }}"
+  command: "/usr/local/bin/arch-bootstrap.sh -r {{ ctfchroot_repo_url }} -a {{ ctfchroot_arch }} /{{ ctfchroot }}"
   when:
     - ctfchroot_dir_already_bootstrapped.stat.exists is defined
     - ctfchroot_dir_already_bootstrapped.stat.exists == false
   register: ctfchroot_just_bootstrapped
+  tags:
+    - ctfchroot
+    - ctfserver
+
+
+- name: "Copy {{ item }} from server to {{ ctfchroot }} arch {{ ctfchroot_arch }}"
+  command: "/usr/bin/cp -rv {{ item }} /{{ ctfchroot }}/{{ item }}"
+  with_items:
+    - "/etc/passwd"
+    - "/etc/group"
+    - "/etc/shadow"
+    - "/etc/hostname"
+    - "/etc/hosts"
   tags:
     - ctfchroot
     - ctfserver
@@ -81,8 +104,12 @@
       #!/usr/bin/bash
       set -e -x
       #locale-gen
-      pacman -Sy
-      pacman --noconfirm --force -S {{ ctfchroot_tools }}
+      pacman-key --init
+      pacman-key --populate archlinux
+      pacman -Sy --arch {{ ctfchroot_arch }}
+      pacman --noconfirm --arch {{ ctfchroot_arch }} -v --force -S archlinux-keyring
+      pacman -Sy --arch {{ ctfchroot_arch }}
+      pacman --noconfirm --arch {{ ctfchroot_arch }} -v --force -S {{ ctfchroot_tools }}
       echo "Install done :)"
     dest: "/{{ ctfchroot }}/bin/bootstrap-chroot.sh"
     mode: "0755"
@@ -100,7 +127,7 @@
   when:
     - ctfchroot_bootstrap_script_installed is defined
     - ctfchroot_bootstrap_script_installed|succeeded
-  command: "/usr/bin/arch-chroot /{{ ctfchroot }} /bin/bootstrap-chroot.sh"
+  command: "/usr/bin/arch-chroot /{{ ctfchroot }} /bin/sh -c /bin/bootstrap-chroot.sh"
   register: ctfchroot_bootstrap_script_done
   tags:
     - ctfchroot
