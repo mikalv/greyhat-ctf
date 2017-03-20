@@ -1,0 +1,9 @@
+---
+
+- name: "Setup shell experience for {{ item }}"
+  include: '{{ item }}.yml'
+  with_items:
+    - "zsh"
+  tags:
+    - ctfshell
+    - ctfuser

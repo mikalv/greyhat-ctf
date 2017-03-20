@@ -10,3 +10,5 @@ ctfchroot: ctf1chroot1
 ctfchroot_arch: i686
 ctfchroot_tools: 'libcap git which man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
 ctfchroot_repo_url: 'http://mirror.archlinux.no/'
+
+ctfchroot_shell_ohmyzsh_path: '/usr/share/ohmyzsh'

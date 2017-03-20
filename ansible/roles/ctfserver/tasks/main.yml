@@ -14,6 +14,12 @@
     - ctfserver
     - archlinux
 
+- name: Setup shell environments
+  include: 'shells/main.yml'
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
 
 - name: "Setup CTF Big Brother system"
   include: 'bigbrother.yml'
@@ -41,6 +47,7 @@
   tags:
     - ctf
     - ctfserver
+    - ctfusers
     - archlinux
 
 - name: Including chroot setups

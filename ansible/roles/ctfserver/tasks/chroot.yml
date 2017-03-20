@@ -154,7 +154,7 @@
     - ctfchroot
     - ctfserver
 
-- name: "Removing unwanted ({{ item }}) binary for {{ ctfchroot }}"
+- name: "Removing unwanted binaries for {{ ctfchroot }}"
   file:
     state: absent
     path: "/{{ ctfchroot }}{{ item }}"

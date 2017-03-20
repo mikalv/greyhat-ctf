@@ -1,0 +1,13 @@
+---
+
+- name: "Installing oh-my-zsh"
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: "/{{ ctfchroot }}{{ ctfchroot_shell_ohmyzsh_path }}"
+    clone: yes
+    update: yes
+  tags:
+    - ctfchroot
+    - ctfserver
+
+

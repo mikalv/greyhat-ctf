@@ -1,1 +1,39 @@
+#
+# .zshrc
+#
+
+export PATH=$HOME/.bin:/usr/local/bin:$PATH
+
 source $HOME/.profile
+
+export ZSH={{ ctfchroot_shell_ohmyzsh_path }}
+
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="random" # Earlier used: "agnoster" "robbyrussell" "geometry" "spaceship"
+
+# Uncomment the following line to use case-sensitive completion.
+CASE_SENSITIVE="true"
+
+export UPDATE_ZSH_DAYS=13
+DISABLE_AUTO_TITLE="true"
+ENABLE_CORRECTION="true"
+COMPLETION_WAITING_DOTS="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+HIST_STAMPS="dd.mm.yyyy"
+
+source $ZSH/oh-my-zsh.sh
+
+export SHELL=zsh
+
+# Plugins to load
+plugins=(colored-man-pages colorize command-not-found fancy-ctrl-z gnu-utils jsontools nmap man)
+
+# User configuration
+
+export MANPATH="/usr/local/man:$MANPATH"
+export LANG=en_US.UTF-8
+
+export ZSH_TMUX_AUTOSTART=true
+export ZSH_TMUX_UNICODE=true
+
+cd $HOME
