@@ -18,9 +18,9 @@
 HoldPkg     = pacman glibc
 #XferCommand = /usr/bin/curl -C - -f %u > %o
 #XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
-#CleanMethod = KeepInstalled
+CleanMethod = KeepCurrent
 #UseDelta    = 0.7
-Architecture = auto
+Architecture = i686
 
 # Pacman won't upgrade packages listed in IgnorePkg and members of IgnoreGroup
 #IgnorePkg   =
@@ -31,8 +31,8 @@ Architecture = auto
 
 # Misc options
 #UseSyslog
-#Color
-#TotalDownload
+Color
+TotalDownload
 # CheckSpace
 #VerbosePkgLists
 

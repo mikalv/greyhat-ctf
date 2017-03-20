@@ -9,8 +9,11 @@ export CTFUSER_HOME=/home/$USER
 
 # MOTD
 /usr/bin/cat /home/$USER/motd.txt
+
+# The user's session
 /usr/bin/termrec -f ttyrec -e "/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/zsh -l" {{ctfbigbrother_log_dir}}/`/usr/bin/basename $SESSION_WRITE_FS`.ttyrec
 
+# Bye message
 /usr/bin/echo "Bye hacker, BigBrother is always watching :)"
 
 # Disabled while debugging.

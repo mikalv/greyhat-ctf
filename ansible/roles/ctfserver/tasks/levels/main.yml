@@ -1,11 +1,12 @@
 ---
 
+# NOTICE: Deprecated
 - name: "Install print_with_env executable"
   copy: content="#!/usr/bin/bash\nperl -pe 's/\$(\w+)/$ENV{$1}/g' $1" dest=/usr/bin/print_with_env owner=root mode=0755
   tags:
     - ctf1
     - ctfserver
-    - ctflevels 
+    - ctflevels
 
 - name: Create levels directory
   file: path=/levels state=directory mode=0755

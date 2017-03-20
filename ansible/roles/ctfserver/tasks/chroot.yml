@@ -65,6 +65,17 @@
     - ctfchroot
     - ctfserver
 
+- name: "Set the correct pacman.conf file in {{ ctfchroot }}"
+  template:
+    src: chroot/pacman.conf.j2
+    dest: "/{{ ctfchroot }}/etc/pacman.conf"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - ctfchroot
+    - ctfserver
+
 - name: "Setup locale.gen for {{ ctfchroot }}"
   copy:
     content: |
