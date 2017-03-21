@@ -25,3 +25,8 @@ ctfchroot_session_store_dir: '/var/ctfgame1/sessions'
 
 # Max sessions from same IP
 ssh_max_sessions_from_same_ip: 100
+
+# NOTE: This needs to be high numbers cause of the whole login process consumes a LOT.
+# /etc/security/limits.conf parameters
+ctfuser_max_open_files_soft: 65535
+ctfuser_max_open_files_hard: 65535

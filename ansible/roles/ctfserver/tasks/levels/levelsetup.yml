@@ -30,6 +30,27 @@
     - ctfserver
     - ctflevels
 
+- name: "Set softlimit settings for {{ item.name }} in /etc/security/limits.conf"
+  pam_limits:
+    domain: "{{ item.name }}"
+    limit_type: soft
+    limit_item: nofile
+    value: "{{ ctfuser_max_open_files_soft }}"
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
+- name: "Set hardlimit settings for {{ item.name }} in /etc/security/limits.conf"
+  pam_limits:
+    domain: "{{ item.name }}"
+    limit_type: hard
+    limit_item: nofile
+    value: "{{ ctfuser_max_open_files_hard }}"
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
 
 - name: "Copy the motd.txt for {{ item.name }}"
   template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner={{item.user}} group={{item.user}} mode=0440
