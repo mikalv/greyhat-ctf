@@ -38,6 +38,19 @@
     - ctfserver
     - ctflevels
 
+- name: "Copy the iwashere.txt file for {{ item.name }} and set chattr +a to it"
+  copy:
+    src: iwashere.txt
+    dest: "/home/{{item.user}}/iwashere.txt"
+    owner: root
+    group: "{{item.user}}"
+    mode: 0660
+    attributes: '+a'
+  tags:
+    - ctf1
+    - ctfserver
+    - ctflevels
+
 - name: "Setup the .passwd file for {{ item.name }}"
   copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440
   tags:
@@ -54,7 +67,12 @@
 
 - name: "Copy the template for story.txt for {{ item.name }}"
   ignore_errors: True
-  template: src=levels/{{item.user}}/story.txt.j2 dest=/home/{{item.user}}/story.txt owner={{item.user}} group={{item.user}} mode=0440
+  template:
+    src: "levels/{{ item.user }}/story.txt.j2"
+    dest: "/home/{{ item.user }}/story.txt"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: 0440
   tags:
     - ctf1
     - ctfserver
@@ -62,7 +80,12 @@
 
 - name: "Copy the recap.txt for {{ item.name }}"
   ignore_errors: True
-  copy: src=levels/{{item.user}}/recap.txt dest=/home/{{item.user}}/recap.txt owner={{item.user}} group={{item.user}} mode=0440
+  copy:
+    src: "levels/{{ item.user }}/recap.txt"
+    dest: "/home/{{ item.user }}/recap.txt"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
+    mode: 0440
   tags:
     - ctf1
     - ctfserver
