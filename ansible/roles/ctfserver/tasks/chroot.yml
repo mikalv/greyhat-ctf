@@ -11,12 +11,14 @@
     - ctfchroot
     - ctfserver
 
-- name: "Ensuring directory for {{ ctfchroot }} exists"
+# This is needed to have a mountpoint for the levels to mount from host in newctfsession.sh
+- name: "Ensuring directory for {{ ctfchroot }} levels exists"
   file:
     state: directory
     owner: root
     group: root
-    path: "/{{ ctfchroot }}"
+    recurse: yes
+    path: "/{{ ctfchroot }}/levels"
     mode: 0755
   register: ctfchroot_dir_create
   tags:
