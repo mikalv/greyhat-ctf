@@ -1,0 +1,19 @@
+---
+
+- name: "Enable ip forwarding"
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: "Encrease the amount of allowed open files at once"
+  sysctl:
+    name: fs.file-max
+    value: 100000
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+
