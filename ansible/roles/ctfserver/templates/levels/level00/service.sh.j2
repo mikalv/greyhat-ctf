@@ -1,3 +1,11 @@
 {% include "levels/base_service.sh.j2" %}
 
 # Level00 spesific service code
+
+# Run the emulated browser that is going to be hacked.
+# TODO: Implement start/stop feature and not a while true....
+while true;
+do
+  /usr/bin/phantomjs {{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}/xss-bot.js  > /dev/null 2>&1;
+done
+
