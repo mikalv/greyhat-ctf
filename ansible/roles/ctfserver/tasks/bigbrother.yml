@@ -2,7 +2,7 @@
 
 - name: "Ensure the termrec(tty) logging directory for {{ ctfchroot }} exists"
   file:
-    path: "{{ctfbigbrother_log_dir}}"
+    path: "{{ ctfchroot_bigbrother_log_dir }}"
     state: directory
     recurse: yes
     mode: 0777
