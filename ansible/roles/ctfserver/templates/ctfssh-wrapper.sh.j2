@@ -19,12 +19,12 @@ ip=`/usr/bin/echo $SSH_CONNECTION | /usr/bin/cut -d " " -f 1`
 
 # Make unique hash for current session
 export SESSION_ID=`/usr/bin/echo "$SSH_CONNECTION" | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
-export SESSION_FS=/var/ctfgame1/sessions/$SESSION_ID-`/usr/bin/date +%s`
+export SESSION_FS={{ ctfchroot_session_store_dir }}/$SESSION_ID-`/usr/bin/date +%s`
 /usr/bin/mkdir -p $SESSION_FS > /dev/null 2>&1 || exit 1
 
 # Writable temporary directory
 export SESSION_WRITE_ID=`/usr/bin/echo $SESSION_ID | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
-export SESSION_WRITE_FS=/var/ctfgame1/tmp/sessions/$SESSION_WRITE_ID
+export SESSION_WRITE_FS={{ ctfchroot_session_store_dir }}/$SESSION_WRITE_ID
 /usr/bin/mkdir -p $SESSION_WRITE_FS > /dev/null 2>&1 || exit 1
 
 # The forced command via sshd

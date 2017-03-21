@@ -29,7 +29,9 @@ LogLevel INFO
 
 #LoginGraceTime 2m
 #StrictModes yes
-#MaxSessions 10
+
+# Max sessions from same IP
+MaxSessions {{ ssh_max_sessions_from_same_ip }}
 
 PermitRootLogin prohibit-password
 MaxAuthTries 6
@@ -74,7 +76,6 @@ TCPKeepAlive yes
 
 #UseLogin no
 #UsePrivilegeSeparation sandbox
-#PermitUserEnvironment no
 #Compression delayed
 #ClientAliveInterval 0
 #ClientAliveCountMax 3
@@ -88,7 +89,11 @@ Banner /etc/banner.txt
 
 Subsystem	sftp	/usr/lib/ssh/sftp-server
 
+# NOTE: acording to man, PermitUserEnvironment isn't allowed inside a Match, so we have to force it off for all users.
+PermitUserEnvironment no
+
 Match Group {{default_ctfuser_group}}
 	PermitTTY yes
 	PermitTunnel yes
+  PasswordAuthentication yes
 	ForceCommand /usr/local/bin/ctfssh-wrapper.sh
