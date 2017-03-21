@@ -34,9 +34,9 @@ ctfgame_userlevels_enabled:
 
 # TODO: Find a way to not repeat yourself? (Ref. above) :)
 ctfgame_userlevels_extra:
-  - { name: "Level 00", user: "level00", suidowner: "level01" }
-  - { name: "Level 01", user: "level01", suidowner: "level02" }
-  - { name: "Level 02", user: "level02", suidowner: "level03" }
-  - { name: "Level 03", user: "level03", suidowner: "level04" }
-  - { name: "Level 04", user: "level04", suidowner: "level04" }
+  - { name: "Level 00", user: "level00", suidowner: "level01", service: true, binary: false }
+  - { name: "Level 01", user: "level01", suidowner: "level02", service: false, binary: true }
+  - { name: "Level 02", user: "level02", suidowner: "level03", service: false, binary: true }
+  - { name: "Level 03", user: "level03", suidowner: "level04", service: false, binary: true }
+  - { name: "Level 04", user: "level04", suidowner: "level04", service: false, binary: true }
 

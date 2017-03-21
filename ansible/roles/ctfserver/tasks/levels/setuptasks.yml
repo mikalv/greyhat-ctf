@@ -1,57 +1,99 @@
 ---
 
-- name: "Copy the level C code for {{ item.name }}"
-  ignore_errors: True
-  copy: src=levels/{{item.user}}/binary/{{item.user}}.c dest=/tmp/{{item.user}}.c owner=root mode=0644
-  register: need_compile
-  tags:
-    - ctf1
-    - ctfserver
-    - ctflevels
+### Binaries
 
 - name: "Copy the level C code for {{ item.name }}"
-  ignore_errors: True
+  copy:
+    src: "levels/{{item.user}}/binary/{{item.user}}.c"
+    dest: "/tmp/{{item.user}}.c"
+    owner: root
+    mode: 0644
+  register: need_compile
+  tags:
+    - ctflevels
+    - ctflevelcompile
+
+- name: "Copy the level C code for {{ item.name }}"
   when: need_compile|succeeded
   command: gcc -g -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
 # Might be useful to append to command at a later point
 #creates=/levels/{{item.user}}/{{item.user}}
   tags:
-    - ctf1
-    - ctfserver
     - ctflevels
-
-
-- name: "Check for alternative code for {{ item.name }}"
-  ignore_errors: True
-  when: need_compile|failed or need_compile|skipped
-  copy: src=levels/{{item.user}}/service dest=/tmp/service-{{item.user}} owner=root mode=0644 directory_mode=yes
-  register: need_shell_setup
-  tags:
-    - ctf1
-    - ctfserver
-    - ctflevels
-
-- name: "Running setup script for {{ item.name }}"
-  ignore_errors: True
-  when: need_shell_setup|succeeded
-  command: /usr/bin/bash /tmp/service-{{item.user}}/setup.sh
-  tags:
-    - ctf1
-    - ctfserver
-    - ctflevels
+    - ctflevelcompile
 
 - name: "Remove the level C code for {{ item.name }} from tmp"
   when: need_compile|succeeded
   command: rm -f /tmp/{{item.user}}.c
   tags:
-    - ctf1
-    - ctfserver
     - ctflevels
+    - ctflevelcompile
 
 - name: "Ensures the compiled code for {{ item.name }} is in place with right access"
   when: need_compile|succeeded
-  file: path=/levels/{{item.user}}/{{item.user}} mode=4755 owner={{item.suidowner}} group={{item.user}} state=file
+  file:
+    path: "/levels/{{item.user}}/{{ item.user }}"
+    mode: 4755
+    owner: "{{item.suidowner}}"
+    group: "{{item.user}}"
+    state: file
   tags:
-    - ctf1
-    - ctfserver
     - ctflevels
+    - ctflevelcompile
+
+
+### Services
+
+
+- name: "Copy service files for {{ item.name }}"
+  when:
+    - item.service is true
+  copy:
+    src: "levels/{{ item.user }}/service"
+# TODO: Move this path to a variable
+    dest: "{{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}"
+    owner: root
+    mode: 0644
+    directory_mode: yes
+  register: need_shell_setup
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Install the service setup.sh script for {{ item.name }}"
+  when:
+    - item.service is true
+  template:
+    src: "levels/{{ item.user }}/setup.sh.j2"
+    dest: "{{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}/setup.sh"
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Install the service init script for {{ item.name }}"
+  when:
+    - item.service is true
+  template:
+    src: "levels/{{ item.user }}/service.sh.j2"
+    dest: "{{ ctfchroot_datadir }}/services/{{ item.user }}"
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Running setup script for {{ item.name }} (Service install)"
+  when:
+    - need_shell_setup|succeeded
+    - item.service is true
+# TODO: Move this path to a variable
+  command: /usr/bin/bash {{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}/setup.sh
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+

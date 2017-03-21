@@ -87,7 +87,6 @@
     - ctflevels
 
 - name: "Copy the template for story.txt for {{ item.name }}"
-  ignore_errors: True
   template:
     src: "levels/{{ item.user }}/story.txt.j2"
     dest: "/home/{{ item.user }}/story.txt"
@@ -100,7 +99,6 @@
     - ctflevels
 
 - name: "Copy the recap.txt for {{ item.name }}"
-  ignore_errors: True
   copy:
     src: "levels/{{ item.user }}/recap.txt"
     dest: "/home/{{ item.user }}/recap.txt"

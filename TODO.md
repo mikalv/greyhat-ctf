@@ -3,6 +3,9 @@ TODO
 
 It's a lot.
 
+* Update README.md
+* Check http://docs.ansible.com/ansible/list_of_all_modules.html so u don't repeat.
+
 Refactor / Extend features
 ---------------------------
 

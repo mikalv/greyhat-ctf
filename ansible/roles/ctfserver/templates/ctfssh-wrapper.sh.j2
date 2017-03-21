@@ -1,6 +1,17 @@
 #!/usr/bin/bash
 #ulimit -n 65536
 
+#
+# Security NOTE:
+#  - The $USER variable is set by sshd.
+#  - On error, kill and exit everything.
+#  - Better dirty and dead, or alive and hacked.
+#
+
+
+# The forced command via sshd
+export SSH_CMD_FORCED_CTF="/usr/local/bin/newctfsession.sh"
+
 #function logger() {
 #  local uuid=`journalctl --new-id | awk 'FNR==2 { print $0 } '`
 #  echo -e "MESSAGE_ID=`journalctl --new-id | awk 'FNR==2 { print $0 } '`\n" | /usr/bin/logger -p auth.warning -t ctfssh-wrapper --journald <<end
@@ -27,8 +38,15 @@ export SESSION_WRITE_ID=`/usr/bin/echo $SESSION_ID | /usr/bin/sha256sum | /usr/b
 export SESSION_WRITE_FS={{ ctfchroot_session_store_dir }}/$SESSION_WRITE_ID
 /usr/bin/mkdir -p $SESSION_WRITE_FS > /dev/null 2>&1 || exit 1
 
-# The forced command via sshd
-export SSH_CMD_FORCED_CTF="/usr/local/bin/newctfsession.sh"
+# Start session services
+SERVICE_FILE="{{ ctfchroot_datadir }}/services/$USER"
+if [[ -f "$SERVICE_FILE" ]]; then
+  # Don't wait, it slows the login process.
+  # For now we hope things run before the user
+  # manages to start whatever the user is gonna
+  # do for this level.
+  $SERVICE_FILE start > /dev/null 2>&1 &
+fi
 
 # Log session start
 $logger "session-start: $USER just logged in from $ip with session id $SESSION_ID and using $SESSION_FS#$SESSION_WRITE_FS" > /dev/null 2>&1
@@ -41,6 +59,15 @@ $logger "attempted command: ${SSH_CMD_ATTEMPT}" > /dev/null 2>&1
 $logger "forced command: ${SSH_CMD_FORCED_CTF}" > /dev/null 2>&1
 # Run the forced command (chroot session)
 $SSH_CMD_FORCED_CTF
+
+# Stop session services
+if [[ -f "$SERVICE_FILE" ]]; then
+  # Don't wait, it slows the login process.
+  # For now we hope things run before the user
+  # manages to start whatever the user is gonna
+  # do for this level.
+  $SERVICE_FILE stop > /dev/null 2>&1 &
+fi
 
 # Log session stop
 $logger "session-stop: $USER just logged out from $ip with session id $SESSION_ID and used $SESSION_FS#$SESSION_WRITE_FS" > /dev/null 2>&1
