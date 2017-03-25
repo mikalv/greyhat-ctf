@@ -14,6 +14,7 @@
     - ctf1
     - ctfserver
     - ctfsecurity
+    - ctfloginsecurity
 
 - name: Install /usr/bin/ctfmod-arch-chroot
   copy: src=ctfmod-arch-chroot.sh dest=/usr/bin/ctfmod-arch-chroot owner=root group=root mode=0755
@@ -21,6 +22,7 @@
     - ctf1
     - ctfserver
     - ctfsecurity
+    - ctfloginsecurity
 
 - name: Install newctfsession.sh
   template: src=newctfsession.sh.j2 dest=/usr/local/bin/newctfsession.sh owner=root group=root mode=0755
@@ -28,6 +30,7 @@
     - ctf1
     - ctfserver
     - ctfsecurity
+    - ctfloginsecurity
 
 - name: Install ctfssh-wrapper.sh
   template: src=ctfssh-wrapper.sh.j2 dest=/usr/local/bin/ctfssh-wrapper.sh owner=root group=root mode=0755
@@ -35,6 +38,7 @@
     - ctf1
     - ctfserver
     - ctfsecurity
+    - ctfloginsecurity
 
 - name: Copy the preconfigured sshd_config
   template:
@@ -49,4 +53,5 @@
     - ctf1
     - ctfserver
     - ctfsecurity
+    - ctfloginsecurity
 

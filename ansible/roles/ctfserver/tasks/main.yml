@@ -12,6 +12,7 @@
   tags:
     - ctf
     - ctfserver
+    - packages
     - archlinux
 
 - name: Basic setup for sysctl
@@ -19,6 +20,7 @@
   tags:
     - ctf
     - ctfserver
+    - sysctl
     - archlinux
 
 - name: Setup shell environments
@@ -63,6 +65,7 @@
     - ctfserver
     - ctfusers
     - archlinux
+    - ctflevels
 
 - name: Including chroot setups
   become: yes
