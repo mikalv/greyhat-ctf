@@ -17,7 +17,6 @@ the scripts in this project:
 
 
 
-
 Disclaimer
 ----------
 The challenges are based on the original online contest

@@ -15,6 +15,7 @@ Refactor / Extend features
 * Allow user to set user/pass after level login for highscore system
 * Only some services actually needs to be "session based" until we got levels changing to ranomize the CTF and make writeups harder. Delay this.
 * Focus on level00 service as PoC for a shared session service (It does not require any special arguments for the session).
+* Make a better tag system for ansible tasks, so we can update for example just all binaries for all levels, or all services, etc.
 
 System and security research
 -----------------------------
