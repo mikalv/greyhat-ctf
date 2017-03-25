@@ -1,0 +1,19 @@
+Hi there!
+
+For your convenience, we included some tools that you migth
+find helpful for all levels:
+
+* objdump   # display information from object files
+* gdb       # the GNU debugger
+* radare2   # awesome disassembler and debugger
+* nc        # the famous netcat utility for networking
+* curl      # transfer a URL (run http GET/POST requests, etc)
+* ruby      # interpreted object oriented scripting language
+* python    # interpreted object oriented scripting language
+* vim       # a programmer's text editor
+* nano      # text editor, an enhanced free Pico clone
+* man       # read the fucking manual
+
+Good luck, and have fun!
+
+
