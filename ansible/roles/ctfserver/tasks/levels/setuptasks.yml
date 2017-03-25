@@ -91,7 +91,7 @@
     - need_shell_setup|succeeded
     - item.service is true
 # TODO: Move this path to a variable
-  command: /usr/bin/bash {{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}/setup.sh
+  command: /usr/bin/bash {{ ctfchroot_datadir }}/libexec/levels/{{ item.user }}/setup.sh
   tags:
     - ctflevels
     - ctflevelservice
