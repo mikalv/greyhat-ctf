@@ -37,11 +37,17 @@ Please keep your own solutions private.
 
 Links
 -----
+* [Blog announcement of Capture The Flag, by Facebook](https://www.facebook.com/notes/facebook-ctf/facebook-ctf-is-now-open-source/525464774322241/)
 * [Blog announcement of Capture The Flag, by Stripe](https://stripe.com/blog/capture-the-flag)
 * [Blog announcement of Capture The Flag 2.0, by Stripe](https://stripe.com/blog/capture-the-flag-20)
+* [The CTF ASCII art generator](http://patorjk.com/software/taag/#p=testall&f=Graffiti&t=CTF)
 * http://io.smashthestack.org:84/
 * [Arch Linux](https://www.archlinux.org/)
-* [The CTF ASCII art generator](http://patorjk.com/software/taag/#p=testall&f=Graffiti&t=CTF)
+* [Ansible documentation](http://docs.ansible.com/)
+* [Awesome CTF list](https://github.com/apsdehal/awesome-ctf)
+* [Vulnhub - A place to get ideas](https://www.vulnhub.com/)
+* [Exploit Exercises - Another place to get ideas](https://exploit-exercises.com/)
+* [Github writeups repo - Yet another place to get ideas](https://github.com/smokeleeteveryday/CTF_WRITEUPS)
 
 
 Todo
