@@ -4,9 +4,8 @@
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ Admin - meeh                                                              │
 ├──────────────────────────────────────────────────────────────────────────┬┘
-│   IRC:     irc.echelon.i2p #ctfgreyhat  channel pw: HackTheWorld         │
 │   Twitter: @mikalv                                                       │
-│   Email:   meeh@greyhat.no                                               │
+│   Email:   mikalv@mikalv.net                                             │
 └──────────────────────────────────────────────────────────────────────────┘
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ Rules and System Info                                                     │
@@ -59,7 +58,7 @@
 │ nickname, messages and secrets to the "iwashere" file. You can only read │
 │ and append something to the file.                                        │
 │    + show the world that you found this game:                            │
-│      `echo "I made this. ~samuirai" >> ~/iwashere.txt`                   │
+│      `echo "I made this. ~myawesomenick" >> ~/iwashere.txt`              │
 │    + look at who was in level00 `less ~/iwashere.txt` or                 |
 |      `cat ~/iwashere.txt`                                                │
 │                                                                          │
