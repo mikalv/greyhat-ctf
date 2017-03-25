@@ -8,10 +8,19 @@
 #  - Better dirty and dead, or alive and hacked.
 #
 
+########################################################
+#
+#   This code executes BEFORE the user shell on exit.
+#
+########################################################
+
+
 
 # The forced command via sshd
 export SSH_CMD_FORCED_CTF="/usr/local/bin/newctfsession.sh"
 
+
+# TODO: Implement this "kind of" - see next TODO
 #function logger() {
 #  local uuid=`journalctl --new-id | awk 'FNR==2 { print $0 } '`
 #  echo -e "MESSAGE_ID=`journalctl --new-id | awk 'FNR==2 { print $0 } '`\n" | /usr/bin/logger -p auth.warning -t ctfssh-wrapper --journald <<end
@@ -59,6 +68,15 @@ $logger "attempted command: ${SSH_CMD_ATTEMPT}" > /dev/null 2>&1
 $logger "forced command: ${SSH_CMD_FORCED_CTF}" > /dev/null 2>&1
 # Run the forced command (chroot session)
 $SSH_CMD_FORCED_CTF
+
+########################################################
+#
+#   This code executes AFTER the user shell on exit.
+#
+########################################################
+
+
+
 
 # Stop session services
 if [[ -f "$SERVICE_FILE" ]]; then
