@@ -8,13 +8,16 @@
     dest: "/tmp/{{item.user}}.c"
     owner: root
     mode: 0644
+  when: item.binary == true
   register: need_compile
   tags:
     - ctflevels
     - ctflevelcompile
 
 - name: "Copy the level C code for {{ item.name }}"
-  when: need_compile|succeeded
+  when:
+    - need_compile|succeeded
+    - item.binary == true
   command: gcc -g -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
 # Might be useful to append to command at a later point
 #creates=/levels/{{item.user}}/{{item.user}}
@@ -23,14 +26,18 @@
     - ctflevelcompile
 
 - name: "Remove the level C code for {{ item.name }} from tmp"
-  when: need_compile|succeeded
+  when:
+    - need_compile|succeeded
+    - item.binary == true
   command: rm -f /tmp/{{item.user}}.c
   tags:
     - ctflevels
     - ctflevelcompile
 
 - name: "Ensures the compiled code for {{ item.name }} is in place with right access"
-  when: need_compile|succeeded
+  when:
+    - need_compile|succeeded
+    - item.binary == true
   file:
     path: "/levels/{{item.user}}/{{ item.user }}"
     mode: 4755
@@ -41,17 +48,17 @@
     - ctflevels
     - ctflevelcompile
 
-
 ### Services
-
 
 - name: "Copy service files for {{ item.name }}"
   when:
-    - item.service is true
+    - item.service == true
+  become: True
+  become_user: root
   copy:
     src: "levels/{{ item.user }}/service"
 # TODO: Move this path to a variable
-    dest: "{{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}"
+    dest: "{{ ctfchroot_datadir }}/libexec/levels/{{ item.user }}"
     owner: root
     mode: 0644
     directory_mode: yes
@@ -62,10 +69,12 @@
 
 - name: "Install the service setup.sh script for {{ item.name }}"
   when:
-    - item.service is true
+    - item.service == true
+  become: True
+  become_user: root
   template:
     src: "levels/{{ item.user }}/setup.sh.j2"
-    dest: "{{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}/setup.sh"
+    dest: "{{ ctfchroot_datadir }}/libexec/levels/{{ item.user }}/setup.sh"
     owner: root
     group: root
     mode: 0755
@@ -75,7 +84,9 @@
 
 - name: "Install the service init script for {{ item.name }}"
   when:
-    - item.service is true
+    - item.service == true
+  become: True
+  become_user: root
   template:
     src: "levels/{{ item.user }}/service.sh.j2"
     dest: "{{ ctfchroot_datadir }}/services/{{ item.user }}"
@@ -89,7 +100,9 @@
 - name: "Running setup script for {{ item.name }} (Service install)"
   when:
     - need_shell_setup|succeeded
-    - item.service is true
+    - item.service == true
+  become: True
+  become_user: root
 # TODO: Move this path to a variable
   command: /usr/bin/bash {{ ctfchroot_datadir }}/libexec/levels/{{ item.user }}/setup.sh
   tags:
