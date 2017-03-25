@@ -13,6 +13,15 @@ Refactor / Extend features
 * Create a generic service API for general tasks (non disassembly tasks like XSS)
 * Highscore system
 * Allow user to set user/pass after level login for highscore system
+* Only some services actually needs to be "session based" until we got levels changing to ranomize the CTF and make writeups harder. Delay this.
+* Focus on level00 service as PoC for a shared session service (It does not require any special arguments for the session).
+
+System and security research
+-----------------------------
+
+* Find out how much open files a "session-fs" based session is creating
+* Find about security issues that x86_64 introduces
+* Find out what if someone executes x86_64, does it higher chance of root access?
 
 
 Security & audit

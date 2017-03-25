@@ -1,3 +1,8 @@
+# CTF Build system stuff
+_venv
+environment.source
+
+# Old stuff but might be handy
 work
 tmp
 
