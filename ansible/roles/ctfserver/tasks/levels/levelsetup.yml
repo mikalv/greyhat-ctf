@@ -66,7 +66,7 @@
     owner: root
     group: "{{item.user}}"
     mode: 0660
-    attributes: '+a'
+    attributes: 'a'
   tags:
     - ctf1
     - ctfserver
