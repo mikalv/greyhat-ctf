@@ -1,0 +1,8 @@
+You might learn something from manuals that might help you.
+
+Have you ever checked netcat's manual?
+
+Refreshing memory about web security might be helpful as well :)
+
+http://guides.rubyonrails.org/security.html
+
