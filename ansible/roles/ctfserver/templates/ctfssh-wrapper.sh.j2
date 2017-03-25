@@ -37,13 +37,28 @@ logger="/usr/bin/logger -p auth.warning -t ctfssh-wrapper" > /dev/null 2>&1
 # Find IP address
 ip=`/usr/bin/echo $SSH_CONNECTION | /usr/bin/cut -d " " -f 1`
 
+# TODO: NOTE: The logic for creating $SESSION_WRITE_ID is critical that it's in sync with bigbrother scripts
+# NOTE: The reason for this is that we hash IP:DEST_PORT in a sha256 hash and cut it to 7 chars.
+# NOTE: This is used to identify active sessions with netstat.
+# The other code of this is currently under files/bigbrother
+function getSessionHash() {
+  ipanddestport=`/usr/bin/echo $SSH_CLIENT | /usr/bin/awk '{ printf "%s:%d", $1, $2 }'`
+  sha256hash=`/usr/bin/echo $ipanddestport | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }'`
+  sessionhash=`/usr/bin/echo $sha256hash | /usr/bin/head -c 7`
+  export SESSION_HASH_ID=$sessionhash
+}
+
+getSessionHash
+
 # Make unique hash for current session
 export SESSION_ID=`/usr/bin/echo "$SSH_CONNECTION" | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
 export SESSION_FS={{ ctfchroot_session_store_dir }}/$SESSION_ID-`/usr/bin/date +%s`
 /usr/bin/mkdir -p $SESSION_FS > /dev/null 2>&1 || exit 1
 
-# Writable temporary directory
-export SESSION_WRITE_ID=`/usr/bin/echo $SESSION_ID | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }' | /usr/bin/head -c 7`
+
+# Writable temporary directory that will mount with aufs
+# and become a per session only chroot ready filesystem.
+export SESSION_WRITE_ID="${SESSION_HASH_ID}_tmpwritedir"
 export SESSION_WRITE_FS={{ ctfchroot_session_store_dir }}/$SESSION_WRITE_ID
 /usr/bin/mkdir -p $SESSION_WRITE_FS > /dev/null 2>&1 || exit 1
 
