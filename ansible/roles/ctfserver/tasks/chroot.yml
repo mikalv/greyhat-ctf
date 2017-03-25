@@ -1,16 +1,5 @@
 ---
 
-- name: "Ensure the {{ item }} directory exists"
-  file:
-    path: "{{ item }}"
-    state: directory
-    recurse: yes
-    mode: 0777
-  with_items: "{{ ctfchroot_control_items }}"
-  tags:
-    - ctfchroot
-    - ctfserver
-
 # This is needed to have a mountpoint for the levels to mount from host in newctfsession.sh
 - name: "Ensuring directory for {{ ctfchroot }} levels exists"
   file:
@@ -25,6 +14,7 @@
     - ctfchroot
     - ctfserver
 
+# Setup the ctfchroot directory
 - name: "Check if chroot for {{ ctfchroot }} is already bootstrapped."
   ignore_errors: True
   stat:
@@ -43,7 +33,6 @@
   tags:
     - ctfchroot
     - ctfserver
-
 
 - name: "Copy {{ item }} from server to {{ ctfchroot }} arch {{ ctfchroot_arch }}"
   command: "/usr/bin/cp -rv {{ item }} /{{ ctfchroot }}/{{ item }}"

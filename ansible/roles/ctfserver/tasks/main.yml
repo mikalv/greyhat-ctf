@@ -28,6 +28,13 @@
     - ctfserver
     - archlinux
 
+- name: "Setup CTF directory structure"
+  include: 'ctfsetup.yml'
+  tags:
+    - ctf
+    - ctfsetup
+    - ctfserver
+
 - name: "Setup CTF Big Brother system"
   include: 'bigbrother.yml'
   tags:

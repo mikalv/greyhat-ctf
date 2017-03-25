@@ -1,0 +1,13 @@
+---
+
+- name: "Ensure the {{ item }} directory exists"
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    mode: 0777
+  with_items: "{{ ctfchroot_control_items }}"
+  tags:
+    - ctfserver
+    - ctfsetup
+
