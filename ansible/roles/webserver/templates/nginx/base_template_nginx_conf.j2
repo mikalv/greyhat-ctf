@@ -1,0 +1,47 @@
+server {
+    listen {{ nginx_listen_host }}:{{ nginx_listen_port }};
+    server_name {{ nginx_server_name }};
+
+    # Discourage deep links by using a permanent redirect to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen {{ nginx_ssl_listen_host }}:{{ nginx_ssl_listen_port }} ssl;
+    server_name {{ nginx_server_name }};
+
+    access_log /data/logs/nginx/{{ nginx_main_domain }}.access.log;
+    error_log /data/logs/nginx/{{ nginx_main_domain }}.error.log;
+
+
+{% if nginx_allow_full_http is False %}
+    ## Only allow these request methods ##
+    ## Do not accept DELETE, SEARCH etc ##
+    if ($request_method !~ ^(GET|HEAD|POST|PUT)$ ) {
+        return 444;
+    }
+{% endif %}
+
+# NOTE: Content-Security-Policy must be set before ssl_params for not breaking a lot of shit.
+
+#  add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://greyhat.no; img-src 'self' https://greyhat.no;frame-ancestors 'self'; frame-src 'self';";
+#  add_header Content-Security-Policy "default-src 'self' 'unsafe-eval' 'unsafe-inline'; script-src 'unsafe-eval' 'unsafe-inline' 'self' https://greyhat.no; img-src 'self' https://greyhat.no;frame-ancestors 'self'; frame-src 'self';";
+
+
+{% if nginx_enable_ssl is True %}
+    ## SSL config
+    include /etc/nginx/ssl_params;
+{% endif %}
+
+    ## Locations
+
+#    location /blog/ {
+#        proxy_pass http://127.0.0.1:2368;
+#        include /etc/nginx/proxy_params;
+#    }
+
+#    location / {
+#        proxy_pass http://localhost:8770;
+#        include /etc/nginx/proxy_params;
+#    }
+}

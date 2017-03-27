@@ -1,0 +1,19 @@
+---
+
+public_vhosts:
+  - name: ctf1
+    config:
+      nginx_main_domain: 'ctf1.greyhat.no'
+      nginx_server_name: 'ctf1.greyhat.no www.ctf1.greyhat.no'
+      nginx_ssl_listen_host: '0.0.0.0'
+      nginx_ssl_listen_port: 443
+      nginx_listen_host: '0.0.0.0'
+      nginx_listen_port: 80
+      nginx_allow_full_http: False
+      nginx_enable_ssl: False
+      nginx_ssl_certificate: ''
+      nginx_ssl_certificate_key: ''
+      nginx_enable_ssl_dhparam: False
+      nginx_enable_ssl_dhparam_file: '/etc/nginx/ssl/dhparam.pem'
+
+
