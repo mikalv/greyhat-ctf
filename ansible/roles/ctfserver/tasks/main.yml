@@ -15,6 +15,14 @@
     - packages
     - archlinux
 
+- name: "Setup CTF Big Brother system"
+  include: 'bigbrother.yml'
+  tags:
+    - ctf
+    - ctfserver
+    - ctfbigbrother
+    - ctfsystem
+
 - name: Basic setup for sysctl
   include: 'sysctl.yml'
   tags:
@@ -36,14 +44,6 @@
     - ctf
     - ctfsetup
     - ctfserver
-
-- name: "Setup CTF Big Brother system"
-  include: 'bigbrother.yml'
-  tags:
-    - ctf
-    - ctfserver
-    - ctfbigbrother
-    - ctfsystem
 
 - name: "Ensuring {{ default_ctfuser_group }} group is available"
   become: yes

@@ -8,7 +8,6 @@
     name: "{{ item.user }}"
     state: present
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -26,7 +25,6 @@
     groups: "{{ item.groups }},{{ default_ctfuser_group }}"
     append: yes
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -37,7 +35,6 @@
     limit_item: nofile
     value: "{{ ctfuser_max_open_files_soft }}"
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -48,14 +45,12 @@
     limit_item: nofile
     value: "{{ ctfuser_max_open_files_hard }}"
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
 - name: "Copy the motd.txt for {{ item.name }}"
   template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner={{item.user}} group={{item.user}} mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -68,21 +63,18 @@
     mode: 0660
     attributes: 'a'
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
 - name: "Setup the .passwd file for {{ item.name }}"
   copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
 - name: "Copy the .profile for {{ item.name }}"
   template: src=dotprofile.j2 dest=/home/{{item.user}}/.profile owner={{item.user}} group={{item.user}} mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -94,7 +86,6 @@
     group: "{{ item.user }}"
     mode: 0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -106,7 +97,6 @@
     group: "{{ item.user }}"
     mode: 0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -114,7 +104,6 @@
 - name: "Copy the .zshrc for {{ item.name }}"
   template: src=dotzshrc.j2 dest=/home/{{item.user}}/.zshrc owner={{item.user}} group={{item.user}} mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
@@ -122,21 +111,30 @@
 - name: "Copy the .bashrc for {{ item.name }}"
   template: src=dotbashrc.j2 dest=/home/{{item.user}}/.bashrc owner={{item.user}} group={{item.user}} mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
 - name: "Create task directory for {{ item.name }}"
   file: path=/levels/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0550
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
+- name: "Create ttyrec directory for {{ item.name }}"
+  file:
+    path: "{{ ctfchroot_session_store_dir }}/levels/{{item.user}}"
+    state: directory
+    recurse: yes
+    owner: "{{item.user}}"
+    group: "{{item.user}}"
+    mode: 0640
+  tags:
+    - ctfbigbrother
+    - ctfserver
+    - ctflevels
 
 - name: "Lock down the home directory for {{ item.name }}"
   file: path=/home/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0550
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
