@@ -5,15 +5,21 @@ default_ctfuser_group: ctfusers
 common_locale: 'en_US.UTF-8'
 common_lang: 'en'
 
-## Bellow is config
+host_pinned_packages: 'linux linux-docs linux-headers'
+
+## Bellow is CTF config
+
 ctf_datadir_directories_itemsw:
   - "/var/ctfgame1/tmp/sessions"
   - "/var/ctfgame1/sessions"
   - "/var/ctfgame1/services"
   - "/var/ctfgame1/libexec/shared"
-  - "/var/ctfgame1/libexec/levelspesific"
+  - "/var/ctfgame1/libexec/levels"
+  - "/var/ctfgame1/bin"
 
 ctf_tmp_datadir: '/var/ctfgame1/tmp'
+ctf_libexec_dir: '/var/ctfgame1/libexec'
+ctf_binary_dir:  '/var/ctfgame1/bin'
 ctfbigbrother_log_dir: '/var/ctfgame1/bigbrother/termlog'
 
 

@@ -43,7 +43,7 @@
     - ctf
     - ctfserver
     - ctfbigbrother
-    - archlinux
+    - ctfsystem
 
 - name: "Ensuring {{ default_ctfuser_group }} group is available"
   become: yes

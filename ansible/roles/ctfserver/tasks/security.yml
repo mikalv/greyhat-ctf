@@ -3,7 +3,6 @@
 - name: Create CTF temporary directory
   file: path=/tmp/ctftmp state=directory mode=0777
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
     - ctfsecurity
@@ -11,7 +10,6 @@
 - name: Adding configuration to /etc/sudoers.d/ctfusers
   template: src=sudo-ctfusers.j2 dest=/etc/sudoers.d/ctfusers owner=root group=root mode=0644
   tags:
-    - ctf1
     - ctfserver
     - ctfsecurity
     - ctfloginsecurity
@@ -19,7 +17,6 @@
 - name: Install /usr/bin/ctfmod-arch-chroot
   copy: src=ctfmod-arch-chroot.sh dest=/usr/bin/ctfmod-arch-chroot owner=root group=root mode=0755
   tags:
-    - ctf1
     - ctfserver
     - ctfsecurity
     - ctfloginsecurity
@@ -27,7 +24,6 @@
 - name: Install newctfsession.sh
   template: src=newctfsession.sh.j2 dest=/usr/local/bin/newctfsession.sh owner=root group=root mode=0755
   tags:
-    - ctf1
     - ctfserver
     - ctfsecurity
     - ctfloginsecurity
@@ -35,7 +31,6 @@
 - name: Install ctfssh-wrapper.sh
   template: src=ctfssh-wrapper.sh.j2 dest=/usr/local/bin/ctfssh-wrapper.sh owner=root group=root mode=0755
   tags:
-    - ctf1
     - ctfserver
     - ctfsecurity
     - ctfloginsecurity
@@ -50,8 +45,28 @@
     validate: '/usr/sbin/sshd -t -f %s'
   notify: restart_sshd
   tags:
-    - ctf1
     - ctfserver
     - ctfsecurity
     - ctfloginsecurity
 
+- name: "Set the correct mirrorlist file for pacman at root host system"
+  template:
+    src: chroot/mirrorlist.j2
+    dest: /etc/pacman.d/mirrorlist
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - ctfserver
+    - archlinux
+
+- name: "Set the correct pacman.conf file at root host system"
+  template:
+    src: host_pacman.conf.j2
+    dest: /etc/pacman.conf
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - ctfserver
+    - archlinux

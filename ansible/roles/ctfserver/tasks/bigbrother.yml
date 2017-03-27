@@ -2,7 +2,7 @@
 
 - name: "Ensure the termrec(tty) logging directory for {{ ctfchroot }} exists"
   file:
-    path: "{{ ctfchroot_bigbrother_log_dir }}"
+    path: "{{ ctfbigbrother_log_dir }}"
     state: directory
     recurse: yes
     mode: 0777
@@ -10,3 +10,16 @@
     - ctfserver
     - ctfbigbrother
 
+- name: "Copy over session-fs monitoring tools"
+  copy:
+    src: "bigbrother/{{ item }}"
+    dest: "{{ ctf_libexec_dir }}/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  with_items:
+    - "list-active-session-fs.sh"
+    - "list-active-ssh-connections.sh"
+  tags:
+    - ctfsystem
+    - ctfbigbrother
