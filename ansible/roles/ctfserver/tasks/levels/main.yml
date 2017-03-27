@@ -19,7 +19,7 @@
 - name: "Setting up CTF Level tasks"
   include: 'setuptasks.yml'
   with_items:
-    - "{{ ctfgame_userlevels_extra }}"
+    - "{{ ctfgame_userlevels_enabled }}"
   tags:
     - ctf1
     - ctfserver
