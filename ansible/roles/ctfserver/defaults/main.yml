@@ -9,6 +9,21 @@ host_pinned_packages: 'linux linux-docs linux-headers'
 
 ## Bellow is CTF config
 
+# Levels config
+
+ctfgame_userlevels_enabled:
+  - name: "Level 00"
+    user: "level00"
+    pwclean: "89lka3ur9sd2"
+    groups: "level00,{{default_ctfuser_group}}"
+    password: "$6$RWc.Gc5LvtTTZ9vw$fQ2xxIaOUtuP6WkZd.CRfyRKeCALyBBYskIZR/eHjUdjnJvdhz.aONcYQdanfVJqBXX4wYE5huUm1M.wgUURg/"
+    suidowner: "level01"
+    service: true
+    binary: false
+
+
+# Base directory config
+
 ctf_datadir_directories_itemsw:
   - "/var/ctfgame1/tmp/sessions"
   - "/var/ctfgame1/sessions"
