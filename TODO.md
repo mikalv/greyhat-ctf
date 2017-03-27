@@ -5,17 +5,26 @@ It's a lot.
 
 * Update README.md
 * Check http://docs.ansible.com/ansible/list_of_all_modules.html so u don't repeat.
+* https://github.com/facebook/fbctf/wiki/Challenge-Overview - Try make a system like this?
 
-Refactor / Extend features
----------------------------
+Extend features todo
+---------------------
 
-* Place publicweb and related into own webserver role?
 * Create a generic service API for general tasks (non disassembly tasks like XSS)
 * Highscore system
 * Allow user to set user/pass after level login for highscore system
 * Only some services actually needs to be "session based" until we got levels changing to ranomize the CTF and make writeups harder. Delay this.
 * Focus on level00 service as PoC for a shared session service (It does not require any special arguments for the session).
+* Rewrite all pacman tasks to "package", and rather select package list based on OS. Then we can test this out on Debian, Gentoo and other distros as well. It unlocks us from ArchLinux, even it's nice.
+
+Refactor todos
+---------------
+
 * Make a better tag system for ansible tasks, so we can update for example just all binaries for all levels, or all services, etc.
+* Place publicweb and related into own webserver role?
+* Read levels from another directory other than git. (Got scripts to remove all levels from history)
+  * Check here how to find ENV on localhost: http://stackoverflow.com/a/24124973/759341
+  * Fetch levels from outside of ansible, but add it as a part of it in runtime or something.
 
 System and security research
 -----------------------------
