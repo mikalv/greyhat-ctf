@@ -7,7 +7,7 @@
     owner: root
     group: root
     recurse: yes
-    path: "/{{ ctfchroot }}/levels"
+    path: "{{ ctfchroot_playdir }}/levels"
     mode: 0755
   register: ctfchroot_dir_create
   tags:
@@ -18,14 +18,14 @@
 - name: "Check if chroot for {{ ctfchroot }} is already bootstrapped."
   ignore_errors: True
   stat:
-    path: "/{{ ctfchroot }}/bin"
+    path: "{{ ctfchroot_playdir }}/bin"
   register: ctfchroot_dir_already_bootstrapped
   tags:
     - ctfchroot
     - ctfserver
 
 - name: "Bootstrap chroot for {{ ctfchroot }} arch {{ ctfchroot_arch }}"
-  command: "/usr/local/bin/arch-bootstrap.sh -r {{ ctfchroot_repo_url }} -a {{ ctfchroot_arch }} /{{ ctfchroot }}"
+  command: "/usr/local/bin/arch-bootstrap.sh -r {{ ctfchroot_repo_url }} -a {{ ctfchroot_arch }} {{ ctfchroot_playdir }}"
   when:
     - ctfchroot_dir_already_bootstrapped.stat.exists is defined
     - ctfchroot_dir_already_bootstrapped.stat.exists == false
@@ -34,8 +34,8 @@
     - ctfchroot
     - ctfserver
 
-- name: "Copy {{ item }} from server to {{ ctfchroot }} arch {{ ctfchroot_arch }}"
-  command: "/usr/bin/cp -rv {{ item }} /{{ ctfchroot }}/{{ item }}"
+- name: "Copy {{ item }} from server to {{ ctfchroot_playdir }} arch {{ ctfchroot_arch }}"
+  command: "/usr/bin/cp -rv {{ item }} {{ ctfchroot_playdir }}/{{ item }}"
   with_items:
     - "/etc/passwd"
     - "/etc/group"
