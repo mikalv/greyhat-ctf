@@ -1,6 +1,6 @@
 ---
 
-- hosts: ctfservers
+- hosts: test_ctfservers
 #- hosts: remotectftest
   gather_facts: true
   vars_files:
@@ -25,3 +25,4 @@
 # Using own custom kernel at the moment
 #    - { role: aur, aur_package_name: linux-aufs_friendly, tags: ['aur'] }
     - { role: ctfserver, tags: ['ctfserver'] }
+

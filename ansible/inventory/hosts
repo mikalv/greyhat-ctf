@@ -3,12 +3,15 @@ localhost
 
 [all:vars]
 
-[ctfservers]
+[test_ctfservers]
 192.168.88.67 common_hostname=ctf01
 
+[test_ctfservers:vars]
 
-[ctfservers:vars]
+[prod_ctfservers]
+193.150.121.85 common_hostname=ctf1.greyhat.no
 
+[prod_ctfservers:vars]
 
 
 [remotectftest]
