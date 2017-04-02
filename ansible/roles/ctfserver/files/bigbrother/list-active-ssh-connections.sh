@@ -12,13 +12,13 @@ function getSessionHashFromNetstat() {
   sha256hash=`/usr/bin/echo $ipanddestport | /usr/bin/sha256sum | /usr/bin/awk '{ print $1 }'`
   sessionhash=`/usr/bin/echo $sha256hash | /usr/bin/head -c 7`
   export SESSION_HASH_ID=$sessionhash
-  echo $sessionhash
+  /usr/bin/echo $sessionhash
 }
 
-export CURRENT_CONNECTIONS=`netstat -tnpa | grep 'ESTABLISHED.*sshd' | awk '{ print $5 }'`
+export CURRENT_CONNECTIONS=`/usr/bin/netstat -tnpa | /usr/bin/grep 'ESTABLISHED.*sshd' | /usr/bin/awk '{ print $5 }'`
 export CURRENT_SSH_CONN_HASHES=""
 
 
 for connection in $CURRENT_CONNECTIONS; do
-  echo "$connection $(getSessionHashFromNetstat $connection)";
+  /usr/bin/echo "$connection $(getSessionHashFromNetstat $connection)";
 done
