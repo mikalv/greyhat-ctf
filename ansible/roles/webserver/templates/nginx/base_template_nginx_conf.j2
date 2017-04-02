@@ -33,9 +33,35 @@ server {
     include /etc/nginx/ssl_params;
 {% endif %}
 
+    error_page 404 /custom_404.html;
+    location = /custom_404.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+
+    error_page 500 502 503 504 /custom_50x.html;
+    location = /custom_50x.html {
+        root /usr/share/nginx/html;
+        internal;
+    }
+
     ## Locations
 
-#    location /blog/ {
+{% for item in nginx_locations %}
+    # {{ item.name }}
+    location {{ item.location }} {
+        {% if item.type == 'directory' %}
+        root {{ item.backend }};
+        {% else %}
+        proxy_pass {{ item.backend }};
+        include /etc/nginx/proxy_params;
+        {% endif %}
+    }
+
+{% endfor %}
+
+
+#    location /test/ {
 #        proxy_pass http://127.0.0.1:2368;
 #        include /etc/nginx/proxy_params;
 #    }

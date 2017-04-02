@@ -15,5 +15,10 @@ public_vhosts:
       nginx_ssl_certificate_key: ''
       nginx_enable_ssl_dhparam: False
       nginx_enable_ssl_dhparam_file: '/etc/nginx/ssl/dhparam.pem'
+      nginx_locations:
+        - name: 'main'
+          location: '/'
+          type: 'directory'
+          backend: '/var/www/vhost'
 
 
