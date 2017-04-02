@@ -43,6 +43,8 @@
     - gzip
     - tar
     - p7zip
+# Service management
+    - supervisor
 # Python2 packages
     - python2
     - ipython2
