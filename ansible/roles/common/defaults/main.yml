@@ -23,7 +23,7 @@ aur_packages:
   - "ipbt"
   - "termrec"
   - "ttyrec"
-  - "aufs"
+#  - "aufs"
 # Misc
   - "vim-colorschemes"
   - "vim-colorsupport"
