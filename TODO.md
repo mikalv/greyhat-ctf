@@ -21,6 +21,7 @@ Refactor todos
 ---------------
 
 * Make a better tag system for ansible tasks, so we can update for example just all binaries for all levels, or all services, etc.
+* Remove all tags labeled archlinux if it would work on multiple distros
 * Place publicweb and related into own webserver role?
 * Read levels from another directory other than git. (Got scripts to remove all levels from history)
   * Check here how to find ENV on localhost: http://stackoverflow.com/a/24124973/759341
