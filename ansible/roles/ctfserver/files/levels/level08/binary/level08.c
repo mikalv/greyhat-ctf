@@ -3,7 +3,7 @@
 #include <fcntl.h>
 #include <string.h>
 
-// gcc level7.c -fno-stack-protector -z execstack -m32 -o level7
+// gcc level8.c -fno-stack-protector -z execstack -m32 -o level8
 
 char shellcode[128];
 
