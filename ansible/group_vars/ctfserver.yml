@@ -35,37 +35,84 @@ ctfgame_userlevels_enabled:
     groups: "level00,{{default_ctfuser_group}}"
     password: "$6$RWc.Gc5LvtTTZ9vw$fQ2xxIaOUtuP6WkZd.CRfyRKeCALyBBYskIZR/eHjUdjnJvdhz.aONcYQdanfVJqBXX4wYE5huUm1M.wgUURg/"
     suidowner: "level01"
-    service: true
-    binary: false
+    suidenabled: True
+    service: True
+    binary: False
+    extra_help: True
+    services:
+      - "browser"
+      - "webserver"
   - name: "Level 01"
     user: "level01"
     pwclean: "fYIAv1NfRvEwJMcVPyJX"
     groups: "level00,level01,{{default_ctfuser_group}}"
     password: "$6$IIs.nwMlPioB38ge$V.L8M0hKSWu0a7FWpk3hUP7g0uN.gUYha8z2NyW3x.NKy4kIKNOo8VMN.dKo86au0xtruBJ6N.oCeYeuJTnpQ0"
     suidowner: "level02"
-    service: false
-    binary: true
+    suidenabled: True
+    service: False
+    binary: True
+    extra_help: False
   - name: "Level 02"
     user: "level02"
     pwclean: "8Ja2HNPzRNbsJcUuc6uV"
     groups: "level00,level01,level02,{{default_ctfuser_group}}"
     password: "$6$gnVQD5jXEvssG2IS$cocg/23RnDhgGpKMLODS.0LpqnSlPFFqFxBnCXasVU0uJZKywst5Dh5J13mK7/WDvLohZx7praHcda.ool0Fp/"
     suidowner: "level03"
-    service: false
-    binary: true
+    suidenabled: True
+    service: False
+    binary: True
+    extra_help: False
   - name: "Level 03"
     user: "level03"
     pwclean: "64nBQaf0lAwthCXgHVci"
     groups: "level00,level01,level02,level03,{{default_ctfuser_group}}"
     password: "$6$li5iFTDKRH1YEh6G$kBFtlEFHLQ2uSHapqhXAtzyWd.WgysogdwNJtATjp/K9Ld6.Qz4CmV6bEH.GhteZLU8vy1P5d10UPFk4zohFm0"
     suidowner: "level04"
-    service: false
-    binary: true
+    suidenabled: True
+    service: False
+    binary: True
+    extra_help: False
   - name: "Level 04"
     user: "level04"
     pwclean: "lbJa9HZFkPyO7pNJGDNJ"
     groups: "level00,level01,level02,level03,level04,{{default_ctfuser_group}}"
     password: "$6$PQrSxJGRpVLEvp59$9LWLgpsh4FffiT3XFLct.Zw2hp3SZsZAi8DbucQQbYKQWqlDVF1nPn5ptiL0fOA2f/HXueDewo2Jzud11GDyi0"
     suidowner: "level04"
-    service: false
-    binary: true
+    suidenabled: False
+    service: False
+    binary: True
+    extra_help: False
+
+
+public_vhosts:
+  - name: knowitctf
+    config:
+      nginx_main_domain: 'hackme.knowit.no'
+      nginx_server_name: 'hackme.knowit.no www.hackme.knowit.no'
+      nginx_ssl_listen_host: '0.0.0.0'
+      nginx_ssl_listen_port: 443
+      nginx_listen_host: '0.0.0.0'
+      nginx_listen_port: 80
+      nginx_allow_full_http: False
+      nginx_enable_ssl: False
+      nginx_ssl_certificate: ''
+      nginx_ssl_certificate_key: ''
+      nginx_enable_ssl_dhparam: False
+      nginx_enable_ssl_dhparam_file: '/etc/nginx/ssl/dhparam.pem'
+  - name: ctf1
+    config:
+      nginx_main_domain: 'ctf1.greyhat.no'
+      nginx_server_name: 'ctf1.greyhat.no www.ctf1.greyhat.no'
+      nginx_ssl_listen_host: '0.0.0.0'
+      nginx_ssl_listen_port: 443
+      nginx_listen_host: '0.0.0.0'
+      nginx_listen_port: 80
+      nginx_allow_full_http: False
+      nginx_enable_ssl: False
+      nginx_ssl_certificate: ''
+      nginx_ssl_certificate_key: ''
+      nginx_enable_ssl_dhparam: False
+      nginx_enable_ssl_dhparam_file: '/etc/nginx/ssl/dhparam.pem'
+
+
+
