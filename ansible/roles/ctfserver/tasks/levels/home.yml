@@ -1,0 +1,85 @@
+---
+
+- name: "Copy the motd.txt for {{ item.name }}"
+  template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner={{item.user}} group={{item.user}} mode=0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Copy the iwashere.txt file for {{ item.name }} and set chattr +a to it"
+  copy:
+    src: iwashere.txt
+    dest: "/home/{{item.user}}/iwashere.txt"
+    owner: root
+    group: "{{item.user}}"
+    mode: 0660
+    attributes: 'a'
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Setup the .passwd file for {{ item.name }}"
+  copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Install help_its_hard.txt file for {{ item.name }}"
+  ignore_errors: True
+  when:
+    - item.extra_help == True
+  copy:
+    src: "levels/{{item.user}}/help_its_hard.txt"
+    dest: "/home/{{item.user}}/help_its_hard.txt"
+    owner: root
+    group: "{{item.user}}"
+    mode: 0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Copy the .profile for {{ item.name }}"
+  template: src=dotprofile.j2 dest=/home/{{item.user}}/.profile owner={{item.user}} group={{item.user}} mode=0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Copy the template for story.txt for {{ item.name }}"
+  template:
+    src: "levels/{{ item.user }}/story.txt.j2"
+    dest: "/home/{{ item.user }}/story.txt"
+    owner: root
+    group: "{{ item.user }}"
+    mode: 0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Copy the recap.txt for {{ item.name }}"
+  copy:
+    src: "levels/{{ item.user }}/recap.txt"
+    dest: "/home/{{ item.user }}/recap.txt"
+    owner: root
+    group: "{{ item.user }}"
+    mode: 0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Copy the .zshrc for {{ item.name }}"
+  template: src=dotzshrc.j2 dest=/home/{{item.user}}/.zshrc owner=root group={{item.user}} mode=0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Copy the .bashrc for {{ item.name }}"
+  template: src=dotbashrc.j2 dest=/home/{{item.user}}/.bashrc owner=root group={{item.user}} mode=0440
+  tags:
+    - ctflevels
+    - ctfhomes
+
+- name: "Lock down the home directory for {{ item.name }}"
+  file: path=/home/{{item.user}} state=directory owner=root group={{item.user}} mode=0750
+  tags:
+    - ctflevels
+    - ctfhomes

@@ -9,7 +9,7 @@
     dest: "/tmp/{{item.user}}.c"
     owner: root
     mode: 0644
-  when: item.binary == true
+  when: item.binary == True
   register: need_compile
   tags:
     - ctflevels
@@ -29,8 +29,8 @@
 - name: "Remove the level C code for {{ item.name }} from tmp"
   when:
     - need_compile|succeeded
-    - item.binary == true
-  command: rm -f /tmp/{{item.user}}.c
+    - item.binary == True
+  command: rm -f /tmp/{{ item.user }}.c
   tags:
     - ctflevels
     - ctflevelcompile
@@ -38,9 +38,9 @@
 - name: "Ensures the compiled code for {{ item.name }} is in place with right access"
   when:
     - need_compile|succeeded
-    - item.binary == true
+    - item.binary == True
   file:
-    path: "/levels/{{item.user}}/{{ item.user }}"
+    path: "/levels/{{ item.user }}/{{ item.user }}"
     mode: 4755
     owner: "{{item.suidowner}}"
     group: "{{item.user}}"
@@ -53,7 +53,7 @@
 
 - name: "Copy service files for {{ item.name }}"
   when:
-    - item.service == true
+    - item.service == True
   become: True
   become_user: root
   copy:
@@ -61,6 +61,7 @@
 # TODO: Move this path to a variable
     dest: "{{ ctfchroot_datadir }}/libexec/levels/{{ item.user }}"
     owner: root
+    group: "{{ item.user }}"
     mode: 0644
     directory_mode: yes
   register: need_shell_setup
@@ -70,7 +71,7 @@
 
 - name: "Install the service setup.sh script for {{ item.name }}"
   when:
-    - item.service == true
+    - item.service == True
   become: True
   become_user: root
   template:
@@ -85,7 +86,7 @@
 
 - name: "Install the service init script for {{ item.name }}"
   when:
-    - item.service == true
+    - item.service == True
   become: True
   become_user: root
   template:
@@ -101,7 +102,7 @@
 - name: "Running setup script for {{ item.name }} (Service install)"
   when:
     - need_shell_setup|succeeded
-    - item.service == true
+    - item.service == True
   become: True
   become_user: root
 # TODO: Move this path to a variable

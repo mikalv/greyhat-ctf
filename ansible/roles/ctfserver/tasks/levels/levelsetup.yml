@@ -1,6 +1,5 @@
 ---
 
-
 - name: "Adding group for {{ item.name }}"
   become: yes
   become_user: root
@@ -48,93 +47,40 @@
     - ctfserver
     - ctflevels
 
-- name: "Copy the motd.txt for {{ item.name }}"
-  template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner={{item.user}} group={{item.user}} mode=0440
-  tags:
-    - ctfserver
-    - ctflevels
-
-- name: "Copy the iwashere.txt file for {{ item.name }} and set chattr +a to it"
-  copy:
-    src: iwashere.txt
-    dest: "/home/{{item.user}}/iwashere.txt"
-    owner: root
-    group: "{{item.user}}"
-    mode: 0660
-    attributes: 'a'
-  tags:
-    - ctfserver
-    - ctflevels
-
-- name: "Setup the .passwd file for {{ item.name }}"
-  copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440
-  tags:
-    - ctfserver
-    - ctflevels
-
-- name: "Copy the .profile for {{ item.name }}"
-  template: src=dotprofile.j2 dest=/home/{{item.user}}/.profile owner={{item.user}} group={{item.user}} mode=0440
-  tags:
-    - ctfserver
-    - ctflevels
-
-- name: "Copy the template for story.txt for {{ item.name }}"
-  template:
-    src: "levels/{{ item.user }}/story.txt.j2"
-    dest: "/home/{{ item.user }}/story.txt"
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
-    mode: 0440
-  tags:
-    - ctfserver
-    - ctflevels
-
-- name: "Copy the recap.txt for {{ item.name }}"
-  copy:
-    src: "levels/{{ item.user }}/recap.txt"
-    dest: "/home/{{ item.user }}/recap.txt"
-    owner: "{{ item.user }}"
-    group: "{{ item.user }}"
-    mode: 0440
-  tags:
-    - ctfserver
-    - ctflevels
-
-
-- name: "Copy the .zshrc for {{ item.name }}"
-  template: src=dotzshrc.j2 dest=/home/{{item.user}}/.zshrc owner={{item.user}} group={{item.user}} mode=0440
-  tags:
-    - ctfserver
-    - ctflevels
-
-
-- name: "Copy the .bashrc for {{ item.name }}"
-  template: src=dotbashrc.j2 dest=/home/{{item.user}}/.bashrc owner={{item.user}} group={{item.user}} mode=0440
-  tags:
-    - ctfserver
-    - ctflevels
-
 - name: "Create task directory for {{ item.name }}"
-  file: path=/levels/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0550
+  file: path=/levels/{{item.user}} state=directory owner=root group={{item.user}} mode=0550
+  tags:
+    - ctfserver
+    - ctflevels
+
+- name: "Setup service for {{ item.name }}"
+  file:
+    path: "{{ ctf_libexec_dir }}/levels/{{ item.user }}"
+    directory_mode: yes
+    owner: root
+    group: root
+    mode: 0755
+  when:
+    - item.service == True
   tags:
     - ctfserver
     - ctflevels
 
 - name: "Create ttyrec directory for {{ item.name }}"
   file:
-    path: "{{ ctfchroot_session_store_dir }}/levels/{{item.user}}"
+    path: "{{ ctfchroot_session_store_dir }}/levels/{{ item.user }}"
     state: directory
     recurse: yes
-    owner: "{{item.user}}"
+    owner: root
     group: "{{item.user}}"
-    mode: 0640
+    mode: 0770
   tags:
     - ctfbigbrother
     - ctfserver
     - ctflevels
 
-- name: "Lock down the home directory for {{ item.name }}"
-  file: path=/home/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0550
+- name: "Setup home directory and related for {{ item.name }}"
+  include: 'home.yml'
   tags:
-    - ctfserver
     - ctflevels
+    - ctfhomes
