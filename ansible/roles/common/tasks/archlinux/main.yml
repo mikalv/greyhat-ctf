@@ -33,13 +33,13 @@
     - archlinux
     - archbootstrap
 
-- name: AUR - install package-query (a yaourt dependency)
+- name: "AUR - install package-query (a yaourt dependency)"
   include: aur_pkg.yml pkg_name=package-query
   tags:
     - archlinux
     - aurpackages
 
-- name: AUR - install yaourt
+- name: "AUR - install yaourt"
   include: aur_pkg.yml pkg_name=yaourt
   tags:
     - archlinux

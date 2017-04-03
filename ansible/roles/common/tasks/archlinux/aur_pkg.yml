@@ -53,4 +53,6 @@
     pacman --noconfirm --noprogressbar --needed -U {{ compiled_package_name.stdout | quote }}
     chdir=/tmp/{{ pkg_name }}
   register: pacman_install_result
-  changed_when: pacman_install_result.stdout is defined && pacman_install_result.stdout.find('there is nothing to do') == -1
+  changed_when:
+    - pacman_install_result.stdout is defined
+    - pacman_install_result.stdout.find('there is nothing to do') == -1

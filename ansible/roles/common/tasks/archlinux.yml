@@ -2,6 +2,9 @@
 
 - name: Arch Linux
   include: 'archlinux/main.yml'
+  gather_facts: yes
+  vars_files:
+    - "../group_vars/all.yml"
   vars:
     makepkg_nonroot_user: "{{ ansible_ssh_user }}"
   tags:

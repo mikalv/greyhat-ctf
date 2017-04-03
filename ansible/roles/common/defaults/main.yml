@@ -16,8 +16,9 @@ vim_config: [ "syntax enable" ]
 
 aur_packages:
 # Pam packages
-  - "pam_u2f"
-  - "pam_chroot"
+#  - "libu2f-server"
+#  - "pam_u2f"
+#  - "pam_chroot"
 # Security related
   - "ipbt"
   - "termrec"
