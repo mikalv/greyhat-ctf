@@ -5,7 +5,7 @@
     path: "{{ ctfbigbrother_log_dir }}"
     state: directory
     recurse: yes
-    mode: 0777
+    mode: 0770
   tags:
     - ctfserver
     - ctfbigbrother

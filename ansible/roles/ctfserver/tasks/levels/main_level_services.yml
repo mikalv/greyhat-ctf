@@ -1,0 +1,100 @@
+---
+
+- name: "Copy service files for {{ item.name }}"
+  when:
+    - ctfdirectories_installed|succeeded
+    - item.service == True
+  become: True
+  become_user: root
+  register: servicelibinstalled
+  copy:
+    src: "levels/{{ item.user }}/{{ item.user }}_services"
+# TODO: Move this path to a variable
+    dest: "{{ ctf_libexec_dir }}/"
+    owner: root
+    group: "{{ item.user }}"
+    mode: 0755
+    directory_mode: yes
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Install the service files for {{ item.name }}"
+  when:
+    - ctfdirectories_installed|succeeded
+    - item.service == True
+  become: True
+  become_user: root
+  register: servicefilesinstalled
+  include: 'level_services.yml'
+  with_items:
+    - "{{ item.services }}"
+  loop_control:
+    loop_var: inner_item
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Install the service setup.sh script for {{ item.name }}"
+  when:
+    - ctfdirectories_installed|succeeded
+    - item.service == True
+  become: True
+  become_user: root
+  template:
+    src: "levels/{{ item.user }}/setup.sh.j2"
+    dest: "{{ ctf_libexec_dir }}/{{ item.user }}_services/setup.sh"
+    owner: root
+    group: root
+    mode: 0750
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Install the service init script for {{ item.name }}"
+  when:
+    - ctfdirectories_installed|succeeded
+    - item.service == True
+  become: True
+  become_user: root
+  template:
+    src: "levels/{{ item.user }}/service.sh.j2"
+    dest: "{{ ctfchroot_datadir }}/services/{{ item.user }}"
+    owner: root
+    group: root
+    mode: 0750
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Install the supervisor config for {{ item.name }}"
+  when:
+    - ctfdirectories_installed|succeeded
+    - item.service == True
+  become: True
+  become_user: root
+  template:
+    src: "levels/{{ item.user }}/supervisord.ini.j2"
+    dest: "/etc/supervisor.d/{{ item.user }}.ini"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+- name: "Running setup script for {{ item.name }} (Service install)"
+  when:
+    - ctfdirectories_installed|succeeded
+    - servicefilesinstalled|succeeded
+    - servicelibinstalled|succeeded
+    - item.service == True
+  become: True
+  become_user: root
+# TODO: Move this path to a variable
+  command: /usr/bin/bash {{ ctfchroot_datadir }}/libexec/{{ item.user }}_services/setup.sh
+  tags:
+    - ctflevels
+    - ctflevelservice
+
+

@@ -8,7 +8,7 @@
     - ctflevels
 
 - name: "Setting up CTF Levels and users"
-  include: 'levelsetup.yml'
+  include: 'level_setup.yml'
   with_items:
     - "{{ ctfgame_userlevels_enabled }}"
   tags:

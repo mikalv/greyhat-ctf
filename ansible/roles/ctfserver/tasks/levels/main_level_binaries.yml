@@ -1,5 +1,4 @@
 ---
-# TODO: Find a better name for this file.. It don't self explain
 
 ### Binaries
 
@@ -48,13 +47,3 @@
   tags:
     - ctflevels
     - ctflevelcompile
-
-### Services
-
-- name: "Main level services"
-  include: 'main_level_services.yml'
-  register: levelservices_installed
-  tags:
-    - ctfserver
-    - ctflevels
-    - ctflevelservice

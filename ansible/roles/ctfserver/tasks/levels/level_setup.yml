@@ -28,6 +28,8 @@
     - ctflevels
 
 - name: "Set softlimit settings for {{ item.name }} in /etc/security/limits.conf"
+  become: yes
+  become_user: root
   pam_limits:
     domain: "{{ item.name }}"
     limit_type: soft
@@ -38,6 +40,8 @@
     - ctflevels
 
 - name: "Set hardlimit settings for {{ item.name }} in /etc/security/limits.conf"
+  become: yes
+  become_user: root
   pam_limits:
     domain: "{{ item.name }}"
     limit_type: hard
@@ -48,20 +52,17 @@
     - ctflevels
 
 - name: "Create task directory for {{ item.name }}"
-  file: path=/levels/{{item.user}} state=directory owner=root group={{item.user}} mode=0550
+  become: yes
+  become_user: root
+  file: path=/levels/{{ item.user }} state=directory owner=root group={{ item.user }} mode=0750
   tags:
     - ctfserver
     - ctflevels
 
-- name: "Setup service for {{ item.name }}"
-  file:
-    path: "{{ ctf_libexec_dir }}/levels/{{ item.user }}"
-    directory_mode: yes
-    owner: root
-    group: root
-    mode: 0755
-  when:
-    - item.service == True
+- name: "Create services directory for {{ item.name }}"
+  become: yes
+  become_user: root
+  file: path={{ ctfchroot_datadir }}/services/{{ item.user }} state=directory owner=root group={{ item.user }} mode=0750
   tags:
     - ctfserver
     - ctflevels

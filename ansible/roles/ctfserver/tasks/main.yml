@@ -7,16 +7,29 @@
     - ctfserver
     - archlinux
 
-- name: Basic CTF packages
+- name: "Basic CTF packages - {{ outer_item }}"
   include: 'packages.yml'
+  with_items:
+    - "{{ pacman_packages }}"
+  loop_control:
+    loop_var: outer_item
   tags:
     - ctf
     - ctfserver
-    - packages
+    - ctfpackages
     - archlinux
+
+- name: "Setup CTF directory structure"
+  include: 'ctfsetup.yml'
+  tags:
+    - ctf
+    - ctfsetup
+    - ctfserver
 
 - name: "Setup CTF Big Brother system"
   include: 'bigbrother.yml'
+  when:
+    - ctfdirectories_installed|succeeded
   tags:
     - ctf
     - ctfserver
@@ -37,13 +50,6 @@
     - ctf
     - ctfserver
     - archlinux
-
-- name: "Setup CTF directory structure"
-  include: 'ctfsetup.yml'
-  tags:
-    - ctf
-    - ctfsetup
-    - ctfserver
 
 - name: "Ensuring {{ default_ctfuser_group }} group is available"
   become: yes

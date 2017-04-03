@@ -1,7 +1,7 @@
 ---
 
 # This is needed to have a mountpoint for the levels to mount from host in newctfsession.sh
-- name: "Ensuring directory for {{ ctfchroot }} levels exists"
+- name: "Chroot | Ensuring directory for {{ ctfchroot }} levels exists"
   file:
     state: directory
     owner: root
@@ -15,7 +15,7 @@
     - ctfserver
 
 # Setup the ctfchroot directory
-- name: "Check if chroot for {{ ctfchroot }} is already bootstrapped."
+- name: "Chroot | Check if chroot for {{ ctfchroot }} is already bootstrapped."
   ignore_errors: True
   stat:
     path: "{{ ctfchroot_playdir }}/bin"
@@ -24,7 +24,7 @@
     - ctfchroot
     - ctfserver
 
-- name: "Bootstrap chroot for {{ ctfchroot }} arch {{ ctfchroot_arch }}"
+- name: "Chroot | Bootstrap chroot for {{ ctfchroot }} arch {{ ctfchroot_arch }}"
   command: "/usr/local/bin/arch-bootstrap.sh -r {{ ctfchroot_repo_url }} -a {{ ctfchroot_arch }} {{ ctfchroot_playdir }}"
   when:
     - ctfchroot_dir_already_bootstrapped.stat.exists is defined
@@ -34,7 +34,7 @@
     - ctfchroot
     - ctfserver
 
-- name: "Copy {{ item }} from server to {{ ctfchroot_playdir }} arch {{ ctfchroot_arch }}"
+- name: "Chroot | Copy {{ item }} from server to {{ ctfchroot_playdir }} arch {{ ctfchroot_arch }}"
   command: "/usr/bin/cp -rv {{ item }} {{ ctfchroot_playdir }}/{{ item }}"
   with_items:
     - "/etc/passwd"
@@ -46,10 +46,22 @@
     - ctfchroot
     - ctfserver
 
-- name: "Set the correct mirrorlist file for pacman in {{ ctfchroot }}"
+- name: "Chroot | Copy tmux.conf from host to {{ ctfchroot }}"
+  copy:
+    remote_src: True
+    src: /etc/tmux.conf
+    dest: "{{ ctfchroot_playdir }}/etc/tmux.conf"
+    owner: root
+    group: root
+    mode: 0644
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Chroot | Set the correct mirrorlist file for pacman in {{ ctfchroot }}"
   template:
     src: chroot/mirrorlist.j2
-    dest: "/{{ ctfchroot }}/etc/pacman.d/mirrorlist"
+    dest: "{{ ctfchroot_playdir }}/etc/pacman.d/mirrorlist"
     owner: root
     group: root
     mode: 0644
@@ -57,10 +69,10 @@
     - ctfchroot
     - ctfserver
 
-- name: "Set the correct pacman.conf file in {{ ctfchroot }}"
+- name: "Chroot | Set the correct pacman.conf file in {{ ctfchroot }}"
   template:
     src: chroot/pacman.conf.j2
-    dest: "/{{ ctfchroot }}/etc/pacman.conf"
+    dest: "{{ ctfchroot_playdir }}/etc/pacman.conf"
     owner: root
     group: root
     mode: 0644
@@ -68,7 +80,7 @@
     - ctfchroot
     - ctfserver
 
-- name: "Setup locale.gen for {{ ctfchroot }}"
+- name: "Chroot | Setup locale.gen for {{ ctfchroot }}"
   copy:
     content: |
       # Locales
@@ -76,30 +88,30 @@
       en_US ISO-8859-1
       no_NO.UTF-8 UTF-8
       no_NO ISO-8859-1
-    dest: "/{{ ctfchroot }}/etc/locale.gen"
+    dest: "{{ ctfchroot_playdir }}/etc/locale.gen"
     mode: 0644
   register: localegen_config_updated
   tags:
     - ctfchroot
     - ctfserver
 
-- name: "Setup locale.conf for {{ ctfchroot }}"
+- name: "Chroot | Setup locale.conf for {{ ctfchroot }}"
   template:
     src: chroot/locale.conf.j2
-    dest: /etc/locale.conf
+    dest: "{{ ctfchroot_playdir }}/etc/locale.conf"
   tags:
     - ctfchroot
     - ctfserver
 
-- name: "Setup vconsole.conf for {{ ctfchroot }}"
+- name: "Chroot | Setup vconsole.conf for {{ ctfchroot }}"
   template:
     src: chroot/vconsole.conf.j2
-    dest: /etc/vconsole.conf
+    dest: "{{ ctfchroot_playdir }}/etc/vconsole.conf"
   tags:
     - ctfchroot
     - ctfserver
 
-- name: "Setup bootstrap script for installation of base tools for {{ ctfchroot }}"
+- name: "Chroot | Setup bootstrap script for installation of base tools for {{ ctfchroot }}"
   # TODO: role:ctfserver:chroot - Cleanup hotfix with a better solution. Was done because of lack of time.
   ignore_errors: True
   copy:
@@ -114,7 +126,7 @@
       pacman -Sy --arch {{ ctfchroot_arch }}
       pacman --noconfirm --arch {{ ctfchroot_arch }} -v --force -S {{ ctfchroot_tools }}
       echo "Install done :)"
-    dest: "/{{ ctfchroot }}/bin/bootstrap-chroot.sh"
+    dest: "{{ ctfchroot_playdir }}/bin/bootstrap-chroot.sh"
     mode: "0755"
   register: ctfchroot_bootstrap_script_installed
   when:
@@ -124,32 +136,32 @@
     - ctfchroot
     - ctfserver
 
-- name: "Running inner bootstrap script for {{ ctfchroot }}"
+- name: "Chroot | Running inner bootstrap script for {{ ctfchroot }}"
   # TODO: role:ctfserver:chroot - Cleanup hotfix with a better solution. Was done because of lack of time.
   ignore_errors: True
   when:
     - ctfchroot_bootstrap_script_installed is defined
     - ctfchroot_bootstrap_script_installed|succeeded
-  command: "/usr/bin/arch-chroot /{{ ctfchroot }} /bin/sh -c /bin/bootstrap-chroot.sh"
+  command: "/usr/bin/arch-chroot {{ ctfchroot_playdir }} /bin/sh -c /bin/bootstrap-chroot.sh"
   register: ctfchroot_bootstrap_script_done
   tags:
     - ctfchroot
     - ctfserver
 
-- name: "Deleting bootstrap script for {{ ctfchroot }}"
+- name: "Chroot | Deleting bootstrap script for {{ ctfchroot }}"
   when: ctfchroot_bootstrap_script_done is defined
   file:
     state: absent
-    path: "/{{ ctfchroot }}/bin/bootstrap-chroot.sh"
+    path: "{{ ctfchroot_playdir }}/bin/bootstrap-chroot.sh"
   register: ctfchroot_bootstrap_done
   tags:
     - ctfchroot
     - ctfserver
 
-- name: "Removing unwanted binaries for {{ ctfchroot }}"
+- name: "Chroot | Removing unwanted binaries for {{ ctfchroot }}"
   file:
     state: absent
-    path: "/{{ ctfchroot }}{{ item }}"
+    path: "{{ ctfchroot_playdir }}{{ item }}"
   with_items:
 # File system tools
     - "/usr/bin/fdisk"

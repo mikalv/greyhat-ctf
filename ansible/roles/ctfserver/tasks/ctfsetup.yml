@@ -5,9 +5,11 @@
     path: "{{ item }}"
     state: directory
     recurse: yes
-    mode: 0777
+    mode: 0775
+  register: ctfdirectories_installed
   with_items: "{{ ctf_datadir_directories_items }}"
   tags:
     - ctfserver
     - ctfsetup
+    - ctflevels
 
