@@ -1,6 +1,6 @@
 ---
 
-- name: Make sure pacman cache and the system is up to date
+- name: "Packages | Make sure pacman cache and the system is up to date"
   ignore_errors: True
   pacman:
     update_cache: yes
@@ -8,56 +8,13 @@
   tags:
     - ctf
     - ctfserver
+    - ctfpackages
     - archlinux
 
-- name: Install packages
+- name: "Packages | Install packages"
   pacman: name={{ item }} update_cache=yes state=latest force=true
   with_items:
-# Security
-    - yubico-pam
-    - pam_mount
-# Javascript tools
-    - nodejs
-    - npm
-    - phantomjs
-# Development, Debugging and Build Tools
-    - strace
-    - diffutils
-    - gdb
-    - binutils
-    - patch
-    - autoconf
-    - automake
-    - git
-    - make
-    - multilib-devel
-    - radare2
-# Arch spesific
-    - arch-install-scripts
-    - abs
-# File compress
-    - zip
-    - unzip
-    - unrar
-    - bzip2
-    - gzip
-    - tar
-    - p7zip
-# Service management
-    - supervisor
-# Python2 packages
-    - python2
-    - ipython2
-    - python2-virtualenv
-    - python2-pip
-    - python2-jedi
-# Python3
-    - python
-    - python-virtualenv
-    - ipython
-    - python-pip
-# Other, but REQUIRED
-    - screen
+    - "{{ outer_item.packages }}"
   tags:
     - ctf
     - ctfserver
