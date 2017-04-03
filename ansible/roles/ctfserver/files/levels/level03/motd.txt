@@ -1,8 +1,8 @@
-Congratulations on making it to level 3!!! Weee!!!!
+Congratulations on making it to level 2! :)
 
-The password for the next level is in /home/level04/.passwd. As
-before, you may find the files in /levels/level04 useful.
-The vulnerabilities overfloweth!
+The password for the next level is in /home/level03/.passwd. As
+before, you may find the files in /levels/level03 useful.
+While the supplied binary mostly just does mundane tasks, we trust
+you'll find a way of making it do something much more interesting.
 
-Now read the recap of the previous level `cat recap.txt`
-And read next story with the command: `story`
+Best of luck!

