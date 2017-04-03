@@ -2,6 +2,8 @@
 
 - name: Arch Linux
   include: 'archlinux/main.yml'
+  vars:
+    makepkg_nonroot_user: "{{ ansible_ssh_user }}"
   tags:
     - common
     - archlinux

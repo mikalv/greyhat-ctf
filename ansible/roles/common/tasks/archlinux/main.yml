@@ -32,3 +32,23 @@
     - common
     - archlinux
     - archbootstrap
+
+- name: AUR - install package-query (a yaourt dependency)
+  include: aur_pkg.yml pkg_name=package-query
+  tags:
+    - archlinux
+    - aurpackages
+
+- name: AUR - install yaourt
+  include: aur_pkg.yml pkg_name=yaourt
+  tags:
+    - archlinux
+    - aurpackages
+
+- name: "AUR - install {{ item }}"
+  include: aur_pkg.yml pkg_name={{ item }}
+  with_items:
+    - "{{ aur_packages }}"
+  tags:
+    - archlinux
+    - aurpackages

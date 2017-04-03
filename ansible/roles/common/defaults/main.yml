@@ -12,3 +12,20 @@ pri_domain_name: 'greyhat.no'
 
 # global vim configuration values
 vim_config: [ "syntax enable" ]
+
+
+aur_packages:
+# Pam packages
+  - "pam_u2f"
+  - "pam_chroot"
+# Security related
+  - "ipbt"
+  - "termrec"
+  - "ttyrec"
+  - "aufs"
+# Misc
+  - "vim-colorschemes"
+  - "vim-colorsupport"
+  - "vim-hexman"
+  - "vim-markdown"
+  - "jwasm"
