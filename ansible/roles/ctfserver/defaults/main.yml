@@ -9,38 +9,80 @@ host_pinned_packages: 'linux linux-docs linux-headers'
 
 ## Bellow is CTF config
 
-# Levels config
+## Levels config
 
 ctfgame_userlevels_enabled:
   - name: "Level 00"
     user: "level00"
     pwclean: "89lka3ur9sd2"
-    groups: "level00,{{default_ctfuser_group}}"
+    groups: "level00,{{ default_ctfuser_group }}"
     password: "$6$RWc.Gc5LvtTTZ9vw$fQ2xxIaOUtuP6WkZd.CRfyRKeCALyBBYskIZR/eHjUdjnJvdhz.aONcYQdanfVJqBXX4wYE5huUm1M.wgUURg/"
     suidowner: "level01"
-    service: true
-    binary: false
+    service: True
+    binary: False
+    extra_help: True
+    services:
+      - "browser"
+      - "webserver"
+
+## Packages config
+pacman_packages:
+  - name: "basics"
+    packages:
+# Security
+    - yubico-pam
+    - pam_mount
+# Arch spesific
+    - arch-install-scripts
+    - abs
+# Service management
+    - supervisor
+# Other, but REQUIRED
+    - screen
+  - name: "languages"
+    packages:
+# Javascript tools
+    - nodejs
+    - npm
+    - phantomjs
+# Python2 packages
+    - python2
+    - ipython2
+    - python2-virtualenv
+    - python2-pip
+    - python2-jedi
+# Python3
+    - python
+    - python-virtualenv
+    - ipython
+    - python-pip
+  - name: "development"
+    packages:
+# Development, Debugging and Build Tools
+    - strace
+    - diffutils
+    - gdb
+    - binutils
+    - patch
+    - autoconf
+    - automake
+    - git
+    - make
+    - multilib-devel
+    - radare2
+# File compress
+    - zip
+    - unzip
+    - unrar
+    - bzip2
+    - gzip
+    - tar
+    - p7zip
 
 
-# Base directory config
 
-ctf_datadir_directories_itemsw:
-  - "/var/ctfgame1/tmp/sessions"
-  - "/var/ctfgame1/sessions"
-  - "/var/ctfgame1/services"
-  - "/var/ctfgame1/libexec/shared"
-  - "/var/ctfgame1/libexec/levels"
-  - "/var/ctfgame1/bin"
-
-ctf_tmp_datadir: '/var/ctfgame1/tmp'
-ctf_libexec_dir: '/var/ctfgame1/libexec'
-ctf_binary_dir:  '/var/ctfgame1/bin'
-ctfbigbrother_log_dir: '/var/ctfgame1/bigbrother/termlog'
-
-
-# Chroot directory config
-ctfchroot_datadir: '/var/ctfgame1'
-ctfchroot_playdir: '/ctf1chroot1'
+supervisord_admin_user: 'greyroot'
+supervisord_admin_pass: ''
 
 ## Bellow is config for the base chroot environment
 
@@ -49,11 +91,31 @@ ctfchroot_arch: i686
 ctfchroot_tools: 'libcap ruby netcat man git which man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils radare2 tar unzip unrar go vim nano zsh bash nmap'
 ctfchroot_repo_url: 'http://mirror.archlinux.no/'
 
+
+# Chroot directory config
+ctfchroot_datadir: '/var/ctfgame1'
+ctfchroot_playdir: '/{{ ctfchroot }}'
+
+## Base directory config
+
+ctf_datadir_directories_items:
+  - "{{ ctfchroot_datadir }}/tmp/sessions"
+  - "{{ ctfchroot_datadir }}/sessions/levels"
+  - "{{ ctfchroot_datadir }}/sessions/mounts"
+  - "{{ ctfchroot_datadir }}/services"
+  - "{{ ctfchroot_datadir }}/libexec/shared"
+  - "{{ ctfchroot_datadir }}/bin"
+
+ctf_tmp_datadir: '{{ ctfchroot_datadir }}/tmp'
+ctf_libexec_dir: '{{ ctfchroot_datadir }}/libexec'
+ctf_binary_dir:  '{{ ctfchroot_datadir }}/bin'
+ctfbigbrother_log_dir: '{{ ctfchroot_datadir }}/bigbrother/termlog'
+
 # TODO: Move all directories relative to datadir above.
 ctfchroot_shell_ohmyzsh_path: '/usr/share/ohmyzsh'
 
 
-ctfchroot_session_store_dir: '/var/ctfgame1/sessions'
+ctfchroot_session_store_dir: '{{ ctfchroot_datadir }}/sessions'
 
 # Max sessions from same IP
 ssh_max_sessions_from_same_ip: 100

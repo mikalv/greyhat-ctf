@@ -4,6 +4,8 @@
 
 # Run the emulated browser that is going to be hacked.
 
+#### NOTE: This is meant for session services
+
 # We're for now living on "temporary files" for the start/stop control of session services.
 # As long as the temporary file exists, the service will run as well.
 
@@ -18,6 +20,6 @@
 
 while true;
 do
-  /usr/bin/phantomjs {{ ctfchroot_datadir }}/libexec/levelspesific/{{ item.user }}/xss-bot.js  > /dev/null 2>&1;
+  /usr/bin/phantomjs {{ ctfchroot_datadir }}/libexec/levels/{{ item.user }}/xss-bot.js  > /dev/null 2>&1;
 done
 

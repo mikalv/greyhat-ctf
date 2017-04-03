@@ -1,8 +1,9 @@
 You might learn something from manuals that might help you.
 
-Have you ever checked netcat's manual?
+Have you ever checked netcat's manual? ("man nc")
 
 Refreshing memory about web security might be helpful as well :)
 
+I found for example this guide which should help you, even you don't program ruby on rails or not.
 http://guides.rubyonrails.org/security.html
 
