@@ -2,4 +2,13 @@
 
 export CTFLEVEL={{ item.user }}
 
-echo "[+] Running setup.sh for ${CTFLEVEL}"
+export SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+export CTF_LEVEL={{ item.user }}
+export CTF_ROOT_DIR={{ ctfchroot_datadir }}
+
+# Here is where the levelNN_services files ends up.
+export CTF_SERVICE_LIB_DIR={{ ctfchroot_datadir }}/libexec/{{ item.user }}_services
+
+# Temporary directory
+export CTF_SERVER_TEMP_DIR={{ ctf_tmp_datadir }}
+

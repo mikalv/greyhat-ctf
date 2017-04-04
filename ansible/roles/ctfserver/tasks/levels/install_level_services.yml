@@ -1,0 +1,19 @@
+---
+
+- name: "Level Services Setup | Install the service files"
+  become: True
+  become_user: root
+  ignore_errors: True
+  loop_control:
+    loop_var: inner_item
+  with_items:
+    - "{{ item.services }}"
+  template:
+    src: "levels/{{ item.user }}/services/{{ inner_item }}.j2"
+    dest: "{{ ctfchroot_datadir }}/services/{{ item.user }}-{{ inner_item }}"
+    owner: root
+    group: "{{ item.user }}"
+    mode: 0755
+  tags:
+    - ctflevels
+    - ctflevelservice

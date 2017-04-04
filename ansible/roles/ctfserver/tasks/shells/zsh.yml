@@ -1,11 +1,25 @@
 ---
 
-- name: "Installing oh-my-zsh"
+- name: "Shell Setup | Installing oh-my-zsh"
+  ignore_errors: True
   git:
     repo: https://github.com/robbyrussell/oh-my-zsh.git
-    dest: "/{{ ctfchroot }}{{ ctfchroot_shell_ohmyzsh_path }}"
+    dest: "{{ ctfchroot_playdir }}/{{ ctfchroot_shell_ohmyzsh_path }}"
     clone: yes
     update: yes
+    force: yes
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "Shell Setup | Setting permissions for oh-my-zsh"
+  file:
+    state: directory
+    path: "{{ ctfchroot_playdir }}/{{ ctfchroot_shell_ohmyzsh_path }}"
+    recurse: yes
+    owner: root
+    group: "{{ default_ctfuser_group }}"
+    mode: 0750
   tags:
     - ctfchroot
     - ctfserver

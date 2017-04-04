@@ -1,48 +1,52 @@
 ---
 
-- name: Create levels directory
-  file: path=/levels state=directory mode=0755
+- name: "Man Level Setup | Create levels directory"
+  file: path=/levels state=directory mode=0755 owner=root group=root
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
-- name: "Setting up CTF Levels and users"
-  include: 'level_setup.yml'
+- name: "Main Level Setup | Install the service files"
+  register: servicefilesinstalled
+  include: 'install_level_services.yml'
   with_items:
     - "{{ ctfgame_userlevels_enabled }}"
   tags:
-    - ctf1
+    - ctflevels
+    - ctflevelservice
+
+- name: "Man Level Setup | Setting up CTF Levels and users"
+  include: 'level_setup.yml'
+  when: servicefilesinstalled|succeeded
+  with_items:
+    - "{{ ctfgame_userlevels_enabled }}"
+  tags:
     - ctfserver
     - ctflevels
 
-- name: "Setting up CTF Level tasks"
+- name: "Man Level Setup | Setting up CTF Level tasks"
   include: 'setupgame.yml'
   with_items:
     - "{{ ctfgame_userlevels_enabled }}"
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
-- name: "Copy the tools.txt for Level 00"
+- name: "Man Level Setup | Copy the tools.txt for Level 00"
   copy: src=levels/level00/tools.txt dest=/home/level00/tools.txt owner=root group=level00 mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
 
-- name: "Copy the syntax.txt for Level 00"
+- name: "Man Level Setup | Copy the syntax.txt for Level 00"
   copy: src=levels/level00/syntax.txt dest=/home/level00/syntax.txt owner=root group=level00 mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels
 
-- name: "Copy the README for Level 00"
+- name: "Man Level Setup | Copy the README for Level 00"
   copy: src=levels/level00/readme.txt dest=/home/level00/README owner=root group=level00 mode=0440
   tags:
-    - ctf1
     - ctfserver
     - ctflevels

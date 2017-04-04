@@ -1,6 +1,6 @@
 ---
 
-- name: "Copy service files for {{ item.name }}"
+- name: "Main Level Setup | Copy service files for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
     - item.service == True
@@ -19,23 +19,7 @@
     - ctflevels
     - ctflevelservice
 
-- name: "Install the service files for {{ item.name }}"
-  when:
-    - ctfdirectories_installed|succeeded
-    - item.service == True
-  become: True
-  become_user: root
-  register: servicefilesinstalled
-  include: 'level_services.yml'
-  with_items:
-    - "{{ item.services }}"
-  loop_control:
-    loop_var: inner_item
-  tags:
-    - ctflevels
-    - ctflevelservice
-
-- name: "Install the service setup.sh script for {{ item.name }}"
+- name: "Main Level Setup | Install the service setup.sh script for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
     - item.service == True
@@ -51,7 +35,7 @@
     - ctflevels
     - ctflevelservice
 
-- name: "Install the service init script for {{ item.name }}"
+- name: "Main Level Setup | Install the service init script for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
     - item.service == True
@@ -67,7 +51,7 @@
     - ctflevels
     - ctflevelservice
 
-- name: "Install the supervisor config for {{ item.name }}"
+- name: "Main Level Setup | Install the supervisor config for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
     - item.service == True
@@ -83,11 +67,9 @@
     - ctflevels
     - ctflevelservice
 
-- name: "Running setup script for {{ item.name }} (Service install)"
+- name: "Main Level Setup | Running setup script for {{ item.name }} (Service install)"
   when:
     - ctfdirectories_installed|succeeded
-    - servicefilesinstalled|succeeded
-    - servicelibinstalled|succeeded
     - item.service == True
   become: True
   become_user: root

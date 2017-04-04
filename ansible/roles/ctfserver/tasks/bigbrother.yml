@@ -1,6 +1,6 @@
 ---
 
-- name: "Ensure the termrec(tty) logging directory for {{ ctfchroot }} exists"
+- name: "Bigbrother Setup | Ensure the termrec(tty) logging directory for {{ ctfchroot }} exists"
   file:
     path: "{{ ctfbigbrother_log_dir }}"
     state: directory
@@ -10,7 +10,7 @@
     - ctfserver
     - ctfbigbrother
 
-- name: "Copy over session-fs monitoring tools"
+- name: "Bigbrother Setup | Copy over session-fs monitoring tools"
   copy:
     src: "bigbrother/{{ item }}"
     dest: "{{ ctf_libexec_dir }}/{{ item }}"

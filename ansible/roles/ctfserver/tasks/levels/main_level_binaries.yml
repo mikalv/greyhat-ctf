@@ -2,7 +2,7 @@
 
 ### Binaries
 
-- name: "Copy the level C code for {{ item.name }}"
+- name: "Binary Level Setup | Copy the level C code for {{ item.name }}"
   copy:
     src: "levels/{{item.user}}/binary/{{item.user}}.c"
     dest: "/tmp/{{item.user}}.c"
@@ -14,7 +14,7 @@
     - ctflevels
     - ctflevelcompile
 
-- name: "Copy the level C code for {{ item.name }}"
+- name: "Binary Level Setup | Copy the level C code for {{ item.name }}"
   when:
     - need_compile|succeeded
     - item.binary == true
@@ -25,7 +25,7 @@
     - ctflevels
     - ctflevelcompile
 
-- name: "Remove the level C code for {{ item.name }} from tmp"
+- name: "Binary Level Setup | Remove the level C code for {{ item.name }} from tmp"
   when:
     - need_compile|succeeded
     - item.binary == True
@@ -34,7 +34,7 @@
     - ctflevels
     - ctflevelcompile
 
-- name: "Ensures the compiled code for {{ item.name }} is in place with right access"
+- name: "Binary Level Setup | Ensures the compiled code for {{ item.name }} is in place with right access"
   when:
     - need_compile|succeeded
     - item.binary == True

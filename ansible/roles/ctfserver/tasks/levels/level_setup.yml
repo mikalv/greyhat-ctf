@@ -1,6 +1,6 @@
 ---
 
-- name: "Adding group for {{ item.name }}"
+- name: "Level Setup | Adding group for {{ item.name }}"
   become: yes
   become_user: root
   group:
@@ -10,7 +10,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Adding user for {{ item.name }}"
+- name: "Level Setup | Adding user for {{ item.name }}"
   become: yes
   become_user: root
   user:
@@ -27,7 +27,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Set softlimit settings for {{ item.name }} in /etc/security/limits.conf"
+- name: "Level Setup | Set softlimit settings for {{ item.name }} in /etc/security/limits.conf"
   become: yes
   become_user: root
   pam_limits:
@@ -39,7 +39,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Set hardlimit settings for {{ item.name }} in /etc/security/limits.conf"
+- name: "Level Setup | Set hardlimit settings for {{ item.name }} in /etc/security/limits.conf"
   become: yes
   become_user: root
   pam_limits:
@@ -51,7 +51,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Create task directory for {{ item.name }}"
+- name: "Level Setup | Create task directory for {{ item.name }}"
   become: yes
   become_user: root
   file: path=/levels/{{ item.user }} state=directory owner=root group={{ item.user }} mode=0750
@@ -59,7 +59,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Create services directory for {{ item.name }}"
+- name: "Level Setup | Create services directory for {{ item.name }}"
   become: yes
   become_user: root
   file: path={{ ctfchroot_datadir }}/services/{{ item.user }} state=directory owner=root group={{ item.user }} mode=0750
@@ -67,7 +67,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Create ttyrec directory for {{ item.name }}"
+- name: "Level Setup | Create ttyrec directory for {{ item.name }}"
   file:
     path: "{{ ctfchroot_session_store_dir }}/levels/{{ item.user }}"
     state: directory
@@ -80,7 +80,7 @@
     - ctfserver
     - ctflevels
 
-- name: "Setup home directory and related for {{ item.name }}"
+- name: "Level Setup | Setup home directory and related for {{ item.name }}"
   include: 'home.yml'
   tags:
     - ctflevels
