@@ -16,6 +16,7 @@ Extend features todo
 * Only some services actually needs to be "session based" until we got levels changing to ranomize the CTF and make writeups harder. Delay this.
 * Focus on level00 service as PoC for a shared session service (It does not require any special arguments for the session).
 * Rewrite all pacman tasks to "package", and rather select package list based on OS. Then we can test this out on Debian, Gentoo and other distros as well. It unlocks us from ArchLinux, even it's nice.
+* Make a good way to remove old directories and files (deprecation), like a own cleanup.yml
 
 Refactor todos
 ---------------
