@@ -24,14 +24,16 @@
 # Nice OS packages to have
     - vim
     - tmux
-    - extra/bash-completion
     - htop
-    - whois
-    - openssh
-    - nmap
-    - dnsutils
     - mlocate
-    - bridge-utils
-    - fail2ban
     - zsh
 
+- name: Install packages (network tools)
+  pacman: name={{ item }} state=latest
+  with_items:
+#    - whois
+    - openssh
+#    - nmap
+#    - dnsutils
+    - bridge-utils
+    - fail2ban
