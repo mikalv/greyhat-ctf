@@ -4,7 +4,7 @@ localhost
 [all:vars]
 
 [test_ctfservers]
-192.168.88.67 common_hostname=ctf01
+192.168.88.79 common_hostname=ctf01
 
 [test_ctfservers:vars]
 
@@ -15,4 +15,4 @@ localhost
 
 
 [remotectftest]
-remotectftest1 common_hostname=ctf01
+ctf01.lan common_hostname=ctf01
