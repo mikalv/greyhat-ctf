@@ -1,6 +1,6 @@
-Congratulations on making it to level 1!
+Congratulations on making it to level 01!
  
-The password for the next level is in /home/level02/.password. This
+The password for the next level is in /home/level02/.passwd. This
 one is a web-based vulnerability, so go ahead and point your browser
 to http://localhost:8002/
  

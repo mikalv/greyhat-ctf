@@ -3,7 +3,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-char secret_password[] = "s3cr3t_backd00r_passw0rd";
+char secret_password[] = "A_Sup3r_s3cr37_P4ssw0rd_Kn0w17";
 
 int main (int argc, char *argv[]) {
     gid_t gid;

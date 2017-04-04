@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// gcc level07.c -fno-stack-protector -z execstack -m32 -o level07
+// gcc level08.c -fno-stack-protector -z execstack -m32 -o level08
 
 void spawn_shell() {
     printf("Welcome to Arjia City!\n");
