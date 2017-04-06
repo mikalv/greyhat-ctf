@@ -16,24 +16,6 @@ the scripts in this project:
 * `curl` -- for downloading packages and other files
 
 
-
-Disclaimer
-----------
-The challenges are based on the original online contest
-organized by Stripe:
-https://stripe.com/blog/capture-the-flag
-
-Solutions
----------
-The solutions are intentionally omitted from this project.
-You can find the solutions to the original Stripe challenges on the internet,
-but don't be surprised if they won't work on this installation out of the box.
-That's intentional too ;-)
-
-Please keep your own solutions private.
-
-
-
 Links
 -----
 * [Blog announcement of Capture The Flag, by Facebook](https://www.facebook.com/notes/facebook-ctf/facebook-ctf-is-now-open-source/525464774322241/)
