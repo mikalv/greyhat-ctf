@@ -2,10 +2,9 @@
 │ README             │
 └────────────────────┘
 ┌───────────────────────────────────────────────────────────────────────────┐
-│ Admin - meeh                                                              │
+│ Admin - Meeh, Narhen                                                      │
 ├──────────────────────────────────────────────────────────────────────────┬┘
-│   Twitter: @mikalv                                                       │
-│   Email:   mikalv@mikalv.net                                             │
+│   Email:   mikvil@knowit, hennar@knowit.no                               │
 └──────────────────────────────────────────────────────────────────────────┘
 ┌───────────────────────────────────────────────────────────────────────────┐
 │ Rules and System Info                                                     │
@@ -35,10 +34,10 @@
 │                                                                          │
 │ So your goal is to find the password for the next level (level01). With  │
 │ the password you can then connect to the next level                      │
-│    + `ssh level01@greyhat.no` to login with the found password           │
+│    + `ssh level01@hackme.knowit.no` to login with the found password     │
 │                                                                          │
 │ The level relevant files can be found under /levels                      │
-│    + display the files for level0 `ls /levels/level00/`                  │
+│    + display the files for level00 `ls /levels/level00/`                 │
 │                                                                          │
 │ A good point to start is to read the "story" in your home folder. It     │
 │ will give some motivation for the current level, it will tell you what   │
