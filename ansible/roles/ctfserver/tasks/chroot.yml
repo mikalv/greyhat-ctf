@@ -14,6 +14,20 @@
     - ctfchroot
     - ctfserver
 
+# This is needed to have a workspace for XSS tasks and similar (ref. level00 )
+- name: "Chroot | Ensuring directory for {{ ctfchroot }} workspace exists"
+  file:
+    state: directory
+    owner: root
+    group: "{{ default_ctfuser_group }}"
+    recurse: yes
+    path: "{{ ctfchroot_playdir }}/workspace"
+    mode: 0777
+  register: ctfchroot_dir_create_workspace
+  tags:
+    - ctfchroot
+    - ctfserver
+
 # Setup the ctfchroot directory
 - name: "Chroot | Check if chroot for {{ ctfchroot }} is already bootstrapped."
   ignore_errors: True

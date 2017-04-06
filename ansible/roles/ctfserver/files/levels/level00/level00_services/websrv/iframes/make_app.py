@@ -5,7 +5,7 @@ from werkzeug.exceptions import HTTPException, NotFound
 import os, sys
 
 SESSION_DISCOVERY_DIR='/var/ctfgame1/tmp/sessions/'
-SESSION_WRITE_DIR=''
+SESSION_WRITE_DIR='/var/ctfgame1/sessions/levels/'
 
 def getActiveSessions():
   listen = []
