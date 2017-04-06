@@ -1,8 +1,10 @@
+from werkzeug.wsgi import SharedDataMiddleware
+import os, sys
 
 class Level00Website(object):
 
   def __init__(self, config):
-    print "[+] Level 00 Website up and running"
+    print("[+] Level 00 Website up and running")
 
   def dispatch_request(self, request):
     return Response('Hello World!')
@@ -17,7 +19,8 @@ class Level00Website(object):
 
 def make_app(with_static=True):
   app = Level00Website({
-      'sessions_directory': '/var/ctfgame1/sessions/levels'
+      'sessions_directory': '/var/ctfgame1/sessions/levels',
+      'active_sessions_dir': '/var/ctfgame1/tmp/sessions'
     })
   if with_static:
     app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {

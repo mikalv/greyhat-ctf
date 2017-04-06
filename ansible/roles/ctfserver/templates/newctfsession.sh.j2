@@ -33,7 +33,8 @@ export SWF=`/usr/bin/basename $SESSION_WRITE_FS`
 ########################################################
 
 # The user's session
-/usr/bin/termrec -f ttyrec -e "/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/env -u SUDO_COMMAND -u SUDO_USER -u SUDO_UID -u SUDO_GID -u MAIL USER=$USER USERNAME=$USER LOGNAME=$USER /usr/bin/zsh -l " {{ ctfbigbrother_log_dir }}/$SWF.ttyrec
+run="/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/env -u SUDO_COMMAND -u SUDO_USER -u SUDO_UID -u SUDO_GID -u MAIL USER=$USER USERNAME=$USER LOGNAME=$USER /usr/bin/zsh -l "
+/usr/bin/termrec -f ttyrec -e "$run" {{ ctfbigbrother_log_dir }}/$SWF.ttyrec
 
 ########################################################
 #
