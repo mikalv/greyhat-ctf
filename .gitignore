@@ -9,6 +9,7 @@ tmp
 # Temp
 *.retry
 *.swp
+*.pyc
 
 # OS Stuff
 .DS_Store
