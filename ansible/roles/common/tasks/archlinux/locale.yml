@@ -8,7 +8,7 @@
       en_US ISO-8859-1
       nb_NO.UTF-8 UTF-8
       nb_NO ISO-8859-1
-    dest: /etc/locales.gen
+    dest: /etc/locale.gen
     mode: 0644
   notify: locale-regen
 

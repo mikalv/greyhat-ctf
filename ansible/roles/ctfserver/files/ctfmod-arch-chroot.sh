@@ -333,4 +333,4 @@ chroot_args=()
 chroot_args+=("$chrootdir" "$@")
 
 export HOME=/home/$SUDO_USER
-SHELL=/bin/bash unshare --fork --pid chroot --userspec $USER:$USER "${chroot_args[@]}"
+SHELL=/usr/bin/bash unshare --fork --pid chroot --userspec $SUDO_USER:$SUDO_USER "${chroot_args[@]}"

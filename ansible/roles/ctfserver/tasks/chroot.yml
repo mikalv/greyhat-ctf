@@ -18,7 +18,7 @@
 - name: "Chroot | Check if chroot for {{ ctfchroot }} is already bootstrapped."
   ignore_errors: True
   stat:
-    path: "{{ ctfchroot_playdir }}/bin"
+    path: "/.chroot_bootstrapped"
   register: ctfchroot_dir_already_bootstrapped
   tags:
     - ctfchroot

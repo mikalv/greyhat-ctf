@@ -18,8 +18,8 @@
     path: "{{ ctfchroot_playdir }}/{{ ctfchroot_shell_ohmyzsh_path }}"
     recurse: yes
     owner: root
-    group: "{{ default_ctfuser_group }}"
-    mode: 0750
+    group: root
+    mode: 0755
   tags:
     - ctfchroot
     - ctfserver

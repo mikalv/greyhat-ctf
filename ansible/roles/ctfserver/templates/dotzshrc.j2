@@ -31,9 +31,8 @@ plugins=(colored-man-pages colorize command-not-found fancy-ctrl-z gnu-utils jso
 
 # User configuration
 
-export MANPATH="/usr/local/man:$MANPATH"
-export LC_ALL={{ common_locale }}
-export LANG={{ common_lang }}
+unsetopt share_history
+unset HISTFILE
 
 export ZSH_TMUX_AUTOSTART=true
 export ZSH_TMUX_UNICODE=true

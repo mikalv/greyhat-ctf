@@ -99,17 +99,21 @@ ctfchroot_playdir: '/{{ ctfchroot }}'
 ## Base directory config
 
 ctf_datadir_directories_items:
-  - "{{ ctfchroot_datadir }}/tmp/sessions"
-  - "{{ ctfchroot_datadir }}/sessions/levels"
   - "{{ ctfchroot_datadir }}/sessions/mounts"
   - "{{ ctfchroot_datadir }}/services"
   - "{{ ctfchroot_datadir }}/libexec/shared"
   - "{{ ctfchroot_datadir }}/bin"
 
+ctf_datadir_directories_items_wr:
+  - "{{ ctfchroot_datadir }}/bigbrother"
+  - "{{ ctfchroot_datadir }}/tmp/sessions"
+  - "{{ ctfchroot_datadir }}/sessions/levels"
+
+
 ctf_tmp_datadir: '{{ ctfchroot_datadir }}/tmp'
 ctf_libexec_dir: '{{ ctfchroot_datadir }}/libexec'
 ctf_binary_dir:  '{{ ctfchroot_datadir }}/bin'
-ctfbigbrother_log_dir: '{{ ctfchroot_datadir }}/bigbrother/termlog'
+ctfbigbrother_log_dir: '{{ ctfchroot_datadir }}/bigbrother'
 
 # TODO: Move all directories relative to datadir above.
 ctfchroot_shell_ohmyzsh_path: '/usr/share/ohmyzsh'

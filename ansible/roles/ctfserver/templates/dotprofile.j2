@@ -1,8 +1,18 @@
 export PATH=/bin:/usr/bin:/usr/local/bin
 
+USER={{ item.user }}
+USERNAME={{ item.user }}
+LOGNAME={{ item.user }}
+
+unset HISTFILE
+
+export MANPATH="/usr/local/man:$MANPATH"
+export LC_ALL={{ common_locale }}
+export LANG={{ common_lang }}
+
 alias gdb='gdb -q'
 alias igiveup=""
 
-cat $HOME/motd.txt
+cat $HOME/motd.txt 2> /dev/null
 
 

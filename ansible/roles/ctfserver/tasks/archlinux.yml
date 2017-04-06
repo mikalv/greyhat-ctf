@@ -1,0 +1,24 @@
+---
+
+- name: "Packages | Make sure pacman cache and the system is up to date"
+  ignore_errors: True
+  pacman:
+    update_cache: yes
+    upgrade: yes
+  tags:
+    - ctfserver
+    - ctfpackages
+    - archlinux
+
+- name: "Basic CTF packages | Installing {{ pacman_packages }}"
+  include: 'packages.yml'
+  with_items:
+    - "{{ pacman_packages }}"
+  loop_control:
+    loop_var: outer_item
+  tags:
+    - ctf
+    - ctfserver
+    - ctfpackages
+    - archlinux
+

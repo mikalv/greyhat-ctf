@@ -5,7 +5,9 @@
     path: "{{ ctfbigbrother_log_dir }}"
     state: directory
     recurse: yes
-    mode: 0770
+    mode: 0777
+    owner: root
+    group: "{{ default_ctfuser_group }}"
   tags:
     - ctfserver
     - ctfbigbrother
@@ -16,7 +18,7 @@
     dest: "{{ ctf_libexec_dir }}/{{ item }}"
     owner: root
     group: root
-    mode: 0755
+    mode: 0775
   with_items:
     - "list-active-session-fs.sh"
     - "list-active-ssh-connections.sh"

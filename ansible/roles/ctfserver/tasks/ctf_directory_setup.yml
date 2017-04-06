@@ -1,0 +1,33 @@
+---
+
+- name: "Ensure CTF directories exists"
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    mode: 0755
+    owner: root
+    group: "{{ default_ctfuser_group }}"
+  register: ctfdirectories_installed
+  with_items: "{{ ctf_datadir_directories_items }}"
+  tags:
+    - ctfserver
+    - ctfsetup
+    - ctflevels
+    - ctflevelservice
+
+- name: "Ensure CTF writable directories exists"
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    mode: 0777
+    owner: root
+    group: "{{ default_ctfuser_group }}"
+  register: ctfdirectories_installed
+  with_items: "{{ ctf_datadir_directories_items_wr }}"
+  tags:
+    - ctfserver
+    - ctfsetup
+    - ctflevels
+    - ctflevelservice

@@ -1,23 +1,10 @@
 ---
 
-- name: "Packages | Make sure pacman cache and the system is up to date"
-  ignore_errors: True
-  pacman:
-    update_cache: yes
-    upgrade: yes
-  tags:
-    - ctf
-    - ctfserver
-    - ctfpackages
-    - archlinux
-
-- name: "Packages | Install packages"
+- name: "Basic CTF packages | Install packages"
   pacman: name={{ item }} update_cache=yes state=latest force=true
   with_items:
     - "{{ outer_item.packages }}"
   tags:
-    - ctf
     - ctfserver
     - ctfpackages
     - archlinux
-

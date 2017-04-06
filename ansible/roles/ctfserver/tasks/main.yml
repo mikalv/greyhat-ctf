@@ -1,18 +1,14 @@
 ---
 
-- name: Copy CTF banner
+- name: "Copy CTF banner"
   template: src=banner.txt.j2 dest=/etc/banner.txt owner=root group=root mode=0644
   tags:
     - ctf
     - ctfserver
     - archlinux
 
-- name: "Basic CTF packages - {{ outer_item }}"
-  include: 'packages.yml'
-  with_items:
-    - "{{ pacman_packages }}"
-  loop_control:
-    loop_var: outer_item
+- name: "Basic CTF ArchLinux setup"
+  include: 'archlinux.yml'
   tags:
     - ctf
     - ctfserver
@@ -20,7 +16,7 @@
     - archlinux
 
 - name: "Setup CTF directory structure"
-  include: 'ctfsetup.yml'
+  include: 'ctf_directory_setup.yml'
   tags:
     - ctf
     - ctfsetup
@@ -28,8 +24,6 @@
 
 - name: "Setup CTF Big Brother system"
   include: 'bigbrother.yml'
-  when:
-    - ctfdirectories_installed|succeeded
   tags:
     - ctf
     - ctfserver
@@ -44,7 +38,7 @@
     - sysctl
     - archlinux
 
-- name: Setup shell environments
+- name: "Setup shell environments"
   include: 'shells/main.yml'
   tags:
     - ctf

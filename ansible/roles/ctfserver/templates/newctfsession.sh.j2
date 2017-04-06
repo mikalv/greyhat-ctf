@@ -1,4 +1,8 @@
 #!/usr/bin/bash
+
+# Debug
+#/usr/bin/echo "[+] Mounting $SESSION_FS"
+
 /usr/bin/sudo /usr/bin/mount -t aufs -o br=$SESSION_WRITE_FS=rw:/{{ctfchroot}}=ro -o udba=reval none $SESSION_FS > /dev/null 2>&1
 /usr/bin/sudo /usr/bin/mount -o bind,ro /levels $SESSION_FS/levels > /dev/null 2>&1
 # NOTE: The write access is needed to let people append to iwashere.txt
@@ -16,8 +20,30 @@ export CTFUSER_HOME=/home/$USER
 #
 ########################################
 
+export SWF=`/usr/bin/basename $SESSION_WRITE_FS`
+
+# TODO: Find better solution...
+# Set file to be seen as active
+/usr/bin/echo $SWF > {{ ctf_tmp_datadir }}/sessions/$SWF > /dev/null 2>&1
+
+########################################################
+#
+#   This code executes USER SHELL.
+#
+########################################################
+
 # The user's session
-/usr/bin/termrec -f ttyrec -e "/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/zsh -l" {{ctfbigbrother_log_dir}}/`/usr/bin/basename $SESSION_WRITE_FS`.ttyrec
+/usr/bin/termrec -f ttyrec -e "/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/env -u SUDO_COMMAND -u SUDO_USER -u SUDO_UID -u SUDO_GID -u MAIL USER=$USER USERNAME=$USER LOGNAME=$USER /usr/bin/zsh -l " {{ ctfbigbrother_log_dir }}/$SWF.ttyrec
+
+########################################################
+#
+#   This code executes AFTER the user shell on exit.
+#
+########################################################
+
+# TODO: Find better solution...
+# Remove file on logout
+/usr/bin/rm -f {{ ctf_tmp_datadir }}/$SWF > /dev/null 2>&1
 
 # Bye message
 /usr/bin/echo "Bye hacker, BigBrother is always watching :)"
@@ -25,4 +51,5 @@ export CTFUSER_HOME=/home/$USER
 # Disabled while debugging.
 /usr/bin/sudo /usr/bin/umount $SESSION_FS/home && \
 /usr/bin/sudo /usr/bin/umount $SESSION_FS/levels && \
-/usr/bin/sudo /usr/bin/umount $SESSION_FS > /dev/null 2>&1
+/usr/bin/sudo /usr/bin/umount $SESSION_FS && \
+/usr/bin/rm -fr $SESSION_FS > /dev/null 2>&1
