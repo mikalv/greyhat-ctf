@@ -65,8 +65,8 @@ class Level00Website(object):
     try:
       endpoint, values = adapter.match()
       return getattr(self, 'on_' + endpoint)(request, **values)
-    except HTTPException, e:
-      return e
+    except HTTPException:
+      return Response('Nothing here, really :)')
 
   def wsgi_app(self, environ, start_response):
     request = Request(environ)
