@@ -42,12 +42,14 @@
   tags:
     - ctfserver
     - ctflevels
+    - ctflevel00
 
 - name: "Man Level Setup | Copy the tools.txt for Level 00"
   copy: src=levels/level00/tools.txt dest=/home/level00/tools.txt owner=root group=level00 mode=0440
   tags:
     - ctfserver
     - ctflevels
+    - ctflevel00
 
 
 - name: "Man Level Setup | Copy the syntax.txt for Level 00"
@@ -55,9 +57,11 @@
   tags:
     - ctfserver
     - ctflevels
+    - ctflevel00
 
 - name: "Man Level Setup | Copy the README for Level 00"
   copy: src=levels/level00/readme.txt dest=/home/level00/README owner=root group=level00 mode=0440
   tags:
     - ctfserver
     - ctflevels
+    - ctflevel00
