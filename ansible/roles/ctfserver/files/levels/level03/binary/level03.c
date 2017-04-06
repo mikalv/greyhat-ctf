@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-// h0w_is_th1s_h4ck3r_f0ll0wing_m3
-char secret_password[] =  "\x29\x71\x36\x1e\x28\x32\x1e\x35\x29\x70\x32\x1e\x29\x75\x22\x2a\x72\x33\x1e\x27\x71\x2d\x2d\x71\x36\x28\x2f\x26\x1e\x2c\x72";
+// n0b0dy_gu3sses_thi5_passw0rd
+char secret_password[] =  "\x2f\x71\x23\x71\x25\x38\x1e\x26\x34\x72\x32\x32\x24\x32\x1e\x35\x29\x28\x74\x1e\x31\x20\x32\x32\x36\x71\x33\x25";
 uint8_t XORkey = 0x41;
 
 void spawn_shell() {
@@ -24,18 +24,20 @@ int main (int argc, char *argv[]) {
     char *pos;
     int i;
 
-    printf("~Zero Cool Simple Backdoor v3~\nEnter Password:\n");
+    printf("~Zero Cool Simple Backdoor v2~\nEnter Password:\n");
     read(STDIN_FILENO, password_input, 32);
     password_input[31]='\0';
 
     if ((pos=strchr(password_input, '\n')) != NULL) *pos = '\0';
 
-    for(i=0; i<strlen(password_input); i++) {
-        password_input[i] = password_input[i] ^ XORkey;
+    for(i=0; i<strlen(secret_password); i++) {
+        secret_password[i] = secret_password[i] ^ XORkey;
     }
 
+    printf("");
+
     if(strcmp(password_input,secret_password)==0) {
-        printf("Correct! Here is the level04 shell.\nRead the level04 password in /home/level04/.pass to login with `ssh level04@greyhat.no`\n");
+        printf("Correct! Here is the level04 shell.\nRead the level03 password in /home/level04/.pass to login with `ssh level04@greyhat.no`\n");
         spawn_shell();
     } else{
         printf("wrong!");
