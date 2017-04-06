@@ -4,14 +4,17 @@
 
 TL;DR: scroll down to the end of the article
 
-From an earlier hack you know that a local admin, level01 uses a browser to control his shell, the password is sent via a cookie, the flask ( http://flask.pocoo.org/ ) code reading the cookie is: 
-passwd = request.cookies.get('passwd')
+As the l33t hacker you are, you managed to inject an html-file via an iframe into a web-shell you
+know someone uses to access his account (level01 on this box). The login password for the web shell
+is stored in a cookie.
+The only thing remaining to complete the hack is to somehow read this cookie and get the password for his account.
+Check out the nc command which would be perfect in this case.
 
-You already injected an infected iframe into the webshell, now you need to extract the password.
+Your workspace is /workspace/inject.html which is the target for the infected iframe in level01's web shell.
 
-Your workspace is /tmp/$SESSION_ID/index.html which is the target for the infected iframe in level01's webshell. Now, you're going to somehow forward the password stored in the 'passwd' cookie to your own webserver. Check out `nc` which would be perfect in this case.
+Remember it is not important that you use an existing url for your evil webserver, the only thing
+you really need is the log. So again, check `nc`
 
-Remember it isn't important that you'll use an existing url from your evil webserver, the only thing you'll really need is the log. So again check `nc`
 
 Useful links for this level might be:
  ● XSS Cheatsheet - http://n0p.net/penguicon/php_app_sec/mirror/xss.html
@@ -27,4 +30,8 @@ Useful tools for this level might be:
  ● `man` - Read the fucking manual - Example: `man nc`
 
 
-TL;DR: level01's browser refreshes each 2 seconds, which will load the file /tmp/$SESSION_ID/index.html - use this to extract the password stored in the 'passwd' cookie to your own webserver. Tip: `man nc`
+
+TL;DR: level01's browser refreshes each 2 seconds, which will load the file /workspace/inject.html - use this to extract the password stored in the 'passwd' cookie to your own webserver. Tip: `man nc`
+
+Good luck - see you in the next level!
+
