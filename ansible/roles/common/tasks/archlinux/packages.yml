@@ -27,6 +27,9 @@
     - htop
     - mlocate
     - zsh
+    - pkg-config
+    - make
+    - wget
 
 - name: Install packages (network tools)
   pacman: name={{ item }} state=latest

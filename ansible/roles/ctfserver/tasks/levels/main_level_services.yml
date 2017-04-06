@@ -4,10 +4,10 @@
   when:
     - ctfdirectories_installed|succeeded
     - item.service == True
+  ignore_errors: True
   become: True
   become_user: root
-  ignore_errors: True
-  register: servicelibinstalled
+  register: servicelib_installed
   copy:
     src: "levels/{{ item.user }}/{{ item.user }}_services"
     dest: "{{ ctf_libexec_dir }}"
@@ -22,6 +22,7 @@
 - name: "Main Level Setup | Install the service setup.sh script for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
+    - servicelib_installed|succeeded
     - item.service == True
   become: True
   become_user: root
@@ -38,6 +39,7 @@
 - name: "Main Level Setup | Install the service init script for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
+    - servicelib_installed|succeeded
     - item.service == True
   become: True
   become_user: root
@@ -54,6 +56,7 @@
 - name: "Main Level Setup | Install the supervisor config for {{ item.name }}"
   when:
     - ctfdirectories_installed|succeeded
+    - servicelib_installed|succeeded
     - item.service == True
   become: True
   become_user: root
@@ -68,6 +71,10 @@
     - ctflevelservice
 
 - name: "Main Level Setup | Make sure supervisor is enabled and started"
+  when:
+    - ctfdirectories_installed|succeeded
+    - servicelib_installed|succeeded
+    - item.service == True
   become: True
   become_user: root
   systemd:
@@ -81,6 +88,7 @@
 - name: "Main Level Setup | Running setup script for {{ item.name }} (Service install)"
   when:
     - ctfdirectories_installed|succeeded
+    - servicelib_installed|succeeded
     - item.service == True
   become: True
   become_user: root

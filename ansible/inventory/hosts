@@ -9,9 +9,11 @@ localhost
 [test_ctfservers:vars]
 
 [prod_ctfservers]
-193.150.121.85 common_hostname=ctf1.greyhat.no ansible_user=root ansible_ssh_user=root
+193.150.121.85 common_hostname=ctf1.greyhat.no
 
 [prod_ctfservers:vars]
+ansible_user=meeh
+ansible_ssh_user=meeh
 
 
 [remotectftest]

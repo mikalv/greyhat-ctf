@@ -32,6 +32,17 @@
     - ctfserver
     - ctflevels
 
+- name: "Man Level Setup | Copy the inject.html for Level 00"
+  copy:
+    src: "levels/level00/tools.txt"
+    dest: "{{ctfchroot_playdir}}/workspace/inject.html"
+    owner: level00
+    group: level00
+    mode: 0550
+  tags:
+    - ctfserver
+    - ctflevels
+
 - name: "Man Level Setup | Copy the tools.txt for Level 00"
   copy: src=levels/level00/tools.txt dest=/home/level00/tools.txt owner=root group=level00 mode=0440
   tags:

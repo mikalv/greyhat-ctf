@@ -1,5 +1,16 @@
 ---
 
+- name: "Ensuring {{ default_ctfuser_group }} group is available"
+  become: yes
+  become_user: root
+  group:
+    name: "{{ default_ctfuser_group }}"
+    state: present
+  tags:
+    - ctf
+    - ctfserver
+    - archlinux
+
 - name: "Copy CTF banner"
   template: src=banner.txt.j2 dest=/etc/banner.txt owner=root group=root mode=0644
   tags:
@@ -40,17 +51,6 @@
 
 - name: "Setup shell environments"
   include: 'shells/main.yml'
-  tags:
-    - ctf
-    - ctfserver
-    - archlinux
-
-- name: "Ensuring {{ default_ctfuser_group }} group is available"
-  become: yes
-  become_user: root
-  group:
-    name: "{{ default_ctfuser_group }}"
-    state: present
   tags:
     - ctf
     - ctfserver
