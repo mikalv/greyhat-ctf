@@ -1,6 +1,28 @@
 ---
 
-- name: "Ensure CTF directories exists"
+# Setup the ctfchroot directory
+- name: "CTF System Directories | Check 1/2 if CTF directories is created already."
+  ignore_errors: True
+  stat:
+    path: "{{ ctfchroot_session_store_dir }}"
+  register: ctf_sys_dir_store_exists
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "CTF System Directories | Check 2/2 if CTF directories is created already."
+  ignore_errors: True
+  stat:
+    path: "{{ ctfbigbrother_log_dir }}"
+  register: ctf_sys_dir_bigbrother_exists
+  tags:
+    - ctfchroot
+    - ctfserver
+
+- name: "CTF System Directories | Ensure CTF directories exists"
+  when:
+    - ctf_sys_dir_store_exists is undefined
+    - ctf_sys_dir_bigbrother_exists is undefined
   file:
     path: "{{ item }}"
     state: directory
@@ -16,7 +38,10 @@
     - ctflevels
     - ctflevelservice
 
-- name: "Ensure CTF writable directories exists"
+- name: "CTF System Directories | Ensure CTF writable directories exists"
+  when:
+    - ctf_sys_dir_store_exists is undefined
+    - ctf_sys_dir_bigbrother_exists is undefined
   file:
     path: "{{ item }}"
     state: directory
@@ -24,10 +49,27 @@
     mode: 0777
     owner: root
     group: "{{ default_ctfuser_group }}"
-  register: ctfdirectories_installed
+  register: ctfdirectories_installed_wr
   with_items: "{{ ctf_datadir_directories_items_wr }}"
   tags:
     - ctfserver
     - ctfsetup
     - ctflevels
     - ctflevelservice
+
+- name: "CTF System Directories | Ensure CTF directories exists"
+  when:
+    - ctf_sys_dir_store_exists is defined
+    - ctf_sys_dir_bigbrother_exists is defined
+  debug:
+    msg: "Set a register"
+  register: ctfdirectories_installed
+
+- name: "CTF System Directories | Ensure CTF writable directories exists"
+  when:
+    - ctf_sys_dir_store_exists is defined
+    - ctf_sys_dir_bigbrother_exists is defined
+  debug:
+    msg: "Set a register"
+  register: ctfdirectories_installed_wr
+
