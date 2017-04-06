@@ -44,8 +44,7 @@
 - name: "CTF System Directories | Ensure CTF writable directories exists"
   ignore_errors: True
   when:
-    - ctf_sys_dir_store_exists is not defined
-    - ctf_sys_dir_bigbrother_exists is not defined
+    - ctf_sys_dir_store_exists is defined
   file:
     path: "{{ item }}"
     state: directory
@@ -63,16 +62,14 @@
 
 - name: "CTF System Directories | Ensure CTF directories exists"
   when:
-    - ctf_sys_dir_store_exists.exists == True
-    - ctf_sys_dir_bigbrother_exists.exists == True
+    - ctf_sys_dir_bigbrother_exists is defined
   debug:
     msg: "Set a register"
   register: ctfdirectories_installed
 
 - name: "CTF System Directories | Ensure CTF writable directories exists"
   when:
-    - ctf_sys_dir_store_exists.exists == True
-    - ctf_sys_dir_bigbrother_exists.exists == True
+    - ctf_sys_dir_store_exists is defined
   debug:
     msg: "Set a register"
   register: ctfdirectories_installed_wr
