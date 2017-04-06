@@ -50,7 +50,7 @@ class Level00Website(object):
     iframePath = os.path.join(SESSION_WRITE_DIR, sessionId, 'workspace', 'inject.html')
     textString = ''
     if os.path.isfile(iframePath):
-      f = open(os.path.join(iframePath, ''))
+      f = open(iframePath, 'r')
       textString = f.read()
       f.close()
     else:
