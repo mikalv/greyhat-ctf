@@ -60,7 +60,7 @@ ctfgame_userlevels_enabled:
     suidowner: "level03"
     suidenabled: True
     service: False
-    binary: True
+    binary: False
     extra_help: False
   - name: "Level 03"
     user: "level03"

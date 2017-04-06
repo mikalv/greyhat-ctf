@@ -4,7 +4,7 @@ localhost
 [all:vars]
 
 [test_ctfservers]
-192.168.88.79 common_hostname=ctf01
+192.168.88.70 common_hostname=ctf01
 
 [test_ctfservers:vars]
 

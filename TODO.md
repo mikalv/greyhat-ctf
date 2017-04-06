@@ -28,6 +28,14 @@ Refactor todos
   * Check here how to find ENV on localhost: http://stackoverflow.com/a/24124973/759341
   * Fetch levels from outside of ansible, but add it as a part of it in runtime or something.
 
+Bug-ish todos
+---------------
+* Ansible: Kernel must be installed by hand in front.
+* Ansible: Grub config must be manually edited in front.
+* Ansible: Multilib support must be installed by hand in front.
+* Ansible: Archlinux-keyring must be installed by hand in front.
+
+
 System and security research
 -----------------------------
 
