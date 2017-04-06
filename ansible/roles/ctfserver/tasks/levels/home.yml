@@ -10,7 +10,7 @@
   ignore_errors: True
   stat:
     path: "/home/{{item.user}}/iwashere.txt"
-  register: "iwashere_{{ item.user }}_exists"
+  register: iwashere_exists
   tags:
     - ctfchroot
     - ctfserver
@@ -18,7 +18,7 @@
 - name: "Level Home Setup | Copy the iwashere.txt file for {{ item.name }} and set chattr +a to it"
   ignore_errors: True
   when:
-    - "iwashere_{{ item.user }}_exists" is not defined
+    - iwashere_exists is not defined
   copy:
     src: iwashere.txt
     dest: "/home/{{item.user}}/iwashere.txt"
