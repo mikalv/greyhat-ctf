@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # CTF_SERVER_TEMP_DIR is set by ctf_tmp_datadir in ansible
-export TEMP_FILE=$CTF_SERVER_TEMP_DIR/xss-boot-run-level00.$$.$RANDOM
+#export TEMP_FILE=$CTF_SERVER_TEMP_DIR/xss-boot-run-level00.$$.$RANDOM
 
 function clean_up {
    # Perform program exit housekeeping
@@ -9,11 +9,12 @@ function clean_up {
   exit
 }
 
-trap clean_up SIGHUP SIGINT SIGTERM
+#trap clean_up SIGHUP SIGINT SIGTERM
 
-pr $1 > $TEMP_FILE
+#pr $1 > $TEMP_FILE
 
-while [[ -f "$TEMP_FILE" ]]; do
+#while [[ -f "$TEMP_FILE" ]]; do
+while [ true ]; do
   sleep 1;
   /usr/bin/phantomjs --ignore-ssl-errors=true \
     --local-to-remote-url-access=true \
@@ -21,4 +22,4 @@ while [[ -f "$TEMP_FILE" ]]; do
     --ssl-protocol=any xss-bot.js;
 done;
 
-clean_up
+#clean_up

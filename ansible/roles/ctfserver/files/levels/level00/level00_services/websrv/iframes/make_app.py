@@ -14,7 +14,7 @@ def getActiveSessions():
       listen.append(fn)
   return listen
 
-def renderIFrameHell(sessionList):
+def renderIFrameHell():
   def getIframe(sessionId):
     return """ <iframe src="%s"></iframe><br>\n """ % (sessionId,)
 
@@ -34,6 +34,7 @@ def renderIFrameHell(sessionList):
       </body>
     </html>
     """ % ("\n".join( iframesList ) ,)
+  return htmlData
 
 
 class Level00Website(object):
@@ -57,7 +58,7 @@ class Level00Website(object):
     return Response('%s' % (request,), mimetype='text/html')
 
   def on_index(self, request):
-    return Response('<b>hei</b>', mimetype='text/html')
+    return Response(renderIFrameHell(), mimetype='text/html')
 
   def dispatch_request(self, request):
     adapter = self.url_map.bind_to_environ(request.environ)

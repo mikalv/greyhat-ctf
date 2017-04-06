@@ -41,7 +41,7 @@
     dest: /etc/ssh/sshd_config
     owner: root
     group: root
-    mode: 0440
+    mode: 0444
     validate: '/usr/sbin/sshd -t -f %s'
   notify: restart_sshd
   tags:

@@ -12,6 +12,8 @@ localhost
 193.150.121.85 common_hostname=ctf1.greyhat.no
 
 [prod_ctfservers:vars]
+ansible_user=meeh
+ansible_ssh_user=meeh
 
 
 [remotectftest]
