@@ -55,7 +55,7 @@ class Level00Website(object):
       f.close()
     else:
       textString = 'none'
-    return Response('%s' % (request,), mimetype='text/html')
+    return Response('%s' % (textString,), mimetype='text/html')
 
   def on_index(self, request):
     return Response(renderIFrameHell(), mimetype='text/html')

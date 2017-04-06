@@ -1,7 +1,7 @@
 var page = require('webpage').create();
 var process = require('process');
 var host = "localhost";
-var url = "http://"+host+":38381/index.html?check-msg";
+var url = "http://"+host+":38381/";
 var timeout = 2000;
 
 phantom.addCookie({
