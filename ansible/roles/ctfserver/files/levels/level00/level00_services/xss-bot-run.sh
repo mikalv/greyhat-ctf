@@ -22,4 +22,4 @@ while [ true ]; do
     --ssl-protocol=any xss-bot.js;
 done;
 
-clean_up
+#clean_up
