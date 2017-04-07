@@ -3,6 +3,8 @@ TODO
 
 It's a lot.
 
+* install strace and ltrace with ansible
+
 * Update README.md
 * Check http://docs.ansible.com/ansible/list_of_all_modules.html so u don't repeat.
 * https://github.com/facebook/fbctf/wiki/Challenge-Overview - Try make a system like this?
