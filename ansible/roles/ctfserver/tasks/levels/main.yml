@@ -66,7 +66,7 @@
     - ctfhomes
 
 - name: "Level Home Setup | Copy the motd.txt for Level 00"
-  template: src=motd.txt.j2 dest=/home/level00/motd.txt owner=root group=level00 mode=0440
+  copy: src=levels/level00/motd.txt dest=/home/level00/motd.txt owner=root group=level00 mode=0440
   tags:
     - ctflevels
     - ctflevel00
