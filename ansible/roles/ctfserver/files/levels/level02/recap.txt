@@ -1,0 +1,75 @@
+The easiest solution was probably `strings level02` and look for a string that looks like a password.
+Another option would have been using `gdb`. It was not necessary here, but it's important to learn
+how to use gdb:
+
+######################################################################################################
+
+level01@greyhat:/level02/level02$ gdb level02
+(gdb) set disassembly-flavor intel
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x0000000000400796 <+0>: push   rbp
+   0x0000000000400797 <+1>: mov    rbp,rsp
+   0x000000000040079a <+4>: sub    rsp,0x40
+   0x000000000040079e <+8>: mov    DWORD PTR [rbp-0x34],edi
+[... snip ...]
+   0x0000000000400827 <+145>:   mov    BYTE PTR [rax],0x0
+   0x000000000040082a <+148>:   lea    rax,[rbp-0x30]
+   0x000000000040082e <+152>:   mov    esi,0x600db0
+   0x0000000000400833 <+157>:   mov    rdi,rax
+   0x0000000000400836 <+160>:   call   0x400670 <strcmp@plt>  ; <--  strcmp() is always a very good place for password comparisons
+[... snip ...]                                                ;      So strcmp has to load the parameters. Often on the stack or
+   0x0000000000400853 <+189>:   call   0x400610 <system@plt>  ;      via registers. In this case the `mov esi,0x600db0` looks
+   0x0000000000400858 <+194>:   jmp    0x400869 <main+211>    ;      interesting.
+   0x000000000040085a <+196>:   mov    edi,0x4009f9
+   0x000000000040085f <+201>:   mov    eax,0x0
+   0x0000000000400864 <+206>:   call   0x400630 <printf@plt>
+   0x0000000000400869 <+211>:   mov    eax,0x0
+   0x000000000040086e <+216>:   leave
+   0x000000000040086f <+217>:   ret
+End of assembler dump.
+(gdb) x/s 0x600db0                                            ; <--  so we can use gdb examine (x) command to look at this address
+0x600db0 <secret_password>: "s3cr3t_backd00r_passw0rd"        ;      and we see the variable name and it's content.
+(gdb)
+
+######################################################################################################
+
+Here is also the sourcecode of level02.c. So you can better understand how it worked.
+
+
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+
+char secret_password[] = "s3cr3t_backd00r_passw0rd";
+
+int main (int argc, char *argv[]) {
+    gid_t gid;
+    uid_t uid;
+    char password_input[32];
+    char *pos;
+
+    gid = getegid();
+    uid = geteuid();
+
+    setresgid(gid, gid, gid);
+    setresuid(uid, uid, uid);
+
+    printf(" _____\n| _ _ |\n|| | || Hidden\n||_|_||   Backdoor\n| _ _ o  by \n|| | ||     ~Zero Cool\n||_|_||  \n|_____|\n\nEnter Secret Password:\n");
+
+    read(STDIN_FILENO, password_input, 32);
+    password_input[31]='\0';
+
+    if ((pos=strchr(password_input, '\n')) != NULL) *pos = '\0';
+
+    if(strcmp(password_input,secret_password)==0) {
+        printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.passwd to login with `ssh level01@greyhat.no`\n");
+        system("/bin/sh");
+    } else{
+        printf("wrong!");
+    }
+
+    return 0;
+}
+

@@ -1,0 +1,25 @@
+┌───────────────────┐
+│ Knock, knock, ... │
+└───────────────────┘
+Zero Cool noticed  that  another hacker found his backdoor  and used it to
+gain access to  level02. When Zero Cool  looked at his code,  he realised,
+that it is not intelligent to have the password inside the program.  So he
+decided to encrypt it.  Can you still recover the secret password  that is
+needed to unlock Zero Cool's backdoor?
+
+   backdoor: /levels/level02/level02
+
+Don't forget to have a look at the story recap of level01. You can read it
+with: `less /home/level01/recap` (scroll with arrow keys and quit with "q")
+You should  have a look  at how `gdb` works  and practice with this level.
+Important `gdb` commands for you to research are:
+ ● `disassemble main` - look at the assembly code of the main function
+ ● `break *0x12345678` - set a breakpoint at address 0x12345678
+ ● `x 0x12345678` - examine/print the content of address 0x12345678
+ ● `x/xw 0x12345678` - print the content of address 0x12345678 as hex word
+ ● `x/s 0x12345678` - print the content of address 0x12345678 as a string
+ ● `run` - run/restart the program you are debugging
+ ● `continue` - continue execution after you stopped at a breakpoint
+ ● `quit` - exit gdb
+
+Also google can help a lot to learn how to use `gdb`. Good luck!

@@ -6,9 +6,10 @@
 ├──────────────────────────────────────────────────────────────────────────┬┘
 │ Quick Overview:                                                          │
 │                                                                          │
-│    - your goal is to get access to the next level                        │
-│    - flags/passwords are in ~/.passwd                                    │
-│    - Admin: meeh@greyhat.no                                              │
+│    - your goal is to get access to the next level(s).                    │
+│    - flags/passwords are in ~/.passwd or otherwise                       |
+|      explained in story.txt for the level you're in.                     │
+│    - Admin: mikvil@knowit, hennar@knowit.no                              │
 ├──────────────────────────────────────────────────────────────────────────┤
 │ Rules:                                                                   │
 │                                                                          │
@@ -21,7 +22,7 @@
 └───────────────────────────────────────────────────────────────────────────┘
 ┌────────────────────────────────────┐ ┌───────────────────────────────────┐
 │ Linux Commands Examples...         │ │ Show the content of a file:       │
-│                                    │ │    `cat ~/iwashere`               │
+│                                    │ │    `cat ~/iwashere.txt`           │
 │ list directory contents:           │ │                                   │
 │  `ls` `ls -lsa` `ls /home/level00` │ │ Show the manual of a command:     │
 │                                    │ │    `man                           │
@@ -39,6 +40,6 @@
 ├──────────────────────────────────────────────────────────────────────────┴┐
 │ > if this is your first time, read the README: cat /home/level00/README < │
 ├───────────────────────────────────────────────────────────────────────────┤
-| >    To start level00 run the command `story` to see the level story    < |
+| >      To start level00 run `cat story.txt` to see the level story      < |
 └───────────────────────────────────────────────────────────────────────────┘
 

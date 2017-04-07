@@ -4,6 +4,7 @@ For your convenience, we included some tools that you migth
 find helpful for all levels:
 
 * objdump   # display information from object files
+* file      # tells you which type of file you're dealing with
 * gdb       # the GNU debugger
 * radare2   # awesome disassembler and debugger
 * nc        # the famous netcat utility for networking

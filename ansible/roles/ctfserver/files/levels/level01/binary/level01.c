@@ -25,7 +25,7 @@ int main (int argc, char *argv[]) {
     if ((pos=strchr(password_input, '\n')) != NULL) *pos = '\0';
 
     if(strcmp(password_input,secret_password)==0) {
-        printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.passwd to login with `ssh level02@greyhat.no`\n");
+        printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.passwd to login with `ssh level02@hackme.knowit.no`\n");
         system("/bin/sh");
     } else{
         printf("wrong!");

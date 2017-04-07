@@ -12,7 +12,7 @@ find helpful for all levels:
 * python    # interpreted object oriented scripting language
 * vim       # a programmer's text editor
 * nano      # text editor, an enhanced free Pico clone
-* man       # read the fucking manual
+* man       # RTFM as known as read the fucking manual ;)
 
 Good luck, and have fun!
 

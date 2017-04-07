@@ -15,7 +15,7 @@ outside of the     _,--./| |\.--._     allocated memory can modify program
  ┌────────────────────────┐/-._   `._  execution.
  │  _____                 │\   |
  │ | _ _ |                │ \  |       A good place to start  is using the
- │ || | || Level3         │ |   \      man  pages  to  learn  about the  C
+ │ || | || Level04        │ |   \      man  pages  to  learn  about the  C
  │ ||_|_||   Bugdoor      │_/    `-    functions used. Maybe you can learn
  │ | _ _ o  by            │            something that can help you solving
  │ || | ||     ~Zero Cool │ this level. You should also research:
@@ -26,3 +26,18 @@ outside of the     _,--./| |\.--._     allocated memory can modify program
  └────────────────────────┘ stack. You will need it later more.
   Figure 1.: Zero Cool's
              bugdoor       Good Luck!
+
+┌──────────────────────────────────────────────────────────┐
+│ Know your environment and don't get lost on your path... │
+└──────────────────────────────────────────────────────────┘
+Mmhh... It looks like  Zero Cool left his Linux Information Gathering tool
+including  sourcecode  in   `/levels/level05/`.   It provides  some  useful
+information about  the system. It probably helped him a lot when he hacked
+this system.
+
+But it seems like he is not as skilled as he thinks he is. Look closely at
+his tool. Can you abuse it's implementation to get a shell?
+
+For this level you should have a look at how the system finds  the program
+that you want to execute. For example when you type `id` or `ls`.  What is
+the actual location of these binaries?
