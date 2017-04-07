@@ -22,7 +22,7 @@ his lame backdoors  and teach him a lesson.  The admin of this system  has
              backdoor          use it to get the privileges of level01.
 
 Can  you  use  his  backdoor  to   ┌────────────────────────────────────┐
-gain access  to {{ item.user }}? You can   │-r-sr-x--- 1 level01 level00        │
+gain access  to level02? You can   │-r-sr-x--- 1 level01 level00        │
 execute the backdoor with:         │ └┬┘└┬┘└┬┘    │      └─▶ group      │
    `/level/{{ item.user }}/{{ item.user }}`        │  │  │  │     └─▶ user              │
 Can you  find the password  that   │  │  │  └─▶ no rights for others    │
@@ -31,13 +31,9 @@ succeed, use  the  program  `id`   │  └─▶ user can read and execute     
 to check  if  you now  have  the   │       + setuid bit                 │
 permissions of {{ item.user }}.            └────────────────────────────────────┘
 Don't   forget   to   grab   the    Figure 2.: level00 file permissions
-password  of {{ item.user }},  so you can
-use ssh to log into the next level: `cat /home/{{ item.user }}/{{ item.user }}/.pass`
-`ssh {{ item.user }}@hackme.knowit.no`
-
-NOTICE: supidly bruteforcing passwords is never the solution. If you don't
-know how to proceed, come to IRC and ask for help. No spoilers in the main
-channel though.
+password  of level02,  so you can
+use ssh to log into the next level: `cat /home/level02/.passwd`
+`ssh level02@hackme.knowit.no`
 
 Useful tools for this level might be:
  ● `file` - determine file type
