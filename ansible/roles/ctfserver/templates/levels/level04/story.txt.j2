@@ -1,43 +1,7 @@
-┌───────────────────┐
-│ BUGS EVERYWHERE!! │
-└───────────────────┘
-It seems like  Zero Cool  is threatened by another hacker who is following
-him. So far every backdoor from him got cracked. Now he had to step up his
-game.  But  apparently  he forgot  to delete  the  sourcecode  of his  new
-bugdoor.
-                       |     |
-His  new  program is    \   /    weird. The password prompt  looks like  a
-sham. But how  does he   \_/  use it to get access to level04?  It doesn't
-make much sense...  __   /^\   __  This level introduces the concept  that
-memory   can   be  '  `. \_/ ,'  `  accessed  outside   of  its  allocated
-region, how the stack   \/ \/   variables are laid out, and that modifying
-outside of the     _,--./| |\.--._     allocated memory can modify program
- ┌────────────────────────┐/-._   `._  execution.
- │  _____                 │\   |
- │ | _ _ |                │ \  |       A good place to start  is using the
- │ || | || Level04        │ |   \      man  pages  to  learn  about the  C
- │ ||_|_||   Bugdoor      │_/    `-    functions used. Maybe you can learn
- │ | _ _ o  by            │            something that can help you solving
- │ || | ||     ~Zero Cool │ this level. You should also research:
- │ ||_|_||                │         "buffer overflows"
- │ |_____|                │
- │                        │ Keep using `gdb`. Learn about single stepping,
- │ Enter Secret Password: │ setting breakpoints and understanding the
- └────────────────────────┘ stack. You will need it later more.
-  Figure 1.: Zero Cool's
-             bugdoor       Good Luck!
+The story ends here for now :(
 
-┌──────────────────────────────────────────────────────────┐
-│ Know your environment and don't get lost on your path... │
-└──────────────────────────────────────────────────────────┘
-Mmhh... It looks like  Zero Cool left his Linux Information Gathering tool
-including  sourcecode  in   `/levels/level05/`.   It provides  some  useful
-information about  the system. It probably helped him a lot when he hacked
-this system.
+  But more levels will be released within the next coming weeks.
 
-But it seems like he is not as skilled as he thinks he is. Look closely at
-his tool. Can you abuse it's implementation to get a shell?
+:D
 
-For this level you should have a look at how the system finds  the program
-that you want to execute. For example when you type `id` or `ls`.  What is
-the actual location of these binaries?
+/ Fly safe

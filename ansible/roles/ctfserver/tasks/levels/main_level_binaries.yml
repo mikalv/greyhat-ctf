@@ -17,7 +17,7 @@
 - name: "Binary Level Setup | Copy the level C code for {{ item.name }}"
   when:
     - need_compile|succeeded
-    - item.binary == true
+    - item.binary == True
   command: gcc -g -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
 # Might be useful to append to command at a later point
 #creates=/levels/{{item.user}}/{{item.user}}

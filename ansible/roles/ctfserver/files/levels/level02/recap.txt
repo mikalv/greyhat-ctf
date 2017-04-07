@@ -1,10 +1,10 @@
-The easiest solution was probably `strings level02` and look for a string that looks like a password.
+The easiest solution was probably `strings level01` and look for a string that looks like a password.
 Another option would have been using `gdb`. It was not necessary here, but it's important to learn
 how to use gdb:
 
 ######################################################################################################
 
-level01@greyhat:/level02/level02$ gdb level02
+level01@greyhat:/level01/level01$ gdb level01
 (gdb) set disassembly-flavor intel
 (gdb) disassemble main
 Dump of assembler code for function main:
@@ -34,7 +34,7 @@ End of assembler dump.
 
 ######################################################################################################
 
-Here is also the sourcecode of level02.c. So you can better understand how it worked.
+Here is also the sourcecode of level01.c. So you can better understand how it worked.
 
 
 #include <stdio.h>

@@ -1,0 +1,92 @@
+This level cannot be easily solved with `strings`, because the password is
+not in plaintext. This time you have to use `gdb` or a disassembler like radare2.
+
+
+level02@ghackme.knowit.no:/levels/level02$ gdb level1
+GNU gdb (Debian 7.7.1+dfsg-5) 7.7.1
+(gdb) set disassembly-flavor intel
+(gdb) disassemble main
+Dump of assembler code for function main:
+   0x000000000040083d <+0>:   push   rbp
+   0x000000000040083e <+1>:   mov    rbp,rsp
+[... snip ...]
+   0x00000000004008a2 <+101>: movzx  eax,BYTE PTR [rax+0x600e40]
+   0x00000000004008a9 <+108>: movzx  edx,BYTE PTR [rip+0x2005ad]  # 0x600e5d <XORkey> ; GDB shows us that there is a variable called XORkey
+   0x00000000004008b0 <+115>: xor    edx,eax                     ; and the next asm instruction is XOR. So this is the encryption mechanism
+   0x00000000004008b2 <+117>: mov    eax,DWORD PTR [rbp-0x14]
+[... snip ...]
+   0x00000000004008da <+157>: mov    esi,0x600e40                ; like in the last recap, we have a string compare. So one of the parameters
+   0x00000000004008df <+162>: mov    rdi,rax                     ; should be our secret password
+   0x00000000004008e2 <+165>: call   0x4006c0 <strcmp@plt>
+   0x00000000004008e7 <+170>: test   eax,eax
+[... snip ...]
+   0x0000000000400915 <+216>: add    rsp,0x48
+   0x0000000000400919 <+220>: pop    rbx
+   0x000000000040091a <+221>: pop    rbp
+   0x000000000040091b <+222>: ret
+End of assembler dump.
+(gdb) x/s 0x600e40                                               ; but when we try to display it, it looks like garbage
+0x600e40 <secret_password>:   "/q#q%8\036&4r22$2\036\065)(t\036\061 226q3%"
+(gdb) break *0x00000000004008e2                                  ; so we have to set a breakpoint before the strcmp, but after the XOR decryption
+Breakpoint 1 at 0x4008e2
+(gdb) r                                                          ; we run the program and enter a test password
+Starting program: /matrix/level1/level1
+~Zero Cool Simple Backdoor v2~
+Enter Password:
+test
+
+Breakpoint 1, 0x00000000004008e2 in main ()                      ; it will break after the password decryption
+(gdb) x/s 0x600e40                                               ; now we can read the decrypted password
+0x600e40 <secret_password>:   "n0b0dy_gu3sses_thi5_4nd_1_kn0w17"
+
+####################################################################################################################
+
+Source code level02.c
+
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdint.h>
+#include <sys/types.h>
+
+// n0b0dy_gu3sses_thi5_4nd_1_kn0w17
+char secret_password[] =  "\x2f\x71\x23\x71\x25\x38\x1e\x26\x34\x72\x32\x32\x24\x32\x1e\x35\x29\x28\x74\x1e\x75\x2f\x25\x1e\x70\x1e\x2a\x2f\x71\x36\x70";
+uint8_t XORkey = 0x41;
+
+void spawn_shell() {
+    gid_t gid;
+    uid_t uid;
+    gid = getegid();
+    uid = geteuid();
+    setresgid(gid, gid, gid);
+    setresuid(uid, uid, uid);
+    system("/bin/sh");
+}
+
+int main (int argc, char *argv[]) {
+
+    char password_input[32];
+    char *pos;
+    int i;
+
+    printf("~Zero Cool Simple Backdoor v2~\nEnter Password:\n");
+    read(STDIN_FILENO, password_input, 32);
+    password_input[31]='\0';
+
+    if ((pos=strchr(password_input, '\n')) != NULL) *pos = '\0';
+
+    for(i=0; i<strlen(secret_password); i++) {
+        secret_password[i] = secret_password[i] ^ XORkey;
+    }
+
+    printf("");
+
+    if(strcmp(password_input,secret_password)==0) {
+        printf("Correct! Here is the level03 shell.\nRead the level03 password in /home/level03/.pass to login with `ssh level03@hackme.knowit.no`\n");
+        spawn_shell();
+    } else{
+        printf("wrong!");
+    }
+
+    return 0;
+}

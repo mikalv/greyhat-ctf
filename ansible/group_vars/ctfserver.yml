@@ -48,9 +48,9 @@ ctfgame_userlevels_enabled:
     groups: "level00,level01,{{default_ctfuser_group}}"
     password: "$6$IIs.nwMlPioB38ge$V.L8M0hKSWu0a7FWpk3hUP7g0uN.gUYha8z2NyW3x.NKy4kIKNOo8VMN.dKo86au0xtruBJ6N.oCeYeuJTnpQ0"
     suidowner: "level02"
-    suidenabled: False
+    suidenabled: True
     service: False
-    binary: False
+    binary: True
     extra_help: False
   - name: "Level 02"
     user: "level02"
@@ -60,7 +60,7 @@ ctfgame_userlevels_enabled:
     suidowner: "level03"
     suidenabled: True
     service: False
-    binary: False
+    binary: True
     extra_help: False
   - name: "Level 03"
     user: "level03"
@@ -80,7 +80,7 @@ ctfgame_userlevels_enabled:
     suidowner: "level04"
     suidenabled: False
     service: False
-    binary: True
+    binary: False
     extra_help: False
 
 

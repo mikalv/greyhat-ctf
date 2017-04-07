@@ -1,59 +1,26 @@
 ---
 # TODO: Find a better name for this file.. It don't self explain
 
+
 ### Binaries
 
-- name: "Setup Game | Copy the level C code for {{ item.name }}"
-  copy:
-    src: "levels/{{item.user}}/binary/{{item.user}}.c"
-    dest: "/tmp/{{item.user}}.c"
-    owner: root
-    mode: 0644
-  when: item.binary == True
-  register: need_compile
-  tags:
-    - ctflevels
-    - ctflevelcompile
-
-- name: "Setup Game | Copy the level C code for {{ item.name }}"
+- name: "Main Level Setup | Main level binaries"
+  include: 'main_level_binaries.yml'
+  register: levelbinaries_installed
   when:
-    - need_compile|succeeded
-    - item.binary == true
-  command: gcc -g -m32 -o /levels/{{item.user}}/{{item.user}} /tmp/{{item.user}}.c
-# Might be useful to append to command at a later point
-#creates=/levels/{{item.user}}/{{item.user}}
-  tags:
-    - ctflevels
-    - ctflevelcompile
-
-- name: "Setup Game | Remove the level C code for {{ item.name }} from tmp"
-  when:
-    - need_compile|succeeded
     - item.binary == True
-  command: rm -f /tmp/{{ item.user }}.c
   tags:
+    - ctfserver
     - ctflevels
-    - ctflevelcompile
-
-- name: "Setup Game | Ensures the compiled code for {{ item.name }} is in place with right access"
-  when:
-    - need_compile|succeeded
-    - item.binary == True
-  file:
-    path: "/levels/{{ item.user }}/{{ item.user }}"
-    mode: 4755
-    owner: "{{item.suidowner}}"
-    group: "{{item.user}}"
-    state: file
-  tags:
-    - ctflevels
-    - ctflevelcompile
+    - ctflevelbinaries
 
 ### Services
 
 - name: "Main Level Setup | Main level services"
   include: 'main_level_services.yml'
   register: levelservices_installed
+  when:
+    - item.service == True
   tags:
     - ctfserver
     - ctflevels

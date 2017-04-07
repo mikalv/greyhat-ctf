@@ -4,8 +4,8 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-// n0b0dy_gu3sses_thi5_passw0rd
-char secret_password[] =  "\x2f\x71\x23\x71\x25\x38\x1e\x26\x34\x72\x32\x32\x24\x32\x1e\x35\x29\x28\x74\x1e\x31\x20\x32\x32\x36\x71\x33\x25";
+// n0b0dy_gu3sses_thi5_4nd_1_kn0w17
+char secret_password[] =  "\x2f\x71\x23\x71\x25\x38\x1e\x26\x34\x72\x32\x32\x24\x32\x1e\x35\x29\x28\x74\x1e\x75\x2f\x25\x1e\x70\x1e\x2a\x2f\x71\x36\x70";
 uint8_t XORkey = 0x41;
 
 void spawn_shell() {
@@ -37,7 +37,7 @@ int main (int argc, char *argv[]) {
     printf("");
 
     if(strcmp(password_input,secret_password)==0) {
-        printf("Correct! Here is the level04 shell.\nRead the level03 password in /home/level04/.pass to login with `ssh level04@greyhat.no`\n");
+        printf("Correct! Here is the level03 shell.\nRead the level03 password in /home/level03/.pass to login with `ssh level03@hackme.knowit.no`\n");
         spawn_shell();
     } else{
         printf("wrong!");
