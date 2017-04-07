@@ -37,7 +37,7 @@ int main (int argc, char *argv[]) {
     printf("");
 
     if(strcmp(password_input,secret_password)==0) {
-        printf("Correct! Here is the level03 shell.\nRead the level03 password in /home/level03/.pass to login with `ssh level03@hackme.knowit.no`\n");
+        printf("Correct! Here is the level03 shell.\nRead the level03 password in /home/level03/.passwd to login with `ssh level03@hackme.knowit.no`\n");
         spawn_shell();
     } else{
         printf("wrong!");
