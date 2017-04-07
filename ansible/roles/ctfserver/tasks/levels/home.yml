@@ -85,7 +85,7 @@
     - ctfhomes
 
 - name: "Level Home Setup | Lock down the home directory for {{ item.name }}"
-  file: path=/home/{{item.user}} state=directory owner=root group={{item.user}} mode=0750
+  file: path=/home/{{item.user}} state=directory owner={{item.user}} group={{item.user}} mode=0750
   tags:
     - ctflevels
     - ctfhomes
