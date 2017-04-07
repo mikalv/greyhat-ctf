@@ -29,7 +29,7 @@ Dump of assembler code for function main:
    0x000000000040086f <+217>:   ret
 End of assembler dump.
 (gdb) x/s 0x600db0                                            ; <--  so we can use gdb examine (x) command to look at this address
-0x600db0 <secret_password>: "s3cr3t_backd00r_passw0rd"        ;      and we see the variable name and it's content.
+0x600db0 <secret_password>: "A_Sup3r_s3cr37_P4ssw0rd_Kn0w17"  ;      and we see the variable name and it's content.
 (gdb)
 
 ######################################################################################################
@@ -42,7 +42,7 @@ Here is also the sourcecode of level02.c. So you can better understand how it wo
 #include <string.h>
 #include <sys/types.h>
 
-char secret_password[] = "s3cr3t_backd00r_passw0rd";
+char secret_password[] = "A_Sup3r_s3cr37_P4ssw0rd_Kn0w17";
 
 int main (int argc, char *argv[]) {
     gid_t gid;
@@ -64,7 +64,7 @@ int main (int argc, char *argv[]) {
     if ((pos=strchr(password_input, '\n')) != NULL) *pos = '\0';
 
     if(strcmp(password_input,secret_password)==0) {
-        printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.passwd to login with `ssh level01@greyhat.no`\n");
+        printf("Correct! Here is the level02 shell.\nRead the level02 password in /home/level02/.passwd to login with `ssh level02@hackme.knowit.no`\n");
         system("/bin/sh");
     } else{
         printf("wrong!");
@@ -72,4 +72,3 @@ int main (int argc, char *argv[]) {
 
     return 0;
 }
-

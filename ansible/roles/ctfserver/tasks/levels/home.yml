@@ -1,11 +1,5 @@
 ---
 
-- name: "Level Home Setup | Copy the motd.txt for {{ item.name }}"
-  template: src=motd.txt.j2 dest=/home/{{item.user}}/motd.txt owner={{item.user}} group={{item.user}} mode=0440
-  tags:
-    - ctflevels
-    - ctfhomes
-
 - name: "Level Home Setup | Does the iwashere.txt exists?"
   ignore_errors: True
   stat:
