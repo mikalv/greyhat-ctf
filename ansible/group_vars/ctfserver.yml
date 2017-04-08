@@ -5,7 +5,7 @@ default_ctfuser_group: ctfusers
 
 ctfchroot: ctf1chroot1
 ctfchroot_arch: i686
-ctfchroot_tools: 'libcap ruby netcat man git which man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils openssl radare2 tar unzip unrar go vim nano zsh bash nmap'
+ctfchroot_tools: 'strace ltrace libcap ruby netcat man git which man-db man-pages python2 ipython2 tmux python ipython nodejs npm gdb gcc binutils openssl radare2 tar unzip unrar go vim nano zsh bash nmap'
 
 
 # Password encrypt howto:
