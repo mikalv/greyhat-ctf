@@ -9,3 +9,4 @@
   roles:
     - { role: common, tags: ['common'] }
     - { role: ctfserver, tags: ['ctfserver'] }
+    - { role: webserver, tags: ['webserver'] }
