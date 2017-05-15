@@ -25,7 +25,7 @@
     - ctfhomes
 
 - name: "Level Home Setup | Setup the .passwd file for {{ item.name }}"
-  copy: content={{item.pwclean}} dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440
+  copy: content="{{item.pwclean}}\n" dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440
   tags:
     - ctflevels
     - ctfhomes
