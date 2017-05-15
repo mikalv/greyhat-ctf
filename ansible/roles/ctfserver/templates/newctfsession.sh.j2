@@ -50,7 +50,7 @@ run="/usr/bin/sudo /usr/bin/ctfmod-arch-chroot $SESSION_FS /usr/bin/env -u SUDO_
 /usr/bin/echo "Bye hacker, BigBrother is always watching :)"
 
 # Disabled while debugging.
-/usr/bin/sudo /usr/bin/umount $SESSION_FS/home & > /dev/null 2>&1
-/usr/bin/sudo /usr/bin/umount $SESSION_FS/levels & > /dev/null 2>&1
-/usr/bin/sudo /usr/bin/umount $SESSION_FS & > /dev/null 2>&1
+/usr/bin/sudo /usr/bin/umount $SESSION_FS/home > /dev/null 2>&1
+/usr/bin/sudo /usr/bin/umount $SESSION_FS/levels > /dev/null 2>&1
+/usr/bin/sudo /usr/bin/umount $SESSION_FS > /dev/null 2>&1
 /usr/bin/rm -fr $SESSION_FS > /dev/null 2>&1
