@@ -40,7 +40,7 @@
     - item.binary == True
   file:
     path: "/levels/{{ item.user }}/{{ item.user }}"
-    mode: 4755
+    mode: 4550
     owner: "{{item.suidowner}}"
     group: "{{item.user}}"
     state: file
