@@ -15,6 +15,17 @@
     - ctflevelcompile
 
 - name: "Binary Level Setup | Copy the level C code for {{ item.name }}"
+  copy:
+    src: "levels/{{item.user}}/binary/{{item.user}}.c"
+    dest: "/levels/{{item.user}}/{{item.user}}.c"
+    owner: root
+    mode: 0644
+  when: item.binary_keep_source == True
+  tags:
+    - ctflevels
+    - ctflevelcompile
+
+- name: "Binary Level Setup | Copy the level C code for {{ item.name }}"
   when:
     - need_compile|succeeded
     - item.binary == True

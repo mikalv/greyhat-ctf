@@ -26,6 +26,7 @@ ctfchroot_tools: 'strace ltrace libcap ruby netcat man git which man-db man-page
 # user: level02 password: 8Ja2HNPzRNbsJcUuc6uV
 # user: level03 password: 64nBQaf0lAwthCXgHVci
 # user: level04 password: lbJa9HZFkPyO7pNJGDNJ
+# user: level05 password: RWUU5jtmNfRH7lWniQsu
 #
 
 ctfgame_userlevels_enabled:
@@ -39,6 +40,7 @@ ctfgame_userlevels_enabled:
     service: True
     binary: False
     extra_help: True
+    binary_keep_source: False
     services:
       - "browser"
       - "webserver"
@@ -52,6 +54,7 @@ ctfgame_userlevels_enabled:
     service: False
     binary: True
     extra_help: False
+    binary_keep_source: False
   - name: "Level 02"
     user: "level02"
     pwclean: "8Ja2HNPzRNbsJcUuc6uV"
@@ -62,6 +65,7 @@ ctfgame_userlevels_enabled:
     service: False
     binary: True
     extra_help: False
+    binary_keep_source: False
   - name: "Level 03"
     user: "level03"
     pwclean: "64nBQaf0lAwthCXgHVci"
@@ -72,16 +76,29 @@ ctfgame_userlevels_enabled:
     service: False
     binary: True
     extra_help: False
+    binary_keep_source: False
   - name: "Level 04"
     user: "level04"
     pwclean: "lbJa9HZFkPyO7pNJGDNJ"
     groups: "level00,level01,level02,level03,level04,{{default_ctfuser_group}}"
     password: "$6$PQrSxJGRpVLEvp59$9LWLgpsh4FffiT3XFLct.Zw2hp3SZsZAi8DbucQQbYKQWqlDVF1nPn5ptiL0fOA2f/HXueDewo2Jzud11GDyi0"
-    suidowner: "level04"
+    suidowner: "level05"
+    suidenabled: True
+    service: False
+    binary: True
+    extra_help: False
+    binary_keep_source: True
+  - name: "Level 05"
+    user: "level05"
+    pwclean: "RWUU5jtmNfRH7lWniQsu"
+    groups: "level00,level01,level02,level03,level04,level05,{{default_ctfuser_group}}"
+    password: "$6$WwqrV.QFs7rmvcxI$T4oiE9jF6V0U/8JMjxpR/qjPzo3ows.Xbs0wugvzjTlS7V.4djpXkl1hL.foFL9nTnTs.ii9x1DLQ.aZQ2g1Q0"
+    suidowner: "level06"
     suidenabled: False
     service: False
     binary: False
     extra_help: False
+    binary_keep_source: True
 
 
 

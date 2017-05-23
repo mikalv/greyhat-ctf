@@ -5,7 +5,7 @@ from werkzeug.exceptions import HTTPException, NotFound
 import os, sys
 
 SESSION_DISCOVERY_DIR='/var/ctfgame1/tmp/sessions/'
-SESSION_WRITE_DIR='/var/ctfgame1/sessions/levels/'
+SESSION_WRITE_DIR='/var/ctfgame1/sessions/mounts/'
 
 def getActiveSessions():
   listen = []
@@ -78,7 +78,7 @@ class Level00Website(object):
 
 def make_app(with_static=True):
   app = Level00Website({
-      'sessions_directory': '/var/ctfgame1/sessions/levels',
+      'sessions_directory': '/var/ctfgame1/sessions/mounts',
       'active_sessions_dir': '/var/ctfgame1/tmp/sessions'
     })
   if with_static:

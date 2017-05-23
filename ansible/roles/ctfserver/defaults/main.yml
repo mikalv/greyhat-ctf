@@ -21,6 +21,7 @@ ctfgame_userlevels_enabled:
     service: True
     binary: False
     extra_help: True
+    binary_keep_source: False
     services:
       - "browser"
       - "webserver"
