@@ -15,6 +15,16 @@ the scripts in this project:
 * `python` -- For Ansible
 * `curl` -- for downloading packages and other files
 
+Mini Ansible howto
+-------------------
+
+Learn ansible pothead!
+
+`ansible-playbook -i inventory/hosts playbooks/prod_ctfservers.yml` is usually used to distribute ansible config.
+
+For more verbose messages you can add `-v`, for even more verbosity add a v like this `-vv` or even more.
+
+To not run the whole shit all the time, add `-t TAGNAME_FROM_TASK` where TAGNAME_FROM_TASK is usually something like `ctfserver`, `ctflevels`, `myretardedtag`, `install_packages` or whatever you define :)
 
 Links
 -----
