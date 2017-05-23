@@ -53,7 +53,7 @@ If you look at the manpage of gets, you will read the following (`man gets`):
 
 Now let's debug this with gdb:
 
-level3@gracker:/matrix/level3$ gdb level3
+level04@hackme.knowit.no:/levels/level04$ gdb level04
 GNU gdb (Debian 7.7.1+dfsg-5) 7.7.1
 (gdb) set disassembly-flavor intel
 (gdb) disassemble main
@@ -85,7 +85,7 @@ End of assembler dump.
 (gdb) break *0x0000000000400747
 Breakpoint 1 at 0x400747
 (gdb) r
-Starting program: /matrix/level3/level3
+Starting program: /levels/level04/level04
 Zero Cool - Bugdoor v4
 Enter Password:
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                             ; let's put in a bunch of A.
@@ -107,7 +107,7 @@ eax            0x0  0                                              ; but it's st
 (gdb) r
 The program being debugged has been started already.
 Start it from the beginning? (y or n) y
-Starting program: /matrix/level3/level3
+Starting program: /levels/level04/level04
 Zero Cool - Bugdoor v4                                             ; now let's restart and put in a bunch more
 Enter Password:
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -134,7 +134,7 @@ eax            0x41414141   1094795585
 Also python is a great tool to convert numbers, ascii characters, etc.
 Python is really great. Get used to it.
 
-level3@gracker:~$ python
+level04@hackme.knowit.no:~$ python
 Python 3.6.0 (default, Jan 16 2017, 12:12:55)
 [GCC 6.3.1 20170109] on linux
 Type "help", "copyright", "credits" or "license" for more information.
