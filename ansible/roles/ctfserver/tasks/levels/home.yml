@@ -6,13 +6,14 @@
     path: "/home/{{item.user}}/iwashere.txt"
   register: iwashere_exists
   tags:
-    - ctfchroot
-    - ctfserver
+    - ctflevels
+    - ctfhomes
+    - ctfiwashere
 
 - name: "Level Home Setup | Copy the iwashere.txt file for {{ item.name }} and set chattr +a to it"
   ignore_errors: True
   when:
-    - iwashere_exists is not defined
+    - iwashere_exists.stat.exists == False
   copy:
     src: iwashere.txt
     dest: "/home/{{item.user}}/iwashere.txt"
@@ -23,6 +24,7 @@
   tags:
     - ctflevels
     - ctfhomes
+    - ctfiwashere
 
 - name: "Level Home Setup | Setup the .passwd file for {{ item.name }}"
   copy: content="{{item.pwclean}}\n" dest=/home/{{item.user}}/.passwd owner={{item.user}} group={{item.user}} mode=0440 attributes=i

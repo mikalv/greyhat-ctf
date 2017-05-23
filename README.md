@@ -27,7 +27,7 @@ For more verbose messages you can add `-v`, for even more verbosity add a v like
 To not run the whole shit all the time, add `-t TAGNAME_FROM_TASK` where TAGNAME_FROM_TASK is usually something like `ctfserver`, `ctflevels`, `myretardedtag`, `install_packages` or whatever you define :)
 
 To release a asm level would usually include these params;
-`ansible-playbook -i inventory/hosts playbooks/prod_ctfservers.yml -t ctflevelcompile,ctfserver,ctflevels -vvv`
+`ansible-playbook -i inventory/hosts playbooks/prod_ctfservers.yml -t ctflevelcompile,ctfserver,ctfhomes,ctflevels -vvv`
 
 Links
 -----
