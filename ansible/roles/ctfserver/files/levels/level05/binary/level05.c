@@ -2,29 +2,21 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void spawn_shell() {
+void main() {
     gid_t gid;
     uid_t uid;
     gid = getegid();
     uid = geteuid();
     setresgid(gid, gid, gid);
     setresuid(uid, uid, uid);
-    system("/bin/sh");
-}
 
-int main(int argc, char **argv)
-{
-  volatile int admin_enabled;
-  char buffer[64];
-  admin_enabled = 0;
+    printf("Zero Cool - Linux Information Gathering Tool v1.2\n");
+    printf("\n[*] Get system information:\n");
+    system("uname -a");
 
-  printf("Zero Cool - Bugdoor v4\nEnter Password:\n");
-  gets(buffer);
+    printf("\n[*] Find users available on this system:\n");
+    system("cut -d: -f1,3,4 /etc/passwd");
 
-  if(admin_enabled != 0) {
-      printf("How can this happen? The variable is set to 0 and is never modified in between O.o\nYou must be a hacker!\n");
-      spawn_shell();
-  } else {
-      printf("Trololol lololol...\n");
-  }
+    printf("\n[*] Search for setuid binaries:\n");
+    system("find / -perm -4000 -exec ls -la {} \\; 2>/dev/null");
 }

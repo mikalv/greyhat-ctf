@@ -7,7 +7,7 @@ game.  But  apparently  he forgot  to delete  the  sourcecode  of his  new
 bugdoor.
                        |     |
 His  new  program is    \   /    weird. The password prompt  looks like  a
-sham. But how  does he   \_/  use it to get access to level04?  It doesn't
+sham. But how  does he   \_/   use it to get access to level05? It doesn't
 make much sense...  __   /^\   __  This level introduces the concept  that
 memory   can   be  '  `. \_/ ,'  `  accessed  outside   of  its  allocated
 region, how the stack   \/ \/   variables are laid out, and that modifying
@@ -26,18 +26,3 @@ outside of the     _,--./| |\.--._     allocated memory can modify program
  └────────────────────────┘ stack. You will need it later more.
   Figure 1.: Zero Cool's
              bugdoor       Good Luck!
-
-┌──────────────────────────────────────────────────────────┐
-│ Know your environment and don't get lost on your path... │
-└──────────────────────────────────────────────────────────┘
-Mmhh... It looks like  Zero Cool left his Linux Information Gathering tool
-including  sourcecode  in   `/levels/level05/`.   It provides  some  useful
-information about  the system. It probably helped him a lot when he hacked
-this system.
-
-But it seems like he is not as skilled as he thinks he is. Look closely at
-his tool. Can you abuse it's implementation to get a shell?
-
-For this level you should have a look at how the system finds  the program
-that you want to execute. For example when you type `id` or `ls`.  What is
-the actual location of these binaries?
