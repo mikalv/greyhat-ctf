@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// gcc level08.c -fno-stack-protector -m32 -o level08
+// gcc level06.c -fno-stack-protector -m32 -o level06
 
 void target_function(void) {
     setresgid(getegid(), getegid(), getegid());
