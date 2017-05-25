@@ -115,7 +115,7 @@ ctfgame_userlevels_enabled:
   - name: "Level 07"
     user: "level07"
     pwclean: "UB0zX0Nj8GDAJuqLVCL1"
-    groups: "level00,level01,level02,level03,level04,level05,level06,{{default_ctfuser_group}}"
+    groups: "level00,level01,level02,level03,level04,level05,level06,level07,{{default_ctfuser_group}}"
     password: "$6$SgZhKBUEKaEtJUUP$J4cQ4.7brnRhNkbFJqz5/q9JKEx4Tu5ZlH24BPJmSx9Av2HNPHNEDGI/hzj/yaeC6Vs4S.zm9mDz8.doSBuGh/"
     suidowner: "level08"
     suidenabled: False
