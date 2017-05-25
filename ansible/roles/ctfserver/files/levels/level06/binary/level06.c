@@ -7,13 +7,14 @@
 // gcc level06.c -fno-stack-protector -m32 -o level06
 
 void target_function(void) {
+    printf("Welcome to Arjia City!\n");
     setresgid(getegid(), getegid(), getegid());
     setresuid(geteuid(), geteuid(), geteuid());
     system("/bin/sh");
 }
 
 void bye(void) {
-    printf("Good bye!\n");
+    printf("Access denied!\n");
 }
 
 int main(int argc, char **argv)
