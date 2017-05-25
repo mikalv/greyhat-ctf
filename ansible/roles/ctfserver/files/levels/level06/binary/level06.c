@@ -1,22 +1,36 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 
-void main() {
+// gcc level06.c -fno-stack-protector -z execstack -m32 -o level06
+
+void spawn_shell() {
+    printf("Welcome to Arjia City!\n");
     gid_t gid;
     uid_t uid;
     gid = getegid();
     uid = geteuid();
     setresgid(gid, gid, gid);
     setresuid(uid, uid, uid);
+    system("/bin/sh");
+}
 
-    printf("Zero Cool - Linux Information Gathering Tool v1.2\n");
-    printf("\n[*] Get system information:\n");
-    system("uname -a");
+void gates_of_arjia(char *input) {
+    char buffer[32];
+    strcpy(buffer, input);
+    printf("Return to: %p\n", __builtin_return_address(0));
+}
 
-    printf("\n[*] Find users available on this system:\n");
-    system("cut -d: -f1,3,4 /etc/passwd");
-
-    printf("\n[*] Search for setuid binaries:\n");
-    system("find / -perm -4000 -exec ls -la {} \\; 2>/dev/null");
+int main(int argc, char **argv)
+{
+    if(argc!=2) {
+        printf("usage: %s <input>\n", argv[0]);
+        exit(1);
+    }
+    printf("Hello, I'm the MCP (Master Control Program). I'm here to protect the TRON system.\n");
+    printf("What are you doing here? Are you a user or a program?\n");
+    printf("Where did you come from? Proof your identity:\n");
+    gates_of_arjia(argv[1]);
+    exit(0);
 }

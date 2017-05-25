@@ -1,7 +1,7 @@
-Congratulations on making it to level 5! This is the final level. The
+Congratulations on making it to level 6! This is the final level. The
 flag is almost in your grasp.
 
-The password for the flag is in /home/level06/.password.
+The password for the flag is in /home/level06/.passwd.
 
 As it turns out, level06 is a pretty arrogant user. He created a
 taunting utility and left it in the directory /levels/level06
