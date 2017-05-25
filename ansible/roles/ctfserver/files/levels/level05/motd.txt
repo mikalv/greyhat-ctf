@@ -1,20 +1,15 @@
-Congratulations on making it to level 4! You're almost done!
+┌──────────────────────────────────────────────────────────┐
+│ Know your environment and don't get lost on your path... │
+└──────────────────────────────────────────────────────────┘
+Mmhh... It looks like  Zero Cool left his Linux Information Gathering tool
+including  sourcecode  in   `/levels/level05/`.   It provides  some  useful
+information about  the system. It probably helped him a lot when he hacked
+this system.
 
-The password for the next (and final) level is in: /home/level05/.password
+But it seems like he is not as skilled as he thinks he is. Look closely at
+his tool. Can you abuse it's implementation to get a shell?
 
-As it turns out, level05 is running a public uppercasing service. You
- can POST data to it, and it'll uppercase the data for you:
+For this level you should have a look at how the system finds  the program
+that you want to execute. For example when you type `id` or `ls`.  What is
+the actual location of these binaries?
 
-  curl localhost:9020 -d 'hello friend'
-  {
-      "processing_time": 5.0067901611328125e-06,
-      "queue_time": 0.41274619102478027,
-      "result": "HELLO FRIEND"
-  }
-
-You can view the source for this service in /levels/level05. As you
-can see, the service is structured as a queue server and a queue
-worker.
-
-Could it be that this seemingly innocuous service will be level05's
-downfall?
