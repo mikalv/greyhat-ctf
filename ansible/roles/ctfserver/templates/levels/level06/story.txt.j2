@@ -1,32 +1,7 @@
-┌─────────────────┐
-│ Enter The Grid! │
-└─────────────────┘
-It looks like Zero Cool hacked into Kevin Flynn's computer. Kevin Flynn is
-a Hacker who has been missing for quite some time. We don't know what he
-was working on, nor do we know where he is. Maybe Zero Cool knows more.
-                                                       ┌─────────────────┐
-It looks like  there is no setuid binary this level to │      _____      │
-exploit.  So there must be  another way  how Zero Cool │  ___/ _U_ \___  │
-hacked into Flynn's system.  You should perform a port │  [:\__\=/__/:]  │
-scan on 127.0.0.1 - we also received the hint that the │  ||   ```   ||  │
-port is between 0x5ad-0xdad.                           │  ||         ||  │
-                                                       │  |_\       /_|  │
-If you struggle to get a shell as level6, maybe take a │                 │
-break and watch "TRON: LEGACY" [0]. I'm sure that once └─────────────────┘
-you saw the movie, you will know how to get access to the GRID.
+Hack your way through to Arjia City by pwning the executable in /levels/level06!
 
-Tools you may want to have a look at for this level:
- ● `nmap` - Network exploration tool and security / port scanner
- ● `nc`, `netcat` - TCP/IP swiss army knife
- ● watching TRON: LEGACY
-
-[0] https://www.youtube.com/watch?v=L9szn1QQfas
-┌────────────────────────────────────────────────────────────────────────┐
-│                                                                        │
-│              _/_/_/_/_/  _/_/_/      _/_/    _/      _/                │
-│                 _/      _/    _/  _/    _/  _/_/    _/                 │
-│                _/      _/_/_/    _/    _/  _/  _/  _/                  │
-│               _/      _/    _/  _/    _/  _/    _/_/                   │
-│              _/      _/    _/    _/_/    _/      _/                    │
-│                                                                        │
-└────────────────────────────────────────────────────────────────────────┘
+Keywords for this challenge:
+* stack based buffer overflow
+* endianess
+* function pointer
+* gdb, r2
