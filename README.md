@@ -29,6 +29,23 @@ To not run the whole shit all the time, add `-t TAGNAME_FROM_TASK` where TAGNAME
 To release a asm level would usually include these params;
 `ansible-playbook -i inventory/hosts playbooks/prod_ctfservers.yml -t ctflevelcompile,ctfserver,ctfhomes,ctflevels -vvv`
 
+How to add a new level
+----------------------
+
+1. Create the level itself and put it in ansible/roles/ctfserver/templates/levels/ and
+   ansible/roles/ctfserver/files/levels/
+2. Create a new user by updating ansible/group_vars/ctfserver.yml:
+   - create a new 20 character password (f.ex pwgen -sn 20)
+   - create a new password hash using the password generated in the previous step:
+     python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.using(rounds=5000).hash(getpass.getpass())"
+#
+   - create a new entry for the user in the section called ctfgame_userlevels_enabled, using the previous user as a template:
+     - Update the pwclean and password fields using the generated password and password hash
+     - update the following fields in the previous user to True: suidenabled, binary, binary_keep_source
+     - remember to update the groups field and andd the user to its own group
+
+
+
 Links
 -----
 * [Blog announcement of Capture The Flag, by Facebook](https://www.facebook.com/notes/facebook-ctf/facebook-ctf-is-now-open-source/525464774322241/)
