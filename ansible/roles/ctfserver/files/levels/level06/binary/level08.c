@@ -1,36 +1,36 @@
+#define _GNU_SOURCE
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
 
-// gcc level08.c -fno-stack-protector -z execstack -m32 -o level08
+// gcc level08.c -fno-stack-protector -m32 -o level08
 
-void spawn_shell() {
-    printf("Welcome to Arjia City!\n");
-    gid_t gid;
-    uid_t uid;
-    gid = getegid();
-    uid = geteuid();
-    setresgid(gid, gid, gid);
-    setresuid(uid, uid, uid);
+void target_function(void) {
+    setresgid(getegid(), getegid(), getegid());
+    setresuid(geteuid(), geteuid(), geteuid());
     system("/bin/sh");
 }
 
-void gates_of_arjia(char *input) {
-    char buffer[32];
-    strcpy(buffer, input);
-    printf("Return to: %p\n", __builtin_return_address(0));
+void bye(void) {
+    printf("Good bye!\n");
 }
 
 int main(int argc, char **argv)
 {
-    if(argc!=2) {
+    void (*function_ptr)(void) = bye;
+    char buffer[32];
+
+    if(argc != 2) {
         printf("usage: %s <input>\n", argv[0]);
         exit(1);
     }
-    printf("Hello, I'm the MCP (Master Control Program). I'm here to protect the TRON system.\n");
-    printf("What are you doing here? Are you a user or a program?\n");
-    printf("Where did you come from? Proof your identity:\n");
-    gates_of_arjia(argv[1]);
-    exit(0);
+
+    strcpy(buffer, argv[1]);
+
+    printf("Target function is at %p\n", target_function);
+    printf("Calling %p\n", function_ptr);
+    function_ptr();
+
+    return 0;
 }
