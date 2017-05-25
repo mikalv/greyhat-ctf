@@ -38,11 +38,10 @@ How to add a new level
    - create a new 20 character password (f.ex pwgen -sn 20)
    - create a new password hash using the password generated in the previous step:
      python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.using(rounds=5000).hash(getpass.getpass())"
-#
-   - create a new entry for the user in the section called ctfgame_userlevels_enabled, using the previous user as a template:
-     - Update the pwclean and password fields using the generated password and password hash
-     - update the following fields in the previous user to True: suidenabled, binary, binary_keep_source
-     - remember to update the groups field and andd the user to its own group
+   - create a new entry for the user in the section called `ctfgame_userlevels_enabled`, using the previous user as a template:
+     - Update the `pwclean` and `password` fields using the generated password and password hash
+     - update the following fields in the previous user to `True`: `suidenabled`, `binary`, `binary_keep_source`
+     - remember to update the `groups` field and add the user to its own group
 
 
 
