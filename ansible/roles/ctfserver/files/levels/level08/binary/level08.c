@@ -1,36 +1,31 @@
 #include <stdlib.h>
-#include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <fcntl.h>
 
-// gcc level08.c -fno-stack-protector -z execstack -m32 -o level08
+// gcc level10.c -o level10 -m32
 
-void spawn_shell() {
-    printf("Welcome to Arjia City!\n");
-    gid_t gid;
-    uid_t uid;
-    gid = getegid();
-    uid = geteuid();
-    setresgid(gid, gid, gid);
-    setresuid(uid, uid, uid);
-    system("/bin/sh");
-}
+int main() {
+    char *pos;
+    char buffer[512];
+    char password[32];
 
-void gates_of_arjia(char *input) {
-    char buffer[32];
-    strcpy(buffer, input);
-    printf("Return to: %p\n", __builtin_return_address(0));
-}
+    int fp = open("/home/level11/.passwd", O_RDONLY);
 
-int main(int argc, char **argv)
-{
-    if(argc!=2) {
-        printf("usage: %s <input>\n", argv[0]);
-        exit(1);
+    read(fp, password, 32);
+    if ((pos=strchr(password, '\n')) != NULL) *pos = '\0';
+    password[31] = '\0';
+
+    printf("What is your name?\n");
+    fflush(stdout);
+    fgets(buffer, sizeof(buffer), stdin);
+    if ((pos=strchr(buffer, '\n')) != NULL) *pos = '\0';
+    password[511] = '\0';
+    printf(buffer);
+
+    if(strcmp(buffer,password)==0) {
+        printf("\ncorrect! come in.\n");
+    } else{
+        printf("\nYou must be an Obj-C programmer. GET OUT OF HERE!\n");
     }
-    printf("Hello, I'm the MCP (Master Control Program). I'm here to protect the TRON system.\n");
-    printf("What are you doing here? Are you a user or a program?\n");
-    printf("Where did you come from? Proof your identity:\n");
-    gates_of_arjia(argv[1]);
-    exit(0);
 }

